@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,44 +20,44 @@ public class LeaveApplication {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long id;//
+	private Long id;//
 	
 	@ManyToOne
 	@JoinColumn(name="employeeId", referencedColumnName="id")
-	public Staff employee; //
+	private Staff employee; //
 	
 	@OneToOne
-	public LeaveType typeOfLeave; //
+	private LeaveType typeOfLeave; //
 	
-	public Boolean isAbroad; //
+	private Boolean isAbroad; //
 	
-	public String contactNumber; //
+	private String contactNumber; //
 	
 	@ManyToOne
 	@JoinColumn(name="workDissemination", referencedColumnName="id")
-	public Staff coveringStaff; //
+	private Staff coveringStaff; //
 	
-	public LocalDateTime startDate;//
+	private LocalDateTime startDate;//
 	
-	public String startAM_or_PM;//
+	private String startAM_or_PM;//
 	
-	public LocalDateTime endDate;//
+	private LocalDateTime endDate;//
 	
-	public String endAM_or_PM;//
+	private String endAM_or_PM;//
 	
-	public String additionalComments;//
+	private String additionalComments;//
 	
-	public LocalDate applicationDate;//
+	private LocalDate applicationDate;//
 	
 	@ManyToOne
 	@JoinColumn(name="mgrID", referencedColumnName="id")
-	public Staff employeeManager;//
+	private Staff employeeManager;//
 	
-	public String approvalStatus;//
+	private String approvalStatus;//
 	
-	public LocalDateTime dateReviewed;//
+	private LocalDateTime dateReviewed;//
 	
-	public String mgrRemarks;//
+	private String mgrRemarks;//
 	
 	//Constructor
 	
