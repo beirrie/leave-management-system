@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,61 +24,57 @@ public class Staff {
 	//Attribute
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long id;
+	private Long id;
 
 	@Column(columnDefinition = "nvarchar(50) not null")
-	public String firstName;
+	private String firstName;
 	
 	@Column(columnDefinition = "nvarchar(50) not null")
-	public String lastName;
+	private String lastName;
 	
 	@Column(columnDefinition = "nvarchar(255) not null")
-	public String emailAdd;
+	private String emailAdd;
 	
 	@ManyToOne
 	@JoinColumn(name="manager_Id", referencedColumnName="id")
-	public Staff manager;
+	private Staff manager;
 	
 	@OneToMany(mappedBy="manager")
-	public Set<Staff> subordinates = new HashSet<>();
+	private Set<Staff> subordinates = new HashSet<>();
 	
 	@OneToOne
-	public LeaveScheme leaveScheme;
+	private LeaveScheme leaveScheme;
 	
 	@OneToMany(mappedBy="employee")
-	public List<LeaveApplication> leaveApplicationRecords= new ArrayList<>();
+	private List<LeaveApplication> leaveApplicationRecords= new ArrayList<>();
 	
 	@OneToMany(mappedBy="employee")
-	public List<OvertimeApplication> overtimeApplicationRecords= new ArrayList<>();
+	private List<OvertimeApplication> overtimeApplicationRecords= new ArrayList<>();
 	
-	public double annualLeaveBalance;
+	private double annualLeaveBalance;
 	
-	public double medicalLeaveBalance;
+	private double medicalLeaveBalance;
 	
-	public double compensationLeaveBalence;
+	private double compensationLeaveBalence;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.PERSIST)
 	private User user;
+	
+	private double accumulated_OT_Hours;
 	
 	//Constructor
 	
 	public Staff() {}
 
-	public Staff(String firstName, String lastName, String emailAdd, Staff manager, Set<Staff> subordinates,
-			LeaveScheme leaveScheme, List<LeaveApplication> leaveApplicationRecords,
-			List<OvertimeApplication> overtimeApplicationRecords, double annualLeaveBalance, double medicalLeaveBalance,
-			double compensationLeaveBalence, User user) {
+	public Staff(String firstName, String lastName, String emailAdd,LeaveScheme leaveScheme,User user) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAdd = emailAdd;
 		this.manager = manager;
-		this.subordinates = subordinates;
 		this.leaveScheme = leaveScheme;
-		this.leaveApplicationRecords = leaveApplicationRecords;
-		this.overtimeApplicationRecords = overtimeApplicationRecords;
-		this.annualLeaveBalance = annualLeaveBalance;
-		this.medicalLeaveBalance = medicalLeaveBalance;
-		this.compensationLeaveBalence = compensationLeaveBalence;
+		this.annualLeaveBalance = leaveScheme.getAnnualLeaveEntitlement();
+		this.medicalLeaveBalance = leaveScheme.getMedicalLeaveEntitlement();
+		this.compensationLeaveBalence = 0;
 		this.user = user;
 	}
 	
@@ -186,7 +183,13 @@ public class Staff {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
+
+	public double getAccumulated_OT_Hours() {
+		return accumulated_OT_Hours;
+	}
+
+	public void setAccumulated_OT_Hours(double accumulated_OT_Hours) {
+		this.accumulated_OT_Hours = accumulated_OT_Hours;
+	}	
 	
 }

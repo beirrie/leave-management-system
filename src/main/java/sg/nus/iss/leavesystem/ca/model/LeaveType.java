@@ -12,10 +12,28 @@ public class LeaveType {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public String id;
+	public Long id;
 	
 	public String leaveTypeName;
 	
-	public LeaveType() {};
+	public LeaveType() {}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLeaveTypeName() {
+		return leaveTypeName;
+	}
+
+	public void setLeaveTypeName(String leaveTypeName) {
+		this.leaveTypeName = leaveTypeName;
+	};
+	
+	
 	
 }

@@ -2,10 +2,12 @@ package sg.nus.iss.leavesystem.ca.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -30,7 +32,7 @@ public class User {
 	private List<Role> roles;
 	
 	//Constructor
-	private User() {}
+	public User() {}
 	
 	public User(String username, String password) {
 		this.userName = username;

@@ -15,15 +15,57 @@ public class PublicHoliday {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long id; //
+	private Long id; //
 	
-	public String publicHolidayName; //
+	private String publicHolidayName; //
 	
-	public LocalDateTime startDate; //
+	private LocalDateTime startDate; //
 	
-	public LocalDateTime endDate; //
+	private LocalDateTime endDate; //
 	
-	public String description; //
+	private String description; //
 	
-	public PublicHoliday() {}
+	private PublicHoliday() {}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPublicHolidayName() {
+		return publicHolidayName;
+	}
+
+	public void setPublicHolidayName(String publicHolidayName) {
+		this.publicHolidayName = publicHolidayName;
+	}
+
+	public LocalDateTime getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDateTime startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDateTime getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDateTime endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 }

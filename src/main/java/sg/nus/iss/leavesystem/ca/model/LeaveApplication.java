@@ -49,11 +49,12 @@ public class LeaveApplication {
 	
 	private LocalDate applicationDate;//
 	
+	private String applicationStatus;
+	
 	@ManyToOne
 	@JoinColumn(name="mgrID", referencedColumnName="id")
 	private Staff employeeManager;//
 	
-	private String approvalStatus;//
 	
 	private LocalDateTime dateReviewed;//
 	
@@ -169,12 +170,12 @@ public class LeaveApplication {
 		this.employeeManager = employeeManager;
 	}
 
-	public String getApprovalStatus() {
-		return approvalStatus;
+	public String getApplicationStatus() {
+		return applicationStatus;
 	}
 
-	public void setApprovalStatus(String approvalStatus) {
-		this.approvalStatus = approvalStatus;
+	public void setApplicationStatus(String applicationStatus) {
+		this.applicationStatus = applicationStatus;
 	}
 
 	public LocalDateTime getDateReviewed() {
