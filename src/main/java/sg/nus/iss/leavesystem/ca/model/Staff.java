@@ -27,15 +27,14 @@ public class Staff {
 	}
 
 	public Staff(String firstName, String lastName, String emailAdd,
-				 LeaveScheme leaveScheme, double annualLeaveBalance,
-				 double medicalLeaveBalance, double compensationLeaveBalance) {
+				 LeaveScheme leaveScheme) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAdd = emailAdd;
 		this.leaveScheme = leaveScheme;
-		this.annualLeaveBalance = annualLeaveBalance;
-		this.medicalLeaveBalance = medicalLeaveBalance;
-		this.compensationLeaveBalance = compensationLeaveBalance;
+		this.annualLeaveBalance = leaveScheme.getAnnualLeaveEntitlement();
+		this.medicalLeaveBalance = leaveScheme.getMedicalLeaveEntitlement();
+		this.compensationLeaveBalance = 0;
 	}
 
 	public Long getId() {
