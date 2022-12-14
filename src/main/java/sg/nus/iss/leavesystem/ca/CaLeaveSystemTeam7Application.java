@@ -44,14 +44,10 @@ public class CaLeaveSystemTeam7Application {
 
 			// Add  staff
 			Staff jon_snow = staffRepository.saveAndFlush(new Staff("Uzumaki",
-					"Naruto", "uzumaki_naruto@gmail.com", ls1,
-					ls1.getAnnualLeaveEntitlement(),
-					ls1.medicalLeaveEntitlement, 0));
+					"Naruto", "uzumaki_naruto@gmail.com", ls1));
 			Staff monkey_d_luffy = staffRepository.saveAndFlush(new Staff(
 					"Monkey",
-					"D. Luffy", "monkey_d_luffy@gmail.com", ls2,
-					ls2.getAnnualLeaveEntitlement(),
-					ls2.medicalLeaveEntitlement, 0));
+					"D. Luffy", "monkey_d_luffy@gmail.com", ls2));
 
 			// Add Overtime application
 			OvertimeApplication otapp1 =
