@@ -1,8 +1,39 @@
 package sg.nus.iss.leavesystem.ca.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="leave_types")
 public class LeaveType {
 	
-	public String id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Long id;
+	
 	public String leaveTypeName;
+	
+	public LeaveType() {}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLeaveTypeName() {
+		return leaveTypeName;
+	}
+
+	public void setLeaveTypeName(String leaveTypeName) {
+		this.leaveTypeName = leaveTypeName;
+	};
+	
+	
+	
 }
