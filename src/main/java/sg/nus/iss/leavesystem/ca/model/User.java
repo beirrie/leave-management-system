@@ -2,12 +2,84 @@ package sg.nus.iss.leavesystem.ca.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="users")
+
 public class User {
 	
-	public String id;
-	public String userName;
-	public String password;
-	public Staff employee;
-	public List<Role> roleSet;
+	//Attribute
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)	
+	private Long id;
+	
+	private String userName;
+	private String password;
+	
+	@OneToOne(mappedBy="user")
+	private Staff employee;
+	
+	@ManyToMany
+	private List<Role> roles;
+	
+	//Constructor
+	public User() {}
+	
+	public User(String username, String password) {
+		this.userName = username;
+		this.password = password;
+	}
 
+	//Method
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Staff getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Staff employee) {
+		this.employee = employee;
+	}
+
+	public List<Role> getRoleSet() {
+		return roles;
+	}
+
+	public void setRoleSet(List<Role> roleSet) {
+		this.roles = roleSet;
+	}	
+	
+	
 }

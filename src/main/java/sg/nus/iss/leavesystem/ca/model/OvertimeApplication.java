@@ -1,38 +1,56 @@
 package sg.nus.iss.leavesystem.ca.model;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 @Entity
+@Table(name="overtime_records")
 public class OvertimeApplication {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id; //
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id; //
+	
 	@ManyToOne
-	@JoinColumn(name = "employee_id")
-	public Staff employee;
-	public LocalDateTime startDateTime; //
-	public LocalDateTime endDateTime; //
-	public String employeeComment; //
-	public LocalDateTime appliedDateTime; //
-	public int approvalStatus; //
-	public Long approverId;
-	public String managerRemarks;//
-	public LocalDate dateApplicationReviewed; //
-
+	@JoinColumn(name="employee_Id", referencedColumnName="id")
+	private Staff employee;
+	
+	private LocalDateTime date_OT; //
+	
+	private double hours_OT; //
+	
+	private String employeeComment; //
+	
+	private LocalDateTime appliedDateTime; //
+	
+	private String applicationStatus; //Previously it was an integer. Change it to String?
+	
+	@ManyToOne
+	@JoinColumn(name="approverId", referencedColumnName="id")
+	private Staff employeeManager;
+	
+	private String managerRemarks;//
+	
+	private LocalDateTime dateApplicationReviewed; //
+	
 	public OvertimeApplication() {
 	}
 
-	public OvertimeApplication(Staff employee, LocalDateTime startDateTime, LocalDateTime endDateTime, String employeeComment) {
+	public OvertimeApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment) {
 		this.employee = employee;
-		this.startDateTime = startDateTime;
-		this.endDateTime = endDateTime;
+		this.date_OT = OT_Date;
+		this.hours_OT = hours;
 		this.employeeComment = employeeComment;
 		this.appliedDateTime = LocalDateTime.now();
-		this.approvalStatus = 0;
+		this.applicationStatus = "Applied";
 	}
 
 	public Long getId() {
@@ -45,22 +63,6 @@ public class OvertimeApplication {
 
 	public void setEmployee(Staff employee) {
 		this.employee = employee;
-	}
-
-	public LocalDateTime getStartDateTime() {
-		return startDateTime;
-	}
-
-	public void setStartDateTime(LocalDateTime startDateTime) {
-		this.startDateTime = startDateTime;
-	}
-
-	public LocalDateTime getEndDateTime() {
-		return endDateTime;
-	}
-
-	public void setEndDateTime(LocalDateTime endDateTime) {
-		this.endDateTime = endDateTime;
 	}
 
 	public String getEmployeeComment() {
@@ -78,13 +80,14 @@ public class OvertimeApplication {
 	public void setAppliedDateTime(LocalDateTime appliedDateTime) {
 		this.appliedDateTime = appliedDateTime;
 	}
+	
 
-	public int getApprovalStatus() {
-		return approvalStatus;
+	public String getApplicationStatus() {
+		return applicationStatus;
 	}
 
-	public void setApprovalStatus(int approvalStatus) {
-		this.approvalStatus = approvalStatus;
+	public void setApplicationStatus(String applicationStatus) {
+		this.applicationStatus = applicationStatus;
 	}
 
 	public String getManagerRemarks() {
@@ -95,19 +98,20 @@ public class OvertimeApplication {
 		this.managerRemarks = managerRemarks;
 	}
 
-	public LocalDate getDateApplicationReviewed() {
+	public LocalDateTime getDateApplicationReviewed() {
 		return dateApplicationReviewed;
 	}
 
-	public void setDateApplicationReviewed(LocalDate dateApplicationReviewed) {
+	public void setDateApplicationReviewed(LocalDateTime dateApplicationReviewed) {
 		this.dateApplicationReviewed = dateApplicationReviewed;
 	}
 
-	public Long getApproverId() {
-		return approverId;
-	}
-
-	public void setApproverId(Long approverId) {
-		this.approverId = approverId;
-	}
+//	public Long getApproverId() {
+//		return approverId;
+//	}
+//
+//	public void setApproverId(Long approverId) {
+//		this.approverId = approverId;
+//	}
+	
 }
