@@ -30,12 +30,12 @@ public class OvertimeApplication {
 	private String employeeComment; //
 	
 	private LocalDateTime appliedDateTime; //
-	
-	private String applicationStatus; //Previously it was an integer. Change it to String?
+
+	private String applicationStatus; //
 	
 	@ManyToOne
 	@JoinColumn(name="approverId", referencedColumnName="id")
-	private Staff employeeManager;
+	private Staff approver;
 	
 	private String managerRemarks;//
 	
@@ -80,7 +80,6 @@ public class OvertimeApplication {
 	public void setAppliedDateTime(LocalDateTime appliedDateTime) {
 		this.appliedDateTime = appliedDateTime;
 	}
-	
 
 	public String getApplicationStatus() {
 		return applicationStatus;
@@ -106,12 +105,27 @@ public class OvertimeApplication {
 		this.dateApplicationReviewed = dateApplicationReviewed;
 	}
 
-//	public Long getApproverId() {
-//		return approverId;
-//	}
-//
-//	public void setApproverId(Long approverId) {
-//		this.approverId = approverId;
-//	}
-	
+	public Staff getApprover() {
+		return approver;
+	}
+
+	public void setApprover(Staff approver) {
+		this.approver = approver;
+	}
+
+	@Override
+	public String toString() {
+		return "OvertimeApplication{" +
+				"id=" + id +
+				", employee=" + employee +
+				", date_OT=" + date_OT +
+				", hours_OT=" + hours_OT +
+				", employeeComment='" + employeeComment + '\'' +
+				", appliedDateTime=" + appliedDateTime +
+				", applicationStatus='" + applicationStatus + '\'' +
+				", approver=" + approver +
+				", managerRemarks='" + managerRemarks + '\'' +
+				", dateApplicationReviewed=" + dateApplicationReviewed +
+				'}';
+	}
 }
