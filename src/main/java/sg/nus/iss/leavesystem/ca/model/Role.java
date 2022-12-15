@@ -11,35 +11,36 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="role_type")
+@Table(name = "role_type")
 public class Role {
-	
-	//Attributes
+
+	// Attributes
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String id;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	private String roleName;
-	
+
 	private String roleDescription;
-	
-	@ManyToMany(mappedBy="roles")
+
+	@ManyToMany(mappedBy = "roles")
 	private List<User> users = new ArrayList<>();
-	
-	//Constructor
-	public Role() {}
-	
+
+	// Constructor
+	public Role() {
+	}
+
 	public Role(String role, String description) {
 		this.roleName = role;
 		this.roleDescription = description;
 	}
-	
-	//Methods
-	public String getId() {
+
+	// Methods
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -66,5 +67,5 @@ public class Role {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	};
-	
+
 }

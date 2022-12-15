@@ -1,13 +1,12 @@
 package sg.nus.iss.leavesystem.ca.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -29,7 +28,7 @@ public class User {
 	private Staff employee;
 	
 	@ManyToMany
-	private List<Role> roles;
+	private List<Role> roles = new ArrayList<>();
 	
 	//Constructor
 	public User() {}
@@ -81,5 +80,8 @@ public class User {
 		this.roles = roleSet;
 	}	
 	
+	public void addRole(Role role){
+		roles.add(role);
+	}
 	
 }
