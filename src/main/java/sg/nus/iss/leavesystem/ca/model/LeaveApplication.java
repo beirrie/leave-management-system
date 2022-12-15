@@ -74,13 +74,7 @@ public class LeaveApplication {
 		this.id = id;
 	}
 
-	public Staff getEmployee() {
-		return employee;
-	}
 
-	public void setEmployee(Staff employee) {
-		this.employee = employee;
-	}
 
 	public LeaveType getTypeOfLeave() {
 		return typeOfLeave;
@@ -192,6 +186,14 @@ public class LeaveApplication {
 
 	public void setMgrRemarks(String mgrRemarks) {
 		this.mgrRemarks = mgrRemarks;
+	}
+
+	public Staff getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Staff employee) {
+		this.employee = employee;
 	}
 	
 	
