@@ -26,15 +26,11 @@ public class LeaveApplicationServiceImplTest {
 
 	@InjectMocks
 	private LeaveApplicationServiceImpl leaveAppServiceImpl;
-	private List<LeaveApplication> leaveAppList ;
 	private LeaveApplication appliedLeave1,appliedLeave2,updatedLeave1,updatedLeave2,cancelledLeave1,rejectedLeave1,approvedLeave1;
 	private Staff manager1,staff1;
 	
 	@Mock
 	private LeaveApplicationRepository leaveAppRepo;
-	private StaffRepository staffRepo;
-	
-
 	
 	@BeforeEach
 	public void setup() {
@@ -45,7 +41,6 @@ public class LeaveApplicationServiceImplTest {
 		manager1.setFirstName("Esther");
 		manager1.setLastName("Tan");
 		manager1.setEmailAdd("estherTan@nus.edu.sg");
-		//staffRepo.saveAndFlush(manager1);
 		
 		staff1 = new Staff();
 		staff1.setFirstName("Staff 1");
@@ -56,43 +51,36 @@ public class LeaveApplicationServiceImplTest {
 		appliedLeave1.setApplicationStatus("Applied");
 		appliedLeave1.setEmployeeManager(manager1);
 		appliedLeave1.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(appliedLeave1);
 		
 		appliedLeave2 = new LeaveApplication();
 		appliedLeave2.setApplicationStatus("Applied");
 		appliedLeave2.setEmployeeManager(manager1);
 		appliedLeave2.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(appliedLeave2);
 		
 		updatedLeave1 = new LeaveApplication();
 		updatedLeave1.setApplicationStatus("Updated");
 		updatedLeave1.setEmployeeManager(manager1);
 		updatedLeave1.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(updatedLeave1);
 		
 		updatedLeave2 = new LeaveApplication();
 		updatedLeave2.setApplicationStatus("Updated");
 		updatedLeave2.setEmployeeManager(manager1);
 		updatedLeave2.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(updatedLeave2);
 		
 		cancelledLeave1 = new LeaveApplication();
 		cancelledLeave1.setApplicationStatus("Cancelled");
 		cancelledLeave1.setEmployeeManager(manager1);
 		cancelledLeave1.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(cancelledLeave1);
 		
 		rejectedLeave1 = new LeaveApplication();
 		rejectedLeave1.setApplicationStatus("Rejected");
 		rejectedLeave1.setEmployeeManager(manager1);
 		rejectedLeave1.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(rejectedLeave1);
 		
 		approvedLeave1 = new LeaveApplication();
 		approvedLeave1.setApplicationStatus("Approved");
 		approvedLeave1.setEmployeeManager(manager1);
 		approvedLeave1.setEmployee(staff1);
-		//leaveAppRepo.saveAndFlush(approvedLeave1);
 		
 	}
 	
