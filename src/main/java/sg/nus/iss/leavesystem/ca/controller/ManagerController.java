@@ -19,50 +19,50 @@ import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 @RequestMapping("/manager")
 public class ManagerController {
 
-    @Autowired
-    private LeaveApplicationService leaveAppService;
+    //@Autowired
+    //private LeaveApplicationService leaveAppService;
 
     @GetMapping("/home")
     public String managerHomePg(Model model) {
         return "managerHome";
     }
 
-    @GetMapping("/pendingLeaveApplications")
+    @GetMapping("/pending_leave_applications")
     public String ViewPendingLeavesApp(HttpSession session,Model model) {
 
         return "managerPendingLeavesApps";
     }
 
-    @GetMapping("/pendingOTApplications")
+    @GetMapping("/pending_ot_applications")
     public String ViewPendingOTApp(HttpSession session,Model model) {
 
         return "managerPendingOTApps";
     }
 
-    @GetMapping("/leaveapplication/{id}")
+    @GetMapping("/leave_application/{id}")
     public String showLeaveAppById(@PathVariable("id") Long staffId) {
 
         return "managerViewLeaveAppByStaffId";
     }
 
-    @PostMapping("/leaveapplication/{id}")
+    @PostMapping("/leave_application/{id}")
     public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApplication leaveApp,BindingResult bindingResult,@PathVariable Long staffId) {
 
         return "redirect:/manager/home";
     }
-    @GetMapping("/OTapplication/{id}")
+    @GetMapping("/ot_application/{id}")
     public String showOTAppById(@PathVariable("id") Long staffId) {
 
         return "managerViewOTAppByStaffId";
     }
 
-    @PostMapping("/OTapplication/{id}")
+    @PostMapping("/ot_application/{id}")
     public String approveOrRejectOTAppById(@ModelAttribute OvertimeApplication otApp,BindingResult bindingResult,@PathVariable Long staffId) {
 
         return "redirect:/manager/home";
     }
 
-    @GetMapping("/employeesLeaveHistory")
+    @GetMapping("/employees_leave_history")
     public String getAllStaffLeaveHistory() {
 
         return "managerAllStaffLeaveHistory";
