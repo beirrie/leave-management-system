@@ -1,14 +1,10 @@
 package sg.nus.iss.leavesystem.ca.repository;
 
-import org.hibernate.sql.ast.tree.expression.Over;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 
@@ -17,29 +13,50 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DataJpaTest
 public class OvertimeApplicationRepositoryTest {
+    private List<OvertimeApplication> retrievedList;
+    private List<OvertimeApplication> inputList;
+    private Staff testmanager1;
+    private Staff testemployee1;
+    private Staff testemployee2;
+
     @Autowired
     TestEntityManager entityManager;
     @Autowired
     OverTimeApplicationRepository overtimeRepo;
-    @Autowired
-    StaffRepository staffRepo;
+
     @BeforeEach
-    void setUp() {
-        Staff testmanager1 = new Staff();
-        Staff testemployee1 = new Staff();
-        Staff testemployee2 = new Staff();
+    void Before() {
+
+        testmanager1 = new Staff();
+        testemployee1 = new Staff();
+        testemployee2 = new Staff();
+
+        testmanager1.setFirstName("manager1");
+        testmanager1.setLastName("manager1");
+        testmanager1.setEmailAdd("manager1@test1.com");
 
         testemployee1.setFirstName("test1");
-        testemployee2.setFirstName("test2");
-        testemployee1.setManager(testmanager1);
-        testemployee2.setManager(testmanager1);
+        testemployee1.setLastName("test1");
+        testemployee1.setEmailAdd("test1@test1.com");
+        //testemployee1.setManager(testmanager1);
 
-        List<Staff> staffList = new ArrayList<>(
-            Arrays.asList(testemployee1, testemployee2, testmanager1));
-        staffRepo.saveAll(staffList);
+        testemployee2.setFirstName("test2");
+        testemployee2.setLastName("test2");
+        testemployee2.setEmailAdd("test1@test2.com");
+        testemployee2.setManager(testmanager1);
+//      List<Staff> staffList = new ArrayList<>(
+//            Arrays.asList(testemployee1, testemployee2, testmanager1));
+
+        entityManager.persist(testemployee1);
+        entityManager.persist(testemployee2);
+        entityManager.persist(testmanager1);
+
+        entityManager.flush();
+
 
         OvertimeApplication otapp1 = new OvertimeApplication(testemployee1,
                 LocalDateTime.now(), 1.0, "employee comment");
@@ -48,20 +65,28 @@ public class OvertimeApplicationRepositoryTest {
         OvertimeApplication otapp3 = new OvertimeApplication(testemployee2,
                 LocalDateTime.now(), 3.0, "employee comment");
 
-        List<OvertimeApplication> otList = new ArrayList<>(
-                Arrays.asList(otapp1, otapp2, otapp3));
-        overtimeRepo.saveAll(otList);
-    }
+        inputList =  new ArrayList<>(Arrays.asList(otapp2, otapp3));
 
-    @AfterEach
-    void tearDown() {
-    }
+        entityManager.persist(otapp1);
+        entityManager.persist(otapp2);
+        entityManager.persist(otapp3);
 
+        entityManager.flush();
+
+    }
     @Test
     void findByManager() {
+        retrievedList =
+                overtimeRepo.findByManager(testmanager1.getId());
+
+        assertEquals(retrievedList, inputList);
     }
 
     @Test
     void findByStaff() {
+        retrievedList =
+                overtimeRepo.findByStaff(testemployee2.getId());
+
+        assertEquals(retrievedList, inputList);
     }
 }
