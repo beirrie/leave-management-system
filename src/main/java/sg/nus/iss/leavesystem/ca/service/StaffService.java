@@ -14,11 +14,15 @@ public interface StaffService {
 	List<Staff> findAllStaff();
 
 	Staff findStaffByID(Long id);
+	
+	Staff findStaffByID(String id);
 
 	List<Staff> findAllManagers();
 
 	List<StaffForm> getStaffList();
 
 	List<StaffForm> getStaffFormManagers();
+
+	
 
 }

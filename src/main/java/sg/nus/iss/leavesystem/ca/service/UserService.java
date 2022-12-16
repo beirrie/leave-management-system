@@ -11,5 +11,7 @@ public interface UserService {
 
 	List<User> findAllUsers();
 
+	User findUser(Long userId);
+
 	User createUser(User user);
 }

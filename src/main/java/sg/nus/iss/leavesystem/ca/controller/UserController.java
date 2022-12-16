@@ -1,5 +1,6 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.User;
+import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.RoleService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.service.UserService;
@@ -38,7 +41,7 @@ public class UserController {
 
 	@GetMapping("/create")
 	public String newStaffPage(Model model) {
-		model.addAttribute("user", new User());
+		model.addAttribute("userForm", new UserStaffForm());
 		List<Role> roles = roleService.findAllRoles();
 		model.addAttribute("roles", roles);
 		model.addAttribute("staffList", staffService.findAllStaff());
@@ -46,9 +49,21 @@ public class UserController {
 	}
 
 	@PostMapping("/create")
-	public String createNewUser(@ModelAttribute User user, BindingResult result, Model model) {
-		userService.createUser(user);
-		// staffService.
-		return "redirect:/admin/user/list";
+	public String createNewUser(@ModelAttribute UserStaffForm userForm, BindingResult result, RedirectAttributes redirectAttrs) {
+		User newUser = new User();
+		newUser.setUserName(userForm.getUserName());
+		newUser.setPassword(userForm.getPassword());
+		// newUser.setEmployee(staffService.findStaffByID(userForm.getEmployeeId()));
+
+		List<Role> newRoleSet = new ArrayList<Role>();
+		userForm.getRoles().forEach(role -> {
+			Role completeRole = roleService.findRole(role.getId());
+			newRoleSet.add(completeRole);
+		});
+		newUser.setRoleSet(newRoleSet);
+		
+		userService.createUser(newUser);
+		redirectAttrs.addFlashAttribute("user", newUser);
+		return "redirect:/admin/staff/create";
 	}
 }

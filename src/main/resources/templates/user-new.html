@@ -4,7 +4,7 @@
 <body>
 
   <h3>Create User</h3>
-  <form action="#" th:action="@{'/admin/user/create'}" th:object="${user}" method="post">
+  <form action="#" th:action="@{'/admin/user/create'}" th:object="${userForm}" method="post">
     <table>
       <tbody>
         <tr>
@@ -17,16 +17,16 @@
           <td><input type="text" th:field="*{password}" /></td>
           <!-- <td th:if="${#fields.hasErrors('name')}" th:errors="*{password}"></td> -->
         </tr>
-        <td><span>Assign Staff:</span></td>
+        <!-- <td><span>Assign Staff:</span></td>
         <td>
-          <select th:field="*{employee.id}">
+          <select th:field="*{employeeId}">
             <option selected disabled value="">Select Staff</option>
             <option th:each="s : ${staffList}" th:value="${s.id}"
               th:text="${s.firstName} + ' ' + ${s.lastName} + ' (id: ' + ${s.id} + ')'">
               Staff
             </option>
           </select>
-        </td>
+        </td> -->
         <tr>
           <td><label for="roles">User roles (multiple select):</label></td>
           <td>

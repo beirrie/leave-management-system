@@ -1,7 +1,5 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +10,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.nus.iss.leavesystem.ca.model.Staff;
-import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
+import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
+import sg.nus.iss.leavesystem.ca.service.UserService;
 
 @Controller
 @RequestMapping("/admin/staff")
 public class StaffController {
 	@Autowired
 	StaffService staffService;
+
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	LeaveSchemeService leaveSchemeService;
@@ -33,20 +35,21 @@ public class StaffController {
 
 	@GetMapping("/create")
 	public String newStaffPage(Model model) {
-		model.addAttribute("staffForm", new StaffForm());
+		model.addAttribute("userStaffForm", new UserStaffForm());
 		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
 		model.addAttribute("managers", staffService.findAllManagers());
 		return "staff-new";
 	}
 
 	@PostMapping("/create")
-	public String newStaffPage(@ModelAttribute StaffForm staffForm, BindingResult result) {
+	public String newStaffPage(@ModelAttribute UserStaffForm staff, BindingResult result) {
 		Staff newStaff = new Staff();
-		newStaff.setFirstName(staffForm.getFirstName());
-		newStaff.setLastName(staffForm.getLastName());
-		newStaff.setEmailAdd(staffForm.getEmailAdd());
-		newStaff.setManager(staffService.findStaffByID(Long.parseLong(staffForm.getManagerId())));
-		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staffForm.getLeaveSchemeId())));
+		newStaff.setUser(userService.findUser(staff.getUserId()));
+		newStaff.setFirstName(staff.getFirstName());
+		newStaff.setLastName(staff.getLastName());
+		newStaff.setEmailAdd(staff.getEmailAdd());
+		newStaff.setManager(staffService.findStaffByID(staff.getManagerId()));
+		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staff.getLeaveSchemeId())));
 		staffService.createStaff(newStaff);
 		return "redirect:/admin/staff/list";
 	}

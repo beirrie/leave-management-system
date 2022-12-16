@@ -30,6 +30,13 @@ public class StaffServiceImpl implements StaffService {
 
 	@Transactional
 	@Override
+	public Staff findStaffByID(String id) {
+		Long staffId = Long.parseLong(id);
+		return staffRepository.findStaffByID(staffId);
+	}
+
+	@Transactional
+	@Override
 	public Staff createStaff(Staff staff) {
 		return staffRepository.saveAndFlush(staff);
 	}
