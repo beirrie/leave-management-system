@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,6 +49,9 @@ public class Staff {
 
 	@OneToMany(mappedBy = "employee")
 	private List<OvertimeApplication> overtimeApplicationRecords = new ArrayList<>();
+
+	@OneToMany(mappedBy = "coveringStaff")
+	private List<LeaveApplication> coveringLeaves = new ArrayList<>();
 
 	private double annualLeaveBalance;
 
@@ -192,4 +194,11 @@ public class Staff {
 		this.accumulated_OT_Hours = accumulated_OT_Hours;
 	}
 
+	public List<LeaveApplication> getCoveringLeaves() {
+		return coveringLeaves;
+	}
+
+	public void setCoveringLeaves(List<LeaveApplication> coveringLeaves) {
+		this.coveringLeaves = coveringLeaves;
+	}
 }

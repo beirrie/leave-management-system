@@ -1,6 +1,5 @@
 package sg.nus.iss.leavesystem.ca.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -9,62 +8,82 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="leave_applications")
+@Table(name = "leave_applications")
 public class LeaveApplication {
-	
-	//Attributes
-	
+
+	// Attributes
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;//
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	@ManyToOne
-	@JoinColumn(name="employeeId", referencedColumnName="id")
-	private Staff employee; //
-	
-	@OneToOne
-	private LeaveType typeOfLeave; //
-	
-	private Boolean isAbroad; //
-	
-	private String contactNumber; //
-	
+	@JoinColumn(name = "employeeId", referencedColumnName = "id")
+	private Staff employee;
+
 	@ManyToOne
-	@JoinColumn(name="workDissemination", referencedColumnName="id")
-	private Staff coveringStaff; //
-	
-	private LocalDateTime startDate;//
-	
-	private String startAM_or_PM;//
-	
-	private LocalDateTime endDate;//
-	
-	private String endAM_or_PM;//
-	
-	private String additionalComments;//
-	
-	private LocalDate applicationDate;//
-	
+	private LeaveType typeOfLeave;
+
+	private Boolean isAbroad;
+
+	private String contactNumber;
+
+	@ManyToOne
+	@JoinColumn(name = "workDissemination", referencedColumnName = "id")
+	private Staff coveringStaff;
+
+	private LocalDateTime startDate;
+
+	private String startAM_or_PM;
+
+	private LocalDateTime endDate;
+
+	private String endAM_or_PM;
+
+	private String additionalComments;
+
+	private LocalDateTime applicationDate;
+
 	private String applicationStatus;
-	
+
 	@ManyToOne
-	@JoinColumn(name="mgrID", referencedColumnName="id")
-	private Staff employeeManager;//
-	
-	
-	private LocalDateTime dateReviewed;//
-	
-	private String mgrRemarks;//
-	
-	//Constructor
-	
-	public LeaveApplication() {};
-	
-	//Methods
+	@JoinColumn(name = "mgrID", referencedColumnName = "id")
+	private Staff employeeManager;
+
+	private LocalDateTime dateReviewed;
+
+	private String mgrRemarks;
+
+	// Constructor
+
+	public LeaveApplication(Staff employee, LeaveType typeOfLeave, Boolean isAbroad, String contactNumber,
+			Staff coveringStaff, LocalDateTime startDate, String startAM_or_PM, LocalDateTime endDate,
+			String endAM_or_PM, String additionalComments, LocalDateTime applicationDate, String applicationStatus,
+			Staff employeeManager, LocalDateTime dateReviewed, String mgrRemarks) {
+		this.employee = employee;
+		this.typeOfLeave = typeOfLeave;
+		this.isAbroad = isAbroad;
+		this.contactNumber = contactNumber;
+		this.coveringStaff = coveringStaff;
+		this.startDate = startDate;
+		this.startAM_or_PM = startAM_or_PM;
+		this.endDate = endDate;
+		this.endAM_or_PM = endAM_or_PM;
+		this.additionalComments = additionalComments;
+		this.applicationDate = applicationDate;
+		this.applicationStatus = applicationStatus;
+		this.employeeManager = employeeManager;
+		this.dateReviewed = dateReviewed;
+		this.mgrRemarks = mgrRemarks;
+	}
+
+	public LeaveApplication() {
+	};
+
+	// Methods
 
 	public Long getId() {
 		return id;
@@ -154,11 +173,11 @@ public class LeaveApplication {
 		this.additionalComments = additionalComments;
 	}
 
-	public LocalDate getApplicationDate() {
+	public LocalDateTime getApplicationDate() {
 		return applicationDate;
 	}
 
-	public void setApplicationDate(LocalDate applicationDate) {
+	public void setApplicationDate(LocalDateTime applicationDate) {
 		this.applicationDate = applicationDate;
 	}
 
@@ -193,6 +212,4 @@ public class LeaveApplication {
 	public void setMgrRemarks(String mgrRemarks) {
 		this.mgrRemarks = mgrRemarks;
 	}
-	
-	
 }
