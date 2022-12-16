@@ -13,7 +13,7 @@ public interface OvertimeApplicationService {
     List<OvertimeApplication> getAllOvertimeApplication();
     List<OvertimeApplication> getAllByManager(Staff manager);
     List<OvertimeApplication> getAllByStaff(Staff staff);
-    Optional<OvertimeApplication> getById(Long Id);
+    OvertimeApplication getById(Long appId);
     void newApplication(OvertimeApplication app);
     void setApprovalStatus(OvertimeApplication app, String status,
                            String remarks, Staff approver);

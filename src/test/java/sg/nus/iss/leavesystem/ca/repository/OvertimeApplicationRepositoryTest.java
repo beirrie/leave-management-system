@@ -46,14 +46,11 @@ public class OvertimeApplicationRepositoryTest {
         testemployee1.setFirstName("test1");
         testemployee1.setLastName("test1");
         testemployee1.setEmailAdd("test1@test1.com");
-        //testemployee1.setManager(testmanager1);
 
         testemployee2.setFirstName("test2");
         testemployee2.setLastName("test2");
         testemployee2.setEmailAdd("test1@test2.com");
         testemployee2.setManager(testmanager1);
-//      List<Staff> staffList = new ArrayList<>(
-//            Arrays.asList(testemployee1, testemployee2, testmanager1));
 
         entityManager.persist(testemployee1);
         entityManager.persist(testemployee2);
@@ -69,7 +66,7 @@ public class OvertimeApplicationRepositoryTest {
         OvertimeApplication otapp3 = new OvertimeApplication(testemployee2,
                 LocalDateTime.now(), 3.0, "employee comment");
 
-        inputList =  new ArrayList<>(Arrays.asList(otapp2, otapp3));
+        inputList = new ArrayList<>(Arrays.asList(otapp2, otapp3));
 
         entityManager.persist(otapp1);
         entityManager.persist(otapp2);
@@ -77,6 +74,7 @@ public class OvertimeApplicationRepositoryTest {
 
         entityManager.flush();
     }
+
     @Test
     void findByManager() {
         retrievedList =

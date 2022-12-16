@@ -37,9 +37,9 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
     }
 
     @Override
-    public Optional<OvertimeApplication> getById(Long Id) {
+    public OvertimeApplication getById(Long appId) {
 
-        return otRepo.findById(Id);
+        return otRepo.getReferenceById(appId);
     }
 
     @Override

@@ -25,7 +25,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class OvertimeApplicationServiceTest {
 
-
     @InjectMocks
     OvertimeApplicationServiceImpl overtimeApplicationService;
 
@@ -84,12 +83,9 @@ class OvertimeApplicationServiceTest {
 
     @Test
     void getAllOvertimeApplication() {
-        when(overtimeApplicationRepo.findAll()).thenReturn(List.of(otApp1,
-                otApp2,
-                otApp3));
+        when(overtimeApplicationRepo.findAll()).thenReturn(List.of(otApp1, otApp2, otApp3));
 
-        List<OvertimeApplication> retrievedList =
-                overtimeApplicationService.getAllOvertimeApplication();
+        List<OvertimeApplication> retrievedList = overtimeApplicationService.getAllOvertimeApplication();
 
         assertEquals(3, retrievedList.size());
     }
@@ -97,11 +93,9 @@ class OvertimeApplicationServiceTest {
     @Test
     void getAllByManager() {
 
-        when(overtimeApplicationRepo.findByManager(testmanager1.getId())).thenReturn(List.of(otApp1, otApp2,
-                otApp3));
+        when(overtimeApplicationRepo.findByManager(testmanager1.getId())).thenReturn(List.of(otApp1, otApp2, otApp3));
 
-        List<OvertimeApplication> retrievedList =
-                overtimeApplicationService.getAllByManager(testmanager1);
+        List<OvertimeApplication> retrievedList = overtimeApplicationService.getAllByManager(testmanager1);
 
         assertEquals(3, retrievedList.size());
     }
@@ -111,21 +105,19 @@ class OvertimeApplicationServiceTest {
 
         when(overtimeApplicationRepo.findByStaff(testmanager1.getId())).thenReturn(List.of(otApp1, otApp2));
 
-        List<OvertimeApplication> retrievedList =
-                overtimeApplicationService.getAllByStaff(testmanager1);
+        List<OvertimeApplication> retrievedList = overtimeApplicationService.getAllByStaff(testmanager1);
 
         assertEquals(2, retrievedList.size());
     }
 
     @Test
-    void getById(){
+    void getById() {
 
-        when(overtimeApplicationService.getById(1L)).thenReturn(Optional.ofNullable(otApp1));
+        when(overtimeApplicationService.getById(1L)).thenReturn(otApp1);
 
-        Optional<OvertimeApplication> retrievedApp =
-                overtimeApplicationService.getById(1L);
+        OvertimeApplication retrievedApp = overtimeApplicationService.getById(1L);
 
-        assertEquals(otApp1, retrievedApp.get());
+        assertEquals(otApp1, retrievedApp);
     }
 
     @Test
@@ -135,8 +127,7 @@ class OvertimeApplicationServiceTest {
 
     @Test
     void setApprovalStatus() {
-            overtimeApplicationService.setApprovalStatus(otApp1, "Success",
-                    "Manager Comment", testmanager1);
+        overtimeApplicationService.setApprovalStatus(otApp1, "Success", "Manager Comment", testmanager1);
     }
 
 

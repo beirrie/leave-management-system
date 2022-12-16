@@ -1,7 +1,5 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,49 +13,75 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
+import sg.nus.iss.leavesystem.ca.model.Staff;
+import sg.nus.iss.leavesystem.ca.model.dto.LeaveApprovalDTO;
+import sg.nus.iss.leavesystem.ca.model.dto.OvertimeApprovalDTO;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
+import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
+import sg.nus.iss.leavesystem.ca.service.StaffService;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
-
     @Autowired
     private LeaveApplicationService leaveAppService;
+    @Autowired
+    private OvertimeApplicationService overtimeApplicationService;
+    @Autowired
+    private StaffService staffService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String managerHomePg(Model model) {
         return "managerHome";
     }
 
     @GetMapping("/pending_leave_applications")
-    public String ViewPendingLeavesApp(HttpSession session,Model model) {
+    public String ViewPendingLeavesApp(HttpSession session, Model model) {
+        model.addAttribute("pendingAllLeave", leaveAppService.getAllLeaveApplications());
+
         return "managerPendingLeavesApps";
     }
 
     @GetMapping("/pending_ot_applications")
-    public String ViewPendingOTApp(HttpSession session,Model model) {
+    public String ViewPendingOTApp(HttpSession session, Model model) {
+        model.addAttribute("pendingAllOt", overtimeApplicationService.getAllOvertimeApplication());
 
         return "managerPendingOTApps";
     }
 
     @GetMapping("/leave_application/{id}")
-    public String showLeaveAppById(@PathVariable("id") Long staffId) {
-    	
+    public String showLeaveAppById(@PathVariable("id") Long leaveId, Model model) {
+        model.addAttribute("leaveApp", leaveAppService.getLeaveById(leaveId));
+
         return "managerViewLeaveAppByStaffId";
     }
 
     @PostMapping("/leave_application/{id}")
-    public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApplication leaveApp,BindingResult bindingResult,@PathVariable Long staffId) {
+    public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApprovalDTO leaveApprovalDTO,
+                                              BindingResult bindingResult, @PathVariable Long leaveId) {
+        LeaveApplication retrievedApp = leaveAppService.getLeaveById(leaveId);
+        Staff approver = staffService.findStaffByID(leaveApprovalDTO.getApproverId());
+        leaveAppService.setApprovalStatus(retrievedApp, "Approved", leaveApprovalDTO.getApproverRemark(),
+                approver);
+
         return "redirect:/manager/home";
     }
-    
+
     @GetMapping("/ot_application/{id}")
-    public String showOTAppById(@PathVariable("id") Long staffId) {
+    public String showOTAppById(@ModelAttribute OvertimeApprovalDTO overtimeApprovalDTO,
+                                BindingResult bindingResult, @PathVariable("id") Long overtimeId) {
+        OvertimeApplication retrievedApp = overtimeApplicationService.getById(overtimeId);
+        Staff approver = staffService.findStaffByID(overtimeApprovalDTO.getApproverId());
+        overtimeApplicationService.setApprovalStatus(retrievedApp, "Approved", overtimeApprovalDTO.getApproverRemark(),
+                approver);
+
         return "managerViewOTAppByStaffId";
     }
 
     @PostMapping("/ot_application/{id}")
-    public String approveOrRejectOTAppById(@ModelAttribute OvertimeApplication otApp,BindingResult bindingResult,@PathVariable Long staffId) {
+    public String approveOrRejectOTAppById(@ModelAttribute OvertimeApplication otApp, BindingResult bindingResult, @PathVariable Long staffId) {
         return "redirect:/manager/home";
     }
 
@@ -65,5 +89,5 @@ public class ManagerController {
     public String getAllStaffLeaveHistory() {
         return "managerAllStaffLeaveHistory";
     }
-    
+
 }
