@@ -1,4 +1,4 @@
-package sg.nus.iss.leavesystem.ca.serviceImpl;
+package sg.nus.iss.leavesystem.ca.service_implementation;
 
 import java.util.List;
 

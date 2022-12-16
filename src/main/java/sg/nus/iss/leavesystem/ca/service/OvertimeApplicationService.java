@@ -5,7 +5,6 @@ import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface OvertimeApplicationService {

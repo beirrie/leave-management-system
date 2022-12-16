@@ -20,6 +20,7 @@ import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 
+
 import java.util.Optional;
 
 @Controller
@@ -31,6 +32,7 @@ public class ManagerController {
     private OvertimeApplicationService overtimeApplicationService;
     @Autowired
     private StaffService staffService;
+
 
     @GetMapping("/")
     public String managerHomePg(Model model) {
@@ -60,9 +62,9 @@ public class ManagerController {
 
     @PostMapping("/leave_application/{id}")
     public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApprovalDTO leaveApprovalDTO,
-                                              BindingResult bindingResult, @PathVariable Long leaveId) {
+                                              BindingResult bindingResult, @PathVariable("id") Long leaveId) {
         LeaveApplication retrievedApp = leaveAppService.getLeaveById(leaveId);
-        Staff approver = staffService.findStaffByID(leaveApprovalDTO.getApproverId());
+        Staff approver = staffService.findStaffByID(leaveApprovalDTO.getApproverId().toString());
         leaveAppService.setApprovalStatus(retrievedApp, "Approved", leaveApprovalDTO.getApproverRemark(),
                 approver);
 
@@ -70,23 +72,27 @@ public class ManagerController {
     }
 
     @GetMapping("/ot_application/{id}")
-    public String showOTAppById(@ModelAttribute OvertimeApprovalDTO overtimeApprovalDTO,
-                                BindingResult bindingResult, @PathVariable("id") Long overtimeId) {
-        OvertimeApplication retrievedApp = overtimeApplicationService.getById(overtimeId);
-        Staff approver = staffService.findStaffByID(overtimeApprovalDTO.getApproverId());
-        overtimeApplicationService.setApprovalStatus(retrievedApp, "Approved", overtimeApprovalDTO.getApproverRemark(),
-                approver);
+    public String showOTAppById(@PathVariable("id") Long overtimeId, Model model) {
+        model.addAttribute("overtimeApp", overtimeApplicationService.getById(overtimeId));
 
         return "managerViewOTAppByStaffId";
     }
 
     @PostMapping("/ot_application/{id}")
-    public String approveOrRejectOTAppById(@ModelAttribute OvertimeApplication otApp, BindingResult bindingResult, @PathVariable Long staffId) {
+    public String approveOrRejectOTAppById(@ModelAttribute OvertimeApprovalDTO overtimeApprovalDTO, BindingResult bindingResult,
+                                           @PathVariable("id") Long overtimeId) {
+        OvertimeApplication retrievedApp = overtimeApplicationService.getById(overtimeId);
+        Staff approver = staffService.findStaffByID(overtimeApprovalDTO.getApproverId().toString());
+        overtimeApplicationService.setApprovalStatus(retrievedApp, "Approved", overtimeApprovalDTO.getApproverRemark(),
+                approver);
+
         return "redirect:/manager/home";
     }
 
     @GetMapping("/employees_leave_history")
-    public String getAllStaffLeaveHistory() {
+    public String getAllStaffLeaveHistory(HttpSession session, Model model) {
+        //model.addAttribute("leaveList", leaveAppService.getStaffLeavesById(Long.valueOf(sessionid);
+
         return "managerAllStaffLeaveHistory";
     }
 
