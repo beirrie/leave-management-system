@@ -19,13 +19,17 @@ public class PublicHoliday {
 	
 	private String publicHolidayName; //
 	
-	private LocalDateTime startDate; //
-	
-	private LocalDateTime endDate; //
-	
+	private LocalDateTime dateOfHoliday; //
+		
 	private String description; //
 	
-	private PublicHoliday() {}
+	public PublicHoliday() {}
+	
+	public PublicHoliday(String name, LocalDateTime dt, String description) {
+		this.publicHolidayName = name;
+		this.dateOfHoliday = dt;
+		this.description = description;
+	}
 
 	public Long getId() {
 		return id;
@@ -43,21 +47,14 @@ public class PublicHoliday {
 		this.publicHolidayName = publicHolidayName;
 	}
 
-	public LocalDateTime getStartDate() {
-		return startDate;
+	public LocalDateTime getDateOfHoliday() {
+		return dateOfHoliday;
 	}
 
-	public void setStartDate(LocalDateTime startDate) {
-		this.startDate = startDate;
+	public void setStartDate(LocalDateTime dateOfHoliday) {
+		this.dateOfHoliday = dateOfHoliday;
 	}
 
-	public LocalDateTime getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDateTime endDate) {
-		this.endDate = endDate;
-	}
 
 	public String getDescription() {
 		return description;
