@@ -1,5 +1,6 @@
 package sg.nus.iss.leavesystem.ca.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -29,7 +30,7 @@ public class User {
 	private Staff employee;
 	
 	@ManyToMany
-	private List<Role> roles;
+	private List<Role> roles = new ArrayList<>();
 	
 	//Constructor
 	public User() {}
@@ -40,6 +41,10 @@ public class User {
 	}
 
 	//Method
+	
+	public void addRole(Role role) {
+		roles.add(role);
+	}
 
 	public Long getId() {
 		return id;

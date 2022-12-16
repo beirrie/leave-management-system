@@ -40,7 +40,7 @@ public class Staff {
 	private Staff manager;
 	
 	@OneToMany(mappedBy="manager")
-	private Set<Staff> subordinates = new HashSet<>();
+	private List<Staff> subordinates = new ArrayList<>();
 	
 	@OneToOne
 	private LeaveScheme leaveScheme;
@@ -57,7 +57,7 @@ public class Staff {
 	
 	private double compensationLeaveBalence;
 	
-	@OneToOne(cascade=CascadeType.PERSIST)
+	@OneToOne
 	private User user;
 	
 	private double accumulated_OT_Hours;
@@ -120,11 +120,13 @@ public class Staff {
 		this.manager = manager;
 	}
 
-	public Set<Staff> getSubordinates() {
+
+
+	public List<Staff> getSubordinates() {
 		return subordinates;
 	}
 
-	public void setSubordinates(Set<Staff> subordinates) {
+	public void setSubordinates(List<Staff> subordinates) {
 		this.subordinates = subordinates;
 	}
 
