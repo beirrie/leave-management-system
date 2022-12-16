@@ -21,6 +21,8 @@ public class LeaveScheme {
 	
 	private double medicalLeaveEntitlement;
 	
+	public boolean isActive = true;
+	
 	//Constructor
 	
 	public LeaveScheme() {
@@ -66,6 +68,13 @@ public class LeaveScheme {
 	public void setMedicalLeaveEntitlement(double medicalLeaveEntitlement) {
 		this.medicalLeaveEntitlement = medicalLeaveEntitlement;
 	}
-	
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean status) {
+		this.isActive = status;
+	}
 	
 }

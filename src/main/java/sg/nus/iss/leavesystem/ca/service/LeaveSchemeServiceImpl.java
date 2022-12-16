@@ -30,4 +30,32 @@ public class LeaveSchemeServiceImpl implements LeaveSchemeService{
 		// TODO Auto-generated method stub
 		return _leaveSchemeRepo.findById(leaveSchemeID).orElse(null);
 	}
+
+	@Override
+	public LeaveScheme updateLeaveScheme(String id, String schemeName, String annualLeave, String medicalLeave) {
+		// TODO Auto-generated method stub
+		Long _lsID = Long.parseLong(id);
+		LeaveScheme lsEdited = getLeaveSchemeByID(_lsID);
+		lsEdited.setEmploymentScheme(schemeName);
+		Double _lsAL = Double.parseDouble(annualLeave);
+		Double _lsML = Double.parseDouble(medicalLeave);
+		lsEdited.setAnnualLeaveEntitlement(_lsAL);
+		lsEdited.setMedicalLeaveEntitlement(_lsML);
+		return _leaveSchemeRepo.saveAndFlush(lsEdited);
+	}
+
+	@Override
+	public void deactivateLeaveScheme(String id) {
+		Long _lsID = Long.parseLong(id);
+		LeaveScheme lsEdited = getLeaveSchemeByID(_lsID);
+		System.out.println(lsEdited.getIsActive());
+		if(lsEdited.getIsActive() == true) {
+			lsEdited.setActive(false);
+		}
+		else if (lsEdited.getIsActive() == false){
+			lsEdited.setActive(true);
+		}
+		_leaveSchemeRepo.saveAndFlush(lsEdited);
+	}
+	
 }
