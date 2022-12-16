@@ -40,8 +40,12 @@ public class AdminController {
 	@Autowired
 	public PublicHolidayService _publicHolidayService;
 	
+	//Methods for Leave Schemes Related Features
+	
 	@GetMapping("/viewleaveschemes")
 	public String viewLeaveSchemes(Model model) {
+		List<LeaveScheme> leaveSchemes = _leaveSchemeService.getAllLeaveScheme();
+		model.addAttribute("existingschemes", leaveSchemes);
 		return "viewleaveschemes";
 	}
 	
@@ -56,12 +60,31 @@ public class AdminController {
 	
 	@PostMapping("/addnewleavescheme")
 	public String submitNewLeaveScheme(LeaveScheme newLeaveScheme) {
-		System.out.println(newLeaveScheme.getEmploymentScheme());
-		System.out.println(newLeaveScheme.getAnnualLeaveEntitlement());
-		System.out.println(newLeaveScheme.getMedicalLeaveEntitlement());
 		_leaveSchemeService.createLeaveScheme(newLeaveScheme);
 		return "redirect:/admin/viewleaveschemes";
 	}
+	
+	@GetMapping("/editleavescheme")
+	public String editLeaveScheme(String idLeaveScheme, Model model) {
+		Long lsID = Long.parseLong(idLeaveScheme);
+		LeaveScheme ls_Edit = _leaveSchemeService.getLeaveSchemeByID(lsID);
+		model.addAttribute("leavescheme",ls_Edit);
+		return "editleavescheme";
+	}
+	
+	@PostMapping("/updateleavescheme")
+	public String updateExistingLeaveScheme(String idLeaveScheme, String employmentScheme, String annualLeaveEntitlement, String medicalLeaveEntitlement) {
+		_leaveSchemeService.updateLeaveScheme(idLeaveScheme, employmentScheme, annualLeaveEntitlement, medicalLeaveEntitlement);
+		return "redirect:/admin/viewleaveschemes";
+	}
+	
+	@GetMapping("/deactivateleavescheme")
+	public String updateExistingLeaveScheme(String idLeaveScheme) {
+		_leaveSchemeService.deactivateLeaveScheme(idLeaveScheme);
+		return "redirect:/admin/viewleaveschemes";
+	}
+	
+	//Methods for Public Holidays Related Features
 	
 	@GetMapping("/viewpublicholidays")
 	public String viewpublicholidays(Model model) throws JsonMappingException, JsonProcessingException{
@@ -106,11 +129,18 @@ public class AdminController {
 		return "editpublicholiday";
 	}
 	
+	
 	@PostMapping("/updatepublicholiday")
-	public String updatepublicholiday(String phName, String phDate, String phDescription) {
-		System.out.println(phName);
-		System.out.println(phDate);
-		System.out.println(phDescription);
+	public String updatepublicholiday(String phID, String phName, String phDate, String phDescription) {
+		_publicHolidayService.updatePublicHoliday(phID, phName, phDate, phDescription);
 		return "redirect:/admin/viewpublicholidays";
 	}
+	
+	@GetMapping("/deletepublicholiday")
+	public String updatepublicholiday(String idHoliday) {
+		_publicHolidayService.deletePublicHoliday(idHoliday);
+		return "redirect:/admin/viewpublicholidays";
+	}
+	
+	
 }

@@ -13,4 +13,8 @@ public interface LeaveSchemeService {
     LeaveScheme getLeaveSchemeByID(Long leaveSchemeID);
     
     LeaveScheme createLeaveScheme(LeaveScheme newLeaveScheme);
+    
+    LeaveScheme updateLeaveScheme(String id, String schemeName, String annualLeave, String medicalLeave);
+    
+    void deactivateLeaveScheme(String id);
 }

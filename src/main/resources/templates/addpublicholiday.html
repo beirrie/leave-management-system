@@ -5,7 +5,7 @@
   	<div th:replace="fragments/layout.html :: menu"/></div>
 	<div>
 		<p>This page is for <b>adding</b> public holiday.</p>
-		<form action=# th:action="@{/admin/addnewpublicholiday}" th:object="${ph}" method="GET">
+		<form action=# th:action="@{/admin/addnewpublicholiday}" th:object="${ph}" method="POST">
 			<p>
 			<label for="ph_name">Public Holiday Name</label><br>
 			<input type=text id="ph_name" th:field="*{publicHolidayName}"></input>

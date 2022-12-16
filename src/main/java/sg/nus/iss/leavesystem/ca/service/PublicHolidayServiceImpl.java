@@ -84,7 +84,28 @@ public class PublicHolidayServiceImpl implements PublicHolidayService{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public PublicHoliday updatePublicHoliday(String phID, String phName, String phDate, String phDescription) {
+		Long _phID = Long.parseLong(phID);
+		PublicHoliday phUpdate = getPublicHoliday(_phID);
+		phUpdate.setPublicHolidayName(phName);
+		phUpdate.setDescription(phDescription);
+		
+		int year = Integer.parseInt(phDate.substring(0, 4));
+		int month = Integer.parseInt(phDate.substring(5, 7));
+		int day = Integer.parseInt(phDate.substring(8, 10));
+		LocalDateTime dt = LocalDateTime.of(year, month, day, 0 , 0, 0);
+		phUpdate.setStartDate(dt);
+		return publicHolidayRepo.saveAndFlush(phUpdate);
+	}
 	
+	@Override
+	public void deletePublicHoliday(String phID) {
+		Long _phID = Long.parseLong(phID);
+		PublicHoliday phUpdate = getPublicHoliday(_phID);
+		publicHolidayRepo.delete(phUpdate);
+	}
 	
 	
 }
