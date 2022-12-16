@@ -9,4 +9,8 @@ import java.util.List;
 public interface LeaveSchemeService {
 
     List<LeaveScheme> getAllLeaveScheme();
+    
+    LeaveScheme getLeaveSchemeByID(Long leaveSchemeID);
+    
+    LeaveScheme createLeaveScheme(LeaveScheme newLeaveScheme);
 }

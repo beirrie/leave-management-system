@@ -1,9 +1,13 @@
 package sg.nus.iss.leavesystem.ca.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,7 +19,14 @@ public class LeaveType {
 	public Long id;
 	
 	public String leaveTypeName;
+
+	@OneToMany(mappedBy = "typeOfLeave")
+	public List<LeaveApplication> leaveApplications = new ArrayList<>();
 	
+	public LeaveType(String leaveTypeName) {
+		this.leaveTypeName = leaveTypeName;
+	}
+
 	public LeaveType() {}
 
 	public Long getId() {
@@ -33,7 +44,4 @@ public class LeaveType {
 	public void setLeaveTypeName(String leaveTypeName) {
 		this.leaveTypeName = leaveTypeName;
 	};
-	
-	
-	
 }

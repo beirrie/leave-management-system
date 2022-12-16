@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,67 +17,70 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="employees")
+@Table(name = "employees")
 public class Staff {
-	
-	//Attribute
+
+	// Attribute
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(columnDefinition = "nvarchar(50) not null")
 	private String firstName;
-	
+
 	@Column(columnDefinition = "nvarchar(50) not null")
 	private String lastName;
-	
+
 	@Column(columnDefinition = "nvarchar(255) not null")
 	private String emailAdd;
-	
+
 	@ManyToOne
-	@JoinColumn(name="manager_Id", referencedColumnName="id")
+	@JoinColumn(name = "manager_Id", referencedColumnName = "id")
 	private Staff manager;
-	
-	@OneToMany(mappedBy="manager")
-	private List<Staff> subordinates = new ArrayList<>();
-	
+
+	@OneToMany(mappedBy = "manager")
+	private Set<Staff> subordinates = new HashSet<>();
+
 	@OneToOne
 	private LeaveScheme leaveScheme;
-	
-	@OneToMany(mappedBy="employee")
-	private List<LeaveApplication> leaveApplicationRecords= new ArrayList<>();
-	
-	@OneToMany(mappedBy="employee")
-	private List<OvertimeApplication> overtimeApplicationRecords= new ArrayList<>();
-	
+
+	@OneToMany(mappedBy = "employee")
+	private List<LeaveApplication> leaveApplicationRecords = new ArrayList<>();
+
+	@OneToMany(mappedBy = "employee")
+	private List<OvertimeApplication> overtimeApplicationRecords = new ArrayList<>();
+
+	@OneToMany(mappedBy = "coveringStaff")
+	private List<LeaveApplication> coveringLeaves = new ArrayList<>();
+
 	private double annualLeaveBalance;
-	
+
 	private double medicalLeaveBalance;
-	
+
 	private double compensationLeaveBalence;
-	
+
 	@OneToOne
 	private User user;
-	
-	private double accumulated_OT_Hours;
-	
-	//Constructor
-	
-	public Staff() {}
 
-	public Staff(String firstName, String lastName, String emailAdd,LeaveScheme leaveScheme,User user) {
+	private double accumulated_OT_Hours;
+
+	// Constructor
+
+	public Staff() {
+	}
+
+	public Staff(String firstName, String lastName, String emailAdd, LeaveScheme leaveScheme, User user) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAdd = emailAdd;
-		this.manager = manager;
 		this.leaveScheme = leaveScheme;
 		this.annualLeaveBalance = leaveScheme.getAnnualLeaveEntitlement();
 		this.medicalLeaveBalance = leaveScheme.getMedicalLeaveEntitlement();
 		this.compensationLeaveBalence = 0;
 		this.user = user;
 	}
-	
-	//Method
+
+	// Method
 
 	public Long getId() {
 		return id;
@@ -120,13 +122,11 @@ public class Staff {
 		this.manager = manager;
 	}
 
-
-
-	public List<Staff> getSubordinates() {
+	public Set<Staff> getSubordinates() {
 		return subordinates;
 	}
 
-	public void setSubordinates(List<Staff> subordinates) {
+	public void setSubordinates(Set<Staff> subordinates) {
 		this.subordinates = subordinates;
 	}
 
@@ -192,6 +192,13 @@ public class Staff {
 
 	public void setAccumulated_OT_Hours(double accumulated_OT_Hours) {
 		this.accumulated_OT_Hours = accumulated_OT_Hours;
-	}	
-	
+	}
+
+	public List<LeaveApplication> getCoveringLeaves() {
+		return coveringLeaves;
+	}
+
+	public void setCoveringLeaves(List<LeaveApplication> coveringLeaves) {
+		this.coveringLeaves = coveringLeaves;
+	}
 }

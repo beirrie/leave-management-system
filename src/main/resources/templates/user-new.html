@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+  <h3>Create User</h3>
+  <form action="#" th:action="@{'/admin/user/create'}" th:object="${user}" method="post">
+    <table>
+      <tbody>
+        <tr>
+          <td><span>User Name</span></td>
+          <td><input type="text" th:field="*{userName}" /></td>
+          <!-- <td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></td> -->
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="text" th:field="*{password}" /></td>
+          <!-- <td th:if="${#fields.hasErrors('name')}" th:errors="*{password}"></td> -->
+        </tr>
+        <td><span>Assign Staff:</span></td>
+        <td>
+          <select th:field="*{employee.id}">
+            <option selected disabled value="">Select Staff</option>
+            <option th:each="s : ${staffList}" th:value="${s.id}"
+              th:text="${s.firstName} + ' ' + ${s.lastName} + ' (id: ' + ${s.id} + ')'">
+              Staff
+            </option>
+          </select>
+        </td>
+        <tr>
+          <td><label for="roles">User roles (multiple select):</label></td>
+          <td>
+            <select multiple="multiple" name="roleSet" id="roleSet">
+              <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.roleName}">
+                Roles
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="submit" value="Create" /></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</body>
+
+</html>

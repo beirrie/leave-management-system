@@ -12,5 +12,7 @@ import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 
 @Repository
 public interface LeaveApplicationRepository extends JpaRepository<LeaveApplication, Long>{
+	
+	
 
 }
