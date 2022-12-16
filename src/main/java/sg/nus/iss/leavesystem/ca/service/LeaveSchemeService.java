@@ -1,11 +1,16 @@
 package sg.nus.iss.leavesystem.ca.service;
 
-import java.util.List;
-
+import org.springframework.stereotype.Service;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 
-public interface LeaveSchemeService {
-	List<LeaveScheme> findAllLeaveSchemes();
+import java.util.List;
 
-	LeaveScheme findLeaveScheme(Long id);
+@Service
+public interface LeaveSchemeService {
+
+    List<LeaveScheme> getAllLeaveScheme();
+    
+    LeaveScheme getLeaveSchemeByID(Long leaveSchemeID);
+    
+    LeaveScheme createLeaveScheme(LeaveScheme newLeaveScheme);
 }

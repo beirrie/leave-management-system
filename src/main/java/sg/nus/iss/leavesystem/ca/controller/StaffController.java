@@ -34,7 +34,7 @@ public class StaffController {
 	@GetMapping("/create")
 	public String newStaffPage(Model model) {
 		model.addAttribute("staffForm", new StaffForm());
-		model.addAttribute("leaveSchemes", leaveSchemeService.findAllLeaveSchemes());
+		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
 		model.addAttribute("managers", staffService.findAllManagers());
 		return "staff-new";
 	}
@@ -46,7 +46,7 @@ public class StaffController {
 		newStaff.setLastName(staffForm.getLastName());
 		newStaff.setEmailAdd(staffForm.getEmailAdd());
 		newStaff.setManager(staffService.findStaffByID(staffForm.getManagerId()));
-		newStaff.setLeaveScheme(leaveSchemeService.findLeaveScheme(Long.parseLong(staffForm.getLeaveSchemeId())));
+		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staffForm.getLeaveSchemeId())));
 		staffService.createStaff(newStaff);
 		return "redirect:/admin/staff/list";
 	}

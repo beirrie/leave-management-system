@@ -14,11 +14,16 @@ public class LeaveSchemeServiceImpl implements LeaveSchemeService {
 	@Autowired
 	LeaveSchemeRepository leaveSchemeRepository;
 
-	public List<LeaveScheme> findAllLeaveSchemes() {
+	public List<LeaveScheme> getAllLeaveScheme() {
 		return leaveSchemeRepository.findAll();
 	}
 
-	public LeaveScheme findLeaveScheme(Long id) {
+	public LeaveScheme getLeaveSchemeByID(Long id) {
 		return leaveSchemeRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public LeaveScheme createLeaveScheme(LeaveScheme newLeaveScheme) {
+		return leaveSchemeRepository.saveAndFlush(newLeaveScheme);
 	}
 }

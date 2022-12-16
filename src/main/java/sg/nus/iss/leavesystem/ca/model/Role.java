@@ -34,8 +34,8 @@ public class Role {
 		this.roleName = role;
 		this.roleDescription = description;
 	}
-
-	// Methods
+	
+	//Methods
 	public Long getId() {
 		return id;
 	}
