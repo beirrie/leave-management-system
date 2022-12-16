@@ -48,6 +48,7 @@ public class UserController {
 	@PostMapping("/create")
 	public String createNewUser(@ModelAttribute User user, BindingResult result, Model model) {
 		userService.createUser(user);
+		// staffService.
 		return "redirect:/admin/user/list";
 	}
 }

@@ -45,7 +45,7 @@ public class StaffController {
 		newStaff.setFirstName(staffForm.getFirstName());
 		newStaff.setLastName(staffForm.getLastName());
 		newStaff.setEmailAdd(staffForm.getEmailAdd());
-		newStaff.setManager(staffService.findStaffByID(staffForm.getManagerId()));
+		newStaff.setManager(staffService.findStaffByID(Long.parseLong(staffForm.getManagerId())));
 		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staffForm.getLeaveSchemeId())));
 		staffService.createStaff(newStaff);
 		return "redirect:/admin/staff/list";

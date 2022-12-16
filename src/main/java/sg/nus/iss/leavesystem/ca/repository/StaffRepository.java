@@ -11,7 +11,6 @@ import sg.nus.iss.leavesystem.ca.model.Staff;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> {
-
 	@Query("SELECT DISTINCT s FROM Staff s, Staff m WHERE s.id = m.manager.id")
 	List<Staff> findAllStaff();
 
@@ -19,5 +18,5 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 	List<Staff> findAllManagers();
 
 	@Query("SELECT s FROM Staff s WHERE s.id = :sid")
-	Staff findStaffByID(@Param("sid") String id);
+	Staff findStaffByID(@Param("sid") Long id);
 }

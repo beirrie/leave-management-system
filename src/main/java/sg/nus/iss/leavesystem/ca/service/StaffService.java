@@ -13,7 +13,7 @@ public interface StaffService {
 
 	List<Staff> findAllStaff();
 
-	Staff findStaffByID(String id);
+	Staff findStaffByID(Long id);
 
 	List<Staff> findAllManagers();
 

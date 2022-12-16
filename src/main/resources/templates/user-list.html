@@ -18,7 +18,6 @@
 					<th><span>Username</span></th>
 					<th><span>Password</span></th>
 					<th><span>Employee Id</span></th>
-					<th><span>Role</span></th>
 					<!-- <th><span>Edit</span></th>
 					<th><span>Delete</span></th> -->
 				</tr>
@@ -26,10 +25,10 @@
 			<tbody>
 
 				<tr th:each="user : ${userList}" class="listRecord">
-					<td th:text="${user.Id}">Id</td>
+					<td th:text="${user.id}">Id</td>
 					<td th:text="${user.userName}">Name</td>
 					<td th:text="${user.password}">Password</td>
-					<td th:text="${user.employee.id}">Employee Id</td>
+					<td th:text="${user.employee!=null}?${user.employee.id}:'not assigned'">Employee Id</td>
 
 					<!-- <td><a th:href="@{/admin/user/edit/}+${user.Id}" class="btn btn-default"><span
 								th:text="#{caption.edit}"></span></a></td>
