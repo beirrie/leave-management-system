@@ -57,6 +57,10 @@ public class OvertimeApplication {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Staff getEmployee() {
 		return employee;
 	}
@@ -111,6 +115,22 @@ public class OvertimeApplication {
 
 	public void setApprover(Staff approver) {
 		this.approver = approver;
+	}
+
+	public LocalDateTime getDate_OT() {
+		return date_OT;
+	}
+
+	public void setDate_OT(LocalDateTime date_OT) {
+		this.date_OT = date_OT;
+	}
+
+	public double getHours_OT() {
+		return hours_OT;
+	}
+
+	public void setHours_OT(double hours_OT) {
+		this.hours_OT = hours_OT;
 	}
 
 	@Override

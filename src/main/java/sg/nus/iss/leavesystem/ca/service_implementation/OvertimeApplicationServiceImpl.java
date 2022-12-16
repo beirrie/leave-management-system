@@ -9,6 +9,7 @@ import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,6 +20,7 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
 
     @Override
     public List<OvertimeApplication> getAllOvertimeApplication() {
+
         return otRepo.findAll();
     }
 
@@ -35,16 +37,25 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
     }
 
     @Override
+    public Optional<OvertimeApplication> getById(Long Id) {
+
+        return otRepo.findById(Id);
+    }
+
+    @Override
     public void newApplication(OvertimeApplication app) {
+
         otRepo.save(app);
     }
 
     @Override
     public void setApprovalStatus(OvertimeApplication app, String status,
                                   String remarks, Staff approver) {
+
         app.setApplicationStatus(status);
         app.setManagerRemarks(remarks);
         app.setApprover(approver);
+        // TODO: increase leave according to amount of overtime
         otRepo.save(app);
     }
 }
