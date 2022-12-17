@@ -1,5 +1,6 @@
 package sg.nus.iss.leavesystem.ca.service_implementation;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +73,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
                                   String remarks, Staff approver) {
         app.setApplicationStatus(status);
         app.setMgrRemarks(remarks);
+        app.setDateReviewed(LocalDateTime.now());
         app.setEmployeeManager(approver);
         leaveAppRepo.saveAndFlush(app);
     }

@@ -20,7 +20,8 @@ import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 
-
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -36,41 +37,51 @@ public class ManagerController {
 
     @GetMapping("/")
     public String managerHomePg(Model model) {
-        return "managerHome";
+    	return "managerHome";
     }
 
     @GetMapping("/pending_leave_applications")
     public String ViewPendingLeavesApp(HttpSession session, Model model) {
-        model.addAttribute("pendingAllLeave", leaveAppService.getAllLeaveApplications());
-
+    	
+    	List<LeaveApplication> pendingAllLeave =  leaveAppService.getStaffLeavesByManagerAndStatus(staffService.findAllManagers().get(0), "Applied Updated");
+        model.addAttribute("pendingAllLeave",pendingAllLeave);
         return "managerPendingLeavesApps";
     }
 
     @GetMapping("/pending_ot_applications")
     public String ViewPendingOTApp(HttpSession session, Model model) {
         model.addAttribute("pendingAllOt", overtimeApplicationService.getAllOvertimeApplication());
-
+        
         return "managerPendingOTApps";
     }
 
     @GetMapping("/leave_application/{id}")
-    public String showLeaveAppById(@PathVariable("id") Long leaveId, Model model) {
-        model.addAttribute("leaveApp", leaveAppService.getLeaveById(leaveId));
-
-        return "managerViewLeaveAppByStaffId";
+    public String showIndividualLeaveApp(@PathVariable("id") Long leaveId, Model model) {
+    	Staff manager = staffService.findAllManagers().get(0);
+    	if(manager != null) {
+    		LeaveApprovalDTO leaveApprovalDTO = new LeaveApprovalDTO("", manager.getId(), "",leaveId);
+    		model.addAttribute("leaveApprovalDTO", leaveApprovalDTO);
+    		model.addAttribute("ListApproveOrReject", List.of("Approved","Rejected"));
+    	}
+        return "manager-approve-or-reject-leave";
     }
-
-    @PostMapping("/leave_application/{id}")
-    public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApprovalDTO leaveApprovalDTO,
-                                              BindingResult bindingResult, @PathVariable("id") Long leaveId) {
-        LeaveApplication retrievedApp = leaveAppService.getLeaveById(leaveId);
+    
+    @PostMapping("/leave_application/update_status")
+    public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApprovalDTO leaveApprovalDTO) {
+    	
+    	LeaveApplication retrievedApp = leaveAppService.getLeaveById(leaveApprovalDTO.getLeaveId());
         Staff approver = staffService.findStaffByID(leaveApprovalDTO.getApproverId().toString());
-        leaveAppService.setApprovalStatus(retrievedApp, "Approved", leaveApprovalDTO.getApproverRemark(),
+        leaveAppService.setApprovalStatus(retrievedApp, leaveApprovalDTO.getApplicationStatus(), leaveApprovalDTO.getApproverRemark(),
                 approver);
-
-        return "redirect:/manager/home";
+        //testing
+//        LeaveApplication leaveApplication = leaveAppService.getLeaveById(leaveApprovalDTO.getLeaveId());
+//        System.out.println(leaveApplication.getApplicationStatus());
+//        System.out.println(leaveApplication.getMgrRemarks());
+        return "redirect:/manager/";
     }
 
+    
+    
     @GetMapping("/ot_application/{id}")
     public String showOTAppById(@PathVariable("id") Long overtimeId, Model model) {
         model.addAttribute("overtimeApp", overtimeApplicationService.getById(overtimeId));
@@ -86,13 +97,13 @@ public class ManagerController {
         overtimeApplicationService.setApprovalStatus(retrievedApp, "Approved", overtimeApprovalDTO.getApproverRemark(),
                 approver);
 
-        return "redirect:/manager/home";
+        return "redirect:/manager";
     }
 
     @GetMapping("/employees_leave_history")
     public String getAllStaffLeaveHistory(HttpSession session, Model model) {
         //model.addAttribute("leaveList", leaveAppService.getStaffLeavesById(Long.valueOf(sessionid);
-
+    	
         return "managerAllStaffLeaveHistory";
     }
 
