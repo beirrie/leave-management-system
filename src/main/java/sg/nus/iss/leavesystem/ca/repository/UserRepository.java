@@ -7,5 +7,6 @@ import org.springframework.data.repository.query.Param;
 import sg.nus.iss.leavesystem.ca.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-
+	@Query("SELECT u FROM User u WHERE u.employee.id = :sid")
+	User findUserByStaffID(@Param("sid") Long id);
 }

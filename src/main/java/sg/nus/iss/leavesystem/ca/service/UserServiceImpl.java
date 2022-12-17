@@ -31,4 +31,23 @@ public class UserServiceImpl implements UserService {
 	public User findUser(Long userId) {
 		return userRepository.findById(userId).orElse(null);
 	}
+
+	@Transactional
+	@Override
+	public User findUserByStaffID(Long staffId) {
+		return userRepository.findUserByStaffID(staffId);
+	}
+
+	@Transactional
+	@Override
+	public User findUserByStaffID(String staffId) {
+		return userRepository.findUserByStaffID(Long.parseLong(staffId));
+	}
+
+	@Transactional
+	@Override
+	public Boolean deactivateUser(User user) {
+		user.setIsActive(false);
+		return user.getIsActive();
+	}
 }

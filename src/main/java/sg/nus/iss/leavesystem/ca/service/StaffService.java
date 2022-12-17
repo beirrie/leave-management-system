@@ -23,6 +23,6 @@ public interface StaffService {
 
 	List<StaffForm> getStaffFormManagers();
 
-	
+	Boolean deactivateStaff(Staff staff);
 
 }

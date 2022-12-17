@@ -3,8 +3,7 @@
 
 <body>
 	<h3>Staff List page</h3>
-	<a th:href="@{/admin/staff/create}">Add Staff</a>
-
+	
 	<div th:if="${not #lists.isEmpty(staffList)}">
 		<table style="border: 1;">
 			<tr class="listHeading">
@@ -12,18 +11,20 @@
 				<th><span>Manager Id</span></th>
 				<th><span>Name</span></th>
 				<th><span>Email</span></th>
-				<!-- <th><span>Edit</span></th>
-				<th><span>Delete</span></th> -->
+
+				<th><span>Edit</span></th>
+				<th><span>Delete</span></th>
 			</tr>
 			<tr th:each="staff : ${staffList}" class="listRecord">
 				<td align="left" th:text="${staff.staffId}">Staff Id</td>
 				<td align="left" th:text="${staff.managerId}">Manager Id</td>
 				<td align="left" th:text="${staff.firstName + ' ' + staff.lastName}">Name</td>
 				<td align="left" th:text="${staff.emailAdd}">Email</td>
-				<!-- <td><a th:href="@{/admin/staff/edit/}+${staff.staffId}" class="btn btn-default"><span
-							th:text="#{caption.edit}"></span></a></td>
-				<td><a th:href="@{/admin/staff/delete/}+${staff.staffId}" class="btn btn-default"><span
-							th:text="#{caption.delete}"></span></a></td> -->
+
+				<td><a th:href="@{/admin/staff/edit/}+${staff.staffId}" class="btn btn-default"><span
+							th:text="#{edit}">edit</span></a></td>
+
+				<td><a th:href="@{/admin/staff/deactivate/}+${staff.staffId}" class="btn btn-default"><span>delete</span></a></td>
 			</tr>
 		</table>
 	</div>

@@ -8,13 +8,19 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import sg.nus.iss.leavesystem.ca.model.Staff;
+import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
+import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
+import sg.nus.iss.leavesystem.ca.repository.UserRepository;
 
 @Service
 public class StaffServiceImpl implements StaffService {
 	@Autowired
 	private StaffRepository staffRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Transactional
 	@Override
@@ -53,18 +59,21 @@ public class StaffServiceImpl implements StaffService {
 		List<Staff> staffs = staffRepository.findAll();
 		List<StaffForm> staffList = new ArrayList<>();
 		for (Staff s : staffs) {
+
 			String managerId = "";
 			if (s.getManager() != null) {
 				managerId = s.getManager().getId().toString();
 			}
-			staffList.add(
-					new StaffForm(
-							s.getId().toString(),
-							s.getFirstName(),
-							s.getLastName(),
-							s.getEmailAdd(),
-							managerId,
-							s.getLeaveScheme().getId().toString()));
+			if (s.getIsActive()) {
+				staffList.add(
+						new StaffForm(
+								s.getId().toString(),
+								s.getFirstName(),
+								s.getLastName(),
+								s.getEmailAdd(),
+								managerId,
+								s.getLeaveScheme().getId().toString()));
+			}
 		}
 		return staffList;
 	}
@@ -89,5 +98,12 @@ public class StaffServiceImpl implements StaffService {
 							s.getLeaveScheme().getId().toString()));
 		}
 		return staffList;
+	}
+
+	@Transactional
+	@Override
+	public Boolean deactivateStaff(Staff staff) {
+		staff.setIsActive(false);
+		return staff.getIsActive();
 	}
 }
