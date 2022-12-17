@@ -30,7 +30,7 @@
         <tr>
           <td><label for="roles">User roles (multiple select):</label></td>
           <td>
-            <select multiple="multiple" name="roleSet" id="roleSet">
+            <select multiple="multiple" name="roles" id="roles">
               <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.roleName}">
                 Roles
               </option>

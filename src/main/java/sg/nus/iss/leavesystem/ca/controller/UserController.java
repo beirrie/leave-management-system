@@ -53,7 +53,6 @@ public class UserController {
 		User newUser = new User();
 		newUser.setUserName(userForm.getUserName());
 		newUser.setPassword(userForm.getPassword());
-		// newUser.setEmployee(staffService.findStaffByID(userForm.getEmployeeId()));
 
 		List<Role> newRoleSet = new ArrayList<Role>();
 		userForm.getRoles().forEach(role -> {
