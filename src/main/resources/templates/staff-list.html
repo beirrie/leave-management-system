@@ -21,8 +21,7 @@
 				<td align="left" th:text="${staff.firstName + ' ' + staff.lastName}">Name</td>
 				<td align="left" th:text="${staff.emailAdd}">Email</td>
 
-				<td><a th:href="@{/admin/staff/edit/}+${staff.staffId}" class="btn btn-default"><span
-							th:text="#{edit}">edit</span></a></td>
+				<td><a th:href="@{/admin/staff/edit/}+${staff.staffId}" class="btn btn-default"><span>edit</span></a></td>
 
 				<td><a th:href="@{/admin/staff/deactivate/}+${staff.staffId}" class="btn btn-default"><span>delete</span></a></td>
 			</tr>

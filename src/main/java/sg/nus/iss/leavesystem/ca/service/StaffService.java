@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service;
 
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
+import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 
 @Service
 public interface StaffService {
 	Staff createStaff(Staff staff);
 
+	Staff editStaff(String id, UserStaffForm userStaffForm);
+
 	List<Staff> findAllStaff();
 
 	Staff findStaffByID(Long id);
-	
+
 	Staff findStaffByID(String id);
 
 	List<Staff> findAllManagers();

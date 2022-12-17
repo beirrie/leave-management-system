@@ -20,13 +20,13 @@ public class RoleServiceImpl implements RoleService {
 
 	@Transactional
 	@Override
-	public Role findRole(Long roleId) {
+	public Role findRoleByID(Long roleId) {
 		return roleRepository.findById(roleId).orElse(null);
 	}
 
 	@Transactional
 	@Override
-	public Role findRole(String roleId) {
+	public Role findRoleByID(String roleId) {
 		Long id = Long.parseLong(roleId);
 		return roleRepository.findById(id).orElse(null);
 	}

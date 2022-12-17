@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
@@ -21,6 +22,9 @@ public class StaffServiceImpl implements StaffService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private LeaveSchemeService leaveSchemeService;
 
 	@Transactional
 	@Override
@@ -44,6 +48,27 @@ public class StaffServiceImpl implements StaffService {
 	@Transactional
 	@Override
 	public Staff createStaff(Staff staff) {
+		return staffRepository.saveAndFlush(staff);
+	}
+
+	@Transactional
+	@Override
+	public Staff editStaff(String id, UserStaffForm userStaffForm) {
+		Staff staff = findStaffByID(id);
+		User user = staff.getUser();
+
+		staff.setFirstName(userStaffForm.getFirstName());
+		staff.setLastName(userStaffForm.getLastName());
+		staff.setEmailAdd(userStaffForm.getEmailAdd());
+
+		LeaveScheme leaveScheme = leaveSchemeService
+				.getLeaveSchemeByID(Long.parseLong(userStaffForm.getLeaveSchemeId()));
+		staff.setLeaveScheme(leaveScheme);
+		Staff manager = findStaffByID(userStaffForm.getManagerId());
+		staff.setManager(manager);
+		
+		user.setRoleSet(userStaffForm.getRoles());
+
 		return staffRepository.saveAndFlush(staff);
 	}
 

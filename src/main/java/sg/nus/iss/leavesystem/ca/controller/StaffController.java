@@ -1,20 +1,23 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
+import sg.nus.iss.leavesystem.ca.service.RoleService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.service.UserService;
 
@@ -29,6 +32,9 @@ public class StaffController {
 
 	@Autowired
 	LeaveSchemeService leaveSchemeService;
+
+	@Autowired
+	RoleService roleService;
 
 	@GetMapping("/list")
 	public String staffListPage(Model model) {
@@ -54,6 +60,40 @@ public class StaffController {
 		newStaff.setManager(staffService.findStaffByID(staff.getManagerId()));
 		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staff.getLeaveSchemeId())));
 		staffService.createStaff(newStaff);
+		return "redirect:/admin/staff/list";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String editStaffPage(@PathVariable("id") String id, Model model) {
+		Staff staff = staffService.findStaffByID(id);
+		User staffUser = userService.findUserByStaffID(id);
+
+		UserStaffForm userStaffForm = new UserStaffForm();
+		userStaffForm.setUserId(staffUser.getId());
+		userStaffForm.setUserName(staffUser.getUserName());
+		userStaffForm.setPassword(staffUser.getPassword());
+		userStaffForm.setRoles(staffUser.getRoleSet());
+
+		userStaffForm.setStaffId(id);
+		userStaffForm.setFirstName(staff.getFirstName());
+		userStaffForm.setLastName(staff.getLastName());
+		userStaffForm.setEmailAdd(staff.getEmailAdd());
+		if (staff.getManager() != null) {
+			userStaffForm.setManagerId(staff.getManager().getId().toString());
+		}
+
+		model.addAttribute("userStaffForm", userStaffForm);
+		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
+		model.addAttribute("managers", staffService.findAllManagers());
+		model.addAttribute("allRoles", roleService.findAllRoles());
+		return "staff-edit";
+	}
+
+	@PostMapping("/edit/{id}")
+	public String editStaff(@ModelAttribute UserStaffForm userStaffForm, BindingResult result, @PathVariable String id) {
+		staffService.editStaff(id, userStaffForm);
+		String message = "Staff was successfully updated.";
+		System.out.println(message);
 		return "redirect:/admin/staff/list";
 	}
 

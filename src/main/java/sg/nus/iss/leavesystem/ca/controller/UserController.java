@@ -56,7 +56,7 @@ public class UserController {
 
 		List<Role> newRoleSet = new ArrayList<Role>();
 		userForm.getRoles().forEach(role -> {
-			Role completeRole = roleService.findRole(role.getId());
+			Role completeRole = roleService.findRoleByID(role.getId());
 			newRoleSet.add(completeRole);
 		});
 		newUser.setRoleSet(newRoleSet);

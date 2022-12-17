@@ -54,11 +54,18 @@ public class CaLeaveSystemTeam7Application {
 			user1.addRole(manager);
 			User user2 = userRepo.saveAndFlush(new User("Albert", "albert123"));
 			userRepo.saveAndFlush(user1);
+			User user3 = new User("userSarah", "pw123");
+			user3.addRole(manager);
+			userRepo.saveAndFlush(user3);
 
 			Staff staff1 = staffRepo.saveAndFlush(new Staff("Robert", "Lin", "robert@email.com", ls1, user1));
 			Staff staff2 = new Staff("Albert", "Tan", "albert@email.com", ls2, user2);
 			staff2.setManager(staff1);
 			staffRepo.saveAndFlush(staff2);
+			Staff staff3 = new Staff("Sarah", "Wong", "sarah@email.com", ls2, user3);
+			staffRepo.saveAndFlush(staff3);
+			staff1.setManager(staff3);
+			staffRepo.saveAndFlush(staff1);
 
 			List<Staff> myStaffs = staffRepo.findAll();
 			myStaffs.forEach(myStaff -> System.out.println(myStaff));
@@ -77,7 +84,7 @@ public class CaLeaveSystemTeam7Application {
 			leaveAppl.setApplicationDate(LocalDateTime.of(2022, 12, 12, 0, 0));
 			leaveAppl.setApplicationStatus("approved");
 			leaveAppl.setEmployeeManager(staff1);
-			leaveAppl.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			leaveAppl.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
 			leaveAppl.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(leaveAppl);
 		};

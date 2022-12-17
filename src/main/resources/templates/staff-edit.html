@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Edit staff Page</h3>
+
+	<form action="#" th:action="@{/admin/staff/edit/}+${userStaffForm.staffId}" th:object="${userStaffForm}"
+		method="post">
+		<table>
+			<tbody>
+				<tr>
+					<td><span>User Id</span></td>
+					<td><span th:text="*{userId}"></span></td>
+				</tr>
+				<tr>
+					<td><span>Username</span></td>
+					<td><input type="text" th:field="*{userName}" /></td>
+				</tr>
+				<tr>
+					<td><span>Staff Id</span></td>
+					<td><span th:text="*{staffId}"></span></td>
+				</tr>
+				<tr>
+					<td><span>First Name</span></td>
+					<td>
+						<input type="text" th:field="*{firstName}" />
+					</td>
+				</tr>
+				<tr>
+					<td><span>Last Name</span></td>
+					<td>
+						<input type="text" th:field="*{lastName}" />
+					</td>
+				</tr>
+				<tr>
+					<td><span>Email Address</span></td>
+					<td>
+						<input type="email" th:field="*{emailAdd}" />
+					</td>
+				</tr>
+				<tr>
+					<td><span>Leave Scheme</span></td>
+					<td>
+						<select th:field="*{leaveSchemeId}">
+							<option th:each="leaveScheme : ${leaveSchemes}" th:value="${leaveScheme.id}"
+								th:text="${leaveScheme.employmentScheme}">
+								LeaveScheme
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><span>Manager</span></td>
+					<td>
+						<select th:field="*{managerId}" required>
+							<!-- <option selected disabled value="">Select Manager</option> -->
+							<option th:each="mgr : ${managers}" th:value="${mgr.id}"
+								th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'"
+								th:selected="${userStaffForm.managerId == mgr.id}">
+								Managers
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="roles">User roles (multiple select):</label></td>
+					<td>
+						<select multiple="multiple" name="roles" id="roles" required>
+							<option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.roleName}"
+								th:selected="${userStaffForm.roles.contains(role)}">
+								Roles
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Save" />
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+</body>
+
+</html>

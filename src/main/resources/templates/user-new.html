@@ -17,20 +17,10 @@
           <td><input type="text" th:field="*{password}" /></td>
           <!-- <td th:if="${#fields.hasErrors('name')}" th:errors="*{password}"></td> -->
         </tr>
-        <!-- <td><span>Assign Staff:</span></td>
-        <td>
-          <select th:field="*{employeeId}">
-            <option selected disabled value="">Select Staff</option>
-            <option th:each="s : ${staffList}" th:value="${s.id}"
-              th:text="${s.firstName} + ' ' + ${s.lastName} + ' (id: ' + ${s.id} + ')'">
-              Staff
-            </option>
-          </select>
-        </td> -->
         <tr>
           <td><label for="roles">User roles (multiple select):</label></td>
           <td>
-            <select multiple="multiple" name="roles" id="roles">
+            <select multiple="multiple" name="roles" id="roles" required>
               <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.roleName}">
                 Roles
               </option>
