@@ -91,6 +91,7 @@
 							</option>
 						</select>
 					</td>
+					<td th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></td>
 				</tr>
 				<tr>
 					<td>
