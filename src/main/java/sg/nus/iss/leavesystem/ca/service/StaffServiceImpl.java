@@ -13,15 +13,11 @@ import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
-import sg.nus.iss.leavesystem.ca.repository.UserRepository;
 
 @Service
 public class StaffServiceImpl implements StaffService {
 	@Autowired
 	private StaffRepository staffRepository;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Autowired
 	private LeaveSchemeService leaveSchemeService;
@@ -35,14 +31,14 @@ public class StaffServiceImpl implements StaffService {
 	@Transactional
 	@Override
 	public Staff findStaffByID(Long id) {
-		return staffRepository.findStaffByID(id);
+		return staffRepository.findById(id).orElse(null);
 	}
 
 	@Transactional
 	@Override
 	public Staff findStaffByID(String id) {
 		Long staffId = Long.parseLong(id);
-		return staffRepository.findStaffByID(staffId);
+		return staffRepository.findById(staffId).orElse(null);
 	}
 
 	@Transactional
@@ -60,6 +56,8 @@ public class StaffServiceImpl implements StaffService {
 		staff.setFirstName(userStaffForm.getFirstName());
 		staff.setLastName(userStaffForm.getLastName());
 		staff.setEmailAdd(userStaffForm.getEmailAdd());
+		staff.setAnnualLeaveBalance(userStaffForm.getAnnualLeaveBalance());
+		staff.setMedicalLeaveBalance(userStaffForm.getMedicalLeaveBalance());
 
 		LeaveScheme leaveScheme = leaveSchemeService
 				.getLeaveSchemeByID(Long.parseLong(userStaffForm.getLeaveSchemeId()));

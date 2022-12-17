@@ -18,13 +18,15 @@ public class UserStaffForm {
 	private String emailAdd = "";
 	private String managerId = "";
 	private String leaveSchemeId = "";
+	private double annualLeaveBalance;
+	private double medicalLeaveBalance;
 
 	public UserStaffForm() {
 	}
 
 	public UserStaffForm(String userName, String password, String employeeId, List<Role> roles, String staffId,
 			String firstName, String lastName, String emailAdd, String managerId,
-			String leaveSchemeId) {
+			String leaveSchemeId, double annualLeaveBalance, double medicalLeaveBalance) {
 		this.userName = userName;
 		this.password = password;
 		this.employeeId = employeeId;
@@ -36,6 +38,8 @@ public class UserStaffForm {
 		this.emailAdd = emailAdd;
 		this.managerId = managerId;
 		this.leaveSchemeId = leaveSchemeId;
+		this.annualLeaveBalance = annualLeaveBalance;
+		this.medicalLeaveBalance = medicalLeaveBalance;
 	}
 
 	public Long getUserId() {
@@ -124,5 +128,21 @@ public class UserStaffForm {
 
 	public void setStaffId(String id) {
 		this.staffId = id;
+	}
+
+	public double getAnnualLeaveBalance() {
+		return annualLeaveBalance;
+	}
+
+	public void setAnnualLeaveBalance(double annualLeaveBalance) {
+		this.annualLeaveBalance = annualLeaveBalance;
+	}
+
+	public double getMedicalLeaveBalance() {
+		return medicalLeaveBalance;
+	}
+
+	public void setMedicalLeaveBalance(double medicalLeaveBalance) {
+		this.medicalLeaveBalance = medicalLeaveBalance;
 	}
 }

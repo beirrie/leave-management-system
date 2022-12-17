@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
+import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
@@ -20,10 +22,19 @@ import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.RoleService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.service.UserService;
+import sg.nus.iss.leavesystem.ca.validator.UserStaffFormValidator;
 
 @Controller
 @RequestMapping("/admin/staff")
 public class StaffController {
+	@Autowired
+	private UserStaffFormValidator userStaffFormValidator;
+
+	@InitBinder
+	private void initUserStaffFormBinder(WebDataBinder binder) {
+		binder.addValidators(userStaffFormValidator);
+	}
+
 	@Autowired
 	StaffService staffService;
 
@@ -78,19 +89,40 @@ public class StaffController {
 		userStaffForm.setFirstName(staff.getFirstName());
 		userStaffForm.setLastName(staff.getLastName());
 		userStaffForm.setEmailAdd(staff.getEmailAdd());
+		userStaffForm.setAnnualLeaveBalance(staff.getAnnualLeaveBalance());
+		userStaffForm.setMedicalLeaveBalance(staff.getMedicalLeaveBalance());
 		if (staff.getManager() != null) {
 			userStaffForm.setManagerId(staff.getManager().getId().toString());
 		}
 
+		List<Staff> managers = staffService.findAllManagers();
+		if (staff.getSubordinates() != null) {
+			managers.remove(staff);
+		}
+
 		model.addAttribute("userStaffForm", userStaffForm);
 		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
-		model.addAttribute("managers", staffService.findAllManagers());
+		model.addAttribute("managers", managers);
 		model.addAttribute("allRoles", roleService.findAllRoles());
 		return "staff-edit";
 	}
 
 	@PostMapping("/edit/{id}")
-	public String editStaff(@ModelAttribute UserStaffForm userStaffForm, BindingResult result, @PathVariable String id) {
+	public String editStaff(@Valid @ModelAttribute UserStaffForm userStaffForm, BindingResult result,
+			@PathVariable String id, Model model) {
+			
+		if (result.hasErrors()) {
+			Staff staff = staffService.findStaffByID(id);
+
+			List<Staff> managers = staffService.findAllManagers();
+			if (staff.getSubordinates() != null) {
+				managers.remove(staff);
+			}
+			model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
+			model.addAttribute("managers", managers);
+			model.addAttribute("allRoles", roleService.findAllRoles());
+			return "staff-edit";
+		}
 		staffService.editStaff(id, userStaffForm);
 		String message = "Staff was successfully updated.";
 		System.out.println(message);
