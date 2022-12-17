@@ -30,7 +30,7 @@ public class StaffController {
 	@Autowired
 	private UserStaffFormValidator userStaffFormValidator;
 
-	@InitBinder
+	@InitBinder("userStaffForm")
 	private void initUserStaffFormBinder(WebDataBinder binder) {
 		binder.addValidators(userStaffFormValidator);
 	}
@@ -110,7 +110,7 @@ public class StaffController {
 	@PostMapping("/edit/{id}")
 	public String editStaff(@Valid @ModelAttribute UserStaffForm userStaffForm, BindingResult result,
 			@PathVariable String id, Model model) {
-			
+
 		if (result.hasErrors()) {
 			Staff staff = staffService.findStaffByID(id);
 

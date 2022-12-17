@@ -32,30 +32,34 @@ public class UserStaffFormValidator implements Validator {
 		UserStaffForm userStaffForm = (UserStaffForm) target;
 
 		double medicalLeaveBalance = userStaffForm.getMedicalLeaveBalance();
-		LeaveScheme leaveScheme = leaveSchemeService
-				.getLeaveSchemeByID(Long.parseLong(userStaffForm.getLeaveSchemeId()));
-		if (medicalLeaveBalance > leaveScheme.getMedicalLeaveEntitlement()) {
-			errors.rejectValue("medicalLeaveBalance", "error.medicalLeaveBalance",
-					"Number cannot be more than " + leaveScheme.getMedicalLeaveEntitlement());
+		if (!userStaffForm.getLeaveSchemeId().isEmpty()) {
+			LeaveScheme leaveScheme = leaveSchemeService
+					.getLeaveSchemeByID(Long.parseLong(userStaffForm.getLeaveSchemeId()));
+			if (medicalLeaveBalance > leaveScheme.getMedicalLeaveEntitlement()) {
+				errors.rejectValue("medicalLeaveBalance", "error.medicalLeaveBalance",
+						"Number cannot be more than " + leaveScheme.getMedicalLeaveEntitlement());
+			}
+
+			double annualLeaveBalance = userStaffForm.getAnnualLeaveBalance();
+			if (annualLeaveBalance > leaveScheme.getAnnualLeaveEntitlement()) {
+				errors.rejectValue("annualLeaveBalance", "error.annualLeaveBalance",
+						"Number cannot be more than " + leaveScheme.getAnnualLeaveEntitlement());
+			}
 		}
 
-		double annualLeaveBalance = userStaffForm.getAnnualLeaveBalance();
-		if (annualLeaveBalance > leaveScheme.getAnnualLeaveEntitlement()) {
-			errors.rejectValue("annualLeaveBalance", "error.annualLeaveBalance",
-					"Number cannot be more than " + leaveScheme.getAnnualLeaveEntitlement());
-		}
 		List<String> roles = userStaffForm.getRoles().stream().map(r -> r.getRoleName().toLowerCase()).toList();
 		boolean isManager = roles.contains("manager");
 		boolean isEmployee = roles.contains("employee");
 
-		if (!isManager) {
-			Staff staff = staffService.findStaffByID(userStaffForm.getStaffId());
-			if (staff.getSubordinates().size() != 0) {
-				errors.rejectValue("roles", "error.roles",
-						"Manager with subordinates cannot be set to an employee role.");
+		if (!userStaffForm.getStaffId().isEmpty()) {
+			if (!isManager) {
+				Staff staff = staffService.findStaffByID(userStaffForm.getStaffId());
+				if (staff.getSubordinates().size() != 0) {
+					errors.rejectValue("roles", "error.roles",
+							"Manager with subordinates cannot be set to an employee role.");
+				}
 			}
 		}
-
 		if (isManager && isEmployee) {
 			errors.rejectValue("roles", "error.roles", "Employee and Manager cannot be selected together.");
 		}

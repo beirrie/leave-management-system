@@ -7,22 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.RoleService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.service.UserService;
+import sg.nus.iss.leavesystem.ca.validator.UserStaffFormValidator;
 
 @Controller
 @RequestMapping("/admin/user")
 public class UserController {
+	@Autowired
+	private UserStaffFormValidator userStaffFormValidator;
+
+	@InitBinder("userStaffForm")
+	private void initUserStaffFormBinder(WebDataBinder binder) {
+		binder.addValidators(userStaffFormValidator);
+	}
+
 	@Autowired
 	private UserService userService;
 
@@ -49,7 +61,15 @@ public class UserController {
 	}
 
 	@PostMapping("/create")
-	public String createNewUser(@ModelAttribute UserStaffForm userForm, BindingResult result, RedirectAttributes redirectAttrs) {
+	public String createNewUser(@Valid @ModelAttribute UserStaffForm userForm, BindingResult result,
+			RedirectAttributes redirectAttrs, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("userForm", userForm);
+			List<Role> roles = roleService.findAllRoles();
+			model.addAttribute("roles", roles);
+			model.addAttribute("staffList", staffService.findAllStaff());
+			return "user-new";
+		}
 		User newUser = new User();
 		newUser.setUserName(userForm.getUserName());
 		newUser.setPassword(userForm.getPassword());
@@ -60,7 +80,7 @@ public class UserController {
 			newRoleSet.add(completeRole);
 		});
 		newUser.setRoleSet(newRoleSet);
-		
+
 		userService.createUser(newUser);
 		redirectAttrs.addFlashAttribute("user", newUser);
 		return "redirect:/admin/staff/create";
