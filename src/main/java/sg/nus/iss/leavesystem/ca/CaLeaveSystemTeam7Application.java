@@ -55,31 +55,167 @@ public class CaLeaveSystemTeam7Application {
 			User user2 = userRepo.saveAndFlush(new User("Albert", "albert123"));
 			userRepo.saveAndFlush(user1);
 
-			Staff staff1 = staffRepo.saveAndFlush(new Staff("Robert", "Lin", "robert@email.com", ls1, user1));
-			Staff staff2 = new Staff("Albert", "Tan", "albert@email.com", ls2, user2);
-			staff2.setManager(staff1);
+			Staff manager1 = staffRepo.saveAndFlush(new Staff("Robert", "Lin", "robert@email.com", ls1, user1));
+			Staff staff1 = new Staff("Albert", "Tan", "albert@email.com", ls2, user2);
+			staff1.setManager(manager1);
+			staffRepo.saveAndFlush(staff1);
+			Staff staff2 = new Staff("Andy", "Lau", "andy@email.com", ls2, user2);
+			staff2.setManager(manager1);
 			staffRepo.saveAndFlush(staff2);
 
 			List<Staff> myStaffs = staffRepo.findAll();
 			myStaffs.forEach(myStaff -> System.out.println(myStaff));
 
-			LeaveApplication leaveAppl = new LeaveApplication();
-			leaveAppl.setEmployee(staff2);
-			leaveAppl.setTypeOfLeave(annual);
-			leaveAppl.setIsAbroad(true);
-			leaveAppl.setContactNumber("99999999");
-			leaveAppl.setCoveringStaff(staff1);
-			leaveAppl.setStartDate(LocalDateTime.of(2022, 12, 27, 0, 0));
-			leaveAppl.setStartAM_or_PM("");
-			leaveAppl.setEndDate(LocalDateTime.of(2022, 12, 27, 0, 0));
-			leaveAppl.setEndAM_or_PM("");
-			leaveAppl.setAdditionalComments("additional comments");
-			leaveAppl.setApplicationDate(LocalDateTime.of(2022, 12, 12, 0, 0));
-			leaveAppl.setApplicationStatus("approved");
-			leaveAppl.setEmployeeManager(staff1);
-			leaveAppl.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
-			leaveAppl.setMgrRemarks("okay");
-			leaveApplicationRepo.saveAndFlush(leaveAppl);
+			LeaveApplication approvedAnnualLeave1 = new LeaveApplication();
+			approvedAnnualLeave1.setEmployee(staff1);
+			approvedAnnualLeave1.setTypeOfLeave(annual);
+			approvedAnnualLeave1.setIsAbroad(false);
+			approvedAnnualLeave1.setContactNumber("99999999");
+			approvedAnnualLeave1.setCoveringStaff(manager1);
+			approvedAnnualLeave1.setStartDate(LocalDateTime.of(2022, 12, 30, 0, 0));
+			approvedAnnualLeave1.setStartAM_or_PM("AM");
+			approvedAnnualLeave1.setEndDate(LocalDateTime.of(2022, 12, 30, 0, 0));
+			approvedAnnualLeave1.setEndAM_or_PM("PM");
+			approvedAnnualLeave1.setAdditionalComments("Clear annual Leave");
+			approvedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 12, 0, 0));
+			approvedAnnualLeave1.setApplicationStatus("Approved");
+			approvedAnnualLeave1.setEmployeeManager(manager1);
+			approvedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			approvedAnnualLeave1.setMgrRemarks("okay");
+			leaveApplicationRepo.saveAndFlush(approvedAnnualLeave1);
+			
+			LeaveApplication approvedAnnualLeave2 = new LeaveApplication();
+			approvedAnnualLeave2.setEmployee(staff2);
+			approvedAnnualLeave2.setTypeOfLeave(annual);
+			approvedAnnualLeave2.setIsAbroad(true);
+			approvedAnnualLeave2.setContactNumber("99999911");
+			approvedAnnualLeave2.setCoveringStaff(staff1);
+			approvedAnnualLeave2.setStartDate(LocalDateTime.of(2022, 12, 26, 0, 0));
+			approvedAnnualLeave2.setStartAM_or_PM("AM");
+			approvedAnnualLeave2.setEndDate(LocalDateTime.of(2022, 12, 27, 0, 0));
+			approvedAnnualLeave2.setEndAM_or_PM("PM");
+			approvedAnnualLeave2.setAdditionalComments("Short getaway");
+			approvedAnnualLeave2.setApplicationDate(LocalDateTime.of(2022, 12, 13, 0, 0));
+			approvedAnnualLeave2.setApplicationStatus("Approved");
+			approvedAnnualLeave2.setEmployeeManager(manager1);
+			approvedAnnualLeave2.setDateReviewed(LocalDateTime.of(2022,12,14,0,0));
+			approvedAnnualLeave2.setMgrRemarks("okay");
+			leaveApplicationRepo.saveAndFlush(approvedAnnualLeave2);
+			
+			
+			LeaveApplication appliedAnnualLeave1 = new LeaveApplication();
+			appliedAnnualLeave1.setEmployee(staff1);
+			appliedAnnualLeave1.setTypeOfLeave(annual);
+			appliedAnnualLeave1.setIsAbroad(false);
+			appliedAnnualLeave1.setContactNumber("99999999");
+			appliedAnnualLeave1.setCoveringStaff(staff2);
+			appliedAnnualLeave1.setStartDate(LocalDateTime.of(2023, 1, 5, 0, 0));
+			appliedAnnualLeave1.setStartAM_or_PM("AM");
+			appliedAnnualLeave1.setEndDate(LocalDateTime.of(2023, 1, 6, 0, 0));
+			appliedAnnualLeave1.setEndAM_or_PM("PM");
+			appliedAnnualLeave1.setAdditionalComments("Moving house");
+			appliedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
+			appliedAnnualLeave1.setApplicationStatus("Applied");
+			appliedAnnualLeave1.setEmployeeManager(manager1);
+			//appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			appliedAnnualLeave1.setMgrRemarks("");
+			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave1);
+			
+			
+			LeaveApplication appliedMedicalApplication1 = new LeaveApplication();
+			appliedMedicalApplication1.setEmployee(staff2);
+			appliedMedicalApplication1.setTypeOfLeave(medical);
+			appliedMedicalApplication1.setIsAbroad(false);
+			appliedMedicalApplication1.setContactNumber("99999911");
+			appliedMedicalApplication1.setCoveringStaff(staff1);
+			appliedMedicalApplication1.setStartDate(LocalDateTime.of(2023, 1, 11, 0, 0));
+			appliedMedicalApplication1.setStartAM_or_PM("AM");
+			appliedMedicalApplication1.setEndDate(LocalDateTime.of(2023, 1, 11, 0, 0));
+			appliedMedicalApplication1.setEndAM_or_PM("PM");
+			appliedMedicalApplication1.setAdditionalComments("Health checkup");
+			appliedMedicalApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 10, 0, 0));
+			appliedMedicalApplication1.setApplicationStatus("Applied");
+			appliedMedicalApplication1.setEmployeeManager(manager1);
+			//appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			//appliedMedicalApplication.setMgrRemarks("okay");
+			leaveApplicationRepo.saveAndFlush(appliedMedicalApplication1);
+			
+			LeaveApplication updatedMedleaveApplication1 = new LeaveApplication();
+			updatedMedleaveApplication1.setEmployee(staff1);
+			updatedMedleaveApplication1.setTypeOfLeave(medical);
+			updatedMedleaveApplication1.setIsAbroad(false);
+			updatedMedleaveApplication1.setContactNumber("99999999");
+			updatedMedleaveApplication1.setCoveringStaff(staff2);
+			updatedMedleaveApplication1.setStartDate(LocalDateTime.of(2023, 1, 25, 0, 0));
+			updatedMedleaveApplication1.setStartAM_or_PM("AM");
+			updatedMedleaveApplication1.setEndDate(LocalDateTime.of(2023, 1, 25, 0, 0));
+			updatedMedleaveApplication1.setEndAM_or_PM("PM");
+			updatedMedleaveApplication1.setAdditionalComments("Doctor appointment rescheduled");
+			updatedMedleaveApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 8, 0, 0));
+			updatedMedleaveApplication1.setApplicationStatus("Updated");
+			updatedMedleaveApplication1.setEmployeeManager(manager1);
+			//updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			updatedMedleaveApplication1.setMgrRemarks("");
+			leaveApplicationRepo.saveAndFlush(updatedMedleaveApplication1);
+			
+			
+			
+			
+			
+			LeaveApplication rejectedLeaveApplication1 = new LeaveApplication();
+			rejectedLeaveApplication1.setEmployee(staff1);
+			rejectedLeaveApplication1.setTypeOfLeave(annual);
+			rejectedLeaveApplication1.setIsAbroad(false);
+			rejectedLeaveApplication1.setContactNumber("99999999");
+			rejectedLeaveApplication1.setCoveringStaff(staff2);
+			rejectedLeaveApplication1.setStartDate(LocalDateTime.of(2023, 1, 25, 0, 0));
+			rejectedLeaveApplication1.setStartAM_or_PM("AM");
+			rejectedLeaveApplication1.setEndDate(LocalDateTime.of(2023, 1, 27, 0, 0));
+			rejectedLeaveApplication1.setEndAM_or_PM("PM");
+			rejectedLeaveApplication1.setAdditionalComments("Clear annual Leave");
+			rejectedLeaveApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 5, 0, 0));
+			rejectedLeaveApplication1.setApplicationStatus("Rejected");
+			rejectedLeaveApplication1.setEmployeeManager(manager1);
+			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			rejectedLeaveApplication1.setMgrRemarks("Sorry, urgent project deadline to meet");
+			leaveApplicationRepo.saveAndFlush(rejectedLeaveApplication1);
+			
+			LeaveApplication rejectedLeaveApplication2 = new LeaveApplication();
+			rejectedLeaveApplication2.setEmployee(staff2);
+			rejectedLeaveApplication2.setTypeOfLeave(annual);
+			rejectedLeaveApplication2.setIsAbroad(false);
+			rejectedLeaveApplication2.setContactNumber("99999911");
+			rejectedLeaveApplication2.setCoveringStaff(staff1);
+			rejectedLeaveApplication2.setStartDate(LocalDateTime.of(2022, 11, 24, 0, 0));
+			rejectedLeaveApplication2.setStartAM_or_PM("AM");
+			rejectedLeaveApplication2.setEndDate(LocalDateTime.of(2022, 11, 24, 0, 0));
+			rejectedLeaveApplication2.setEndAM_or_PM("PM");
+			rejectedLeaveApplication2.setAdditionalComments("Personal matters");
+			rejectedLeaveApplication2.setApplicationDate(LocalDateTime.of(2022, 11, 10, 0, 0));
+			rejectedLeaveApplication2.setApplicationStatus("Rejected");
+			rejectedLeaveApplication2.setEmployeeManager(manager1);
+			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,11,15,0,0));
+			rejectedLeaveApplication2.setMgrRemarks("Sorry, urgent project deadline to meet");
+			leaveApplicationRepo.saveAndFlush(rejectedLeaveApplication2);
+			
+			LeaveApplication cancelledLeaveApplication1 = new LeaveApplication();
+			cancelledLeaveApplication1.setEmployee(staff1);
+			cancelledLeaveApplication1.setTypeOfLeave(annual);
+			cancelledLeaveApplication1.setIsAbroad(false);
+			cancelledLeaveApplication1.setContactNumber("99999999");
+			cancelledLeaveApplication1.setCoveringStaff(staff2);
+			cancelledLeaveApplication1.setStartDate(LocalDateTime.of(2022, 11, 2, 0, 0));
+			cancelledLeaveApplication1.setStartAM_or_PM("AM");
+			cancelledLeaveApplication1.setEndDate(LocalDateTime.of(2022, 11, 2, 0, 0));
+			cancelledLeaveApplication1.setEndAM_or_PM("PM");
+			cancelledLeaveApplication1.setAdditionalComments("Personal");
+			cancelledLeaveApplication1.setApplicationDate(LocalDateTime.of(2022, 11, 3, 0, 0));
+			cancelledLeaveApplication1.setApplicationStatus("Cancelled");
+			cancelledLeaveApplication1.setEmployeeManager(manager1);
+			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,11,3,0,0));
+			cancelledLeaveApplication1.setMgrRemarks("ok");
+			leaveApplicationRepo.saveAndFlush(cancelledLeaveApplication1);
+			
 		};
 	}
 }
