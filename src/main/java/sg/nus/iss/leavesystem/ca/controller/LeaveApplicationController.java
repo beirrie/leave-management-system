@@ -33,12 +33,12 @@ public class LeaveApplicationController {
     @Autowired
     LeaveApplicationService leaveApplicationService;
 
-    @GetMapping("/LeaveApplication")
+    @GetMapping(value={"/LeaveApplication", "/"})
     public String Main(HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-
-        if (userSession == null)
-            return "redirect:/login";
+//        UserSession userSession = (UserSession) session.getAttribute("user");
+//
+//        if (userSession == null)
+//            return "redirect:/login";
         return "LeaveApplication";
     }
 
@@ -46,8 +46,8 @@ public class LeaveApplicationController {
     public String LeaveBalance(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
 
-        if (userSession == null)
-            return "redirect:/login";
+//        if (userSession == null)
+//            return "redirect:/login";
 
         Staff staff = staffService.FindByUserId(userSession.getStaffId());
 
@@ -59,8 +59,8 @@ public class LeaveApplicationController {
     @GetMapping("/LeaveHistory")
     public String LeaveHistory(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-        if (userSession == null)
-            return "redirect:/login";
+//        if (userSession == null)
+//            return "redirect:/login";
         List<LeaveApplication> leaveApplications = this.leaveApplicationService.GetByStaffId(userSession.getStaffId());
         model.addAttribute("leaveList", leaveApplications);
         return "LeaveHistory";
@@ -69,9 +69,6 @@ public class LeaveApplicationController {
     @GetMapping("/AddLeave")
     public String AddLeave(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-        if (userSession == null)
-            return "redirect:/login";
-
         LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
         model.addAttribute("leaveForm", leaveApplication);
         model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
@@ -81,9 +78,9 @@ public class LeaveApplicationController {
 
     @GetMapping("/editLeave/{id}")
     public String EditLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        if (userSession == null)
-            return "redirect:/login";
+//        UserSession userSession = (UserSession) session.getAttribute("user");
+//        if (userSession == null)
+//            return "redirect:/login";
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
 
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
@@ -105,9 +102,9 @@ public class LeaveApplicationController {
 
     @GetMapping("/deleteLeave/{id}")
     public String DeleteLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        if (userSession == null)
-            return "redirect:/login";
+//        UserSession userSession = (UserSession) session.getAttribute("user");
+//        if (userSession == null)
+//            return "redirect:/login";
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
 
         this.leaveApplicationService.DeleteLeave(leaveApplication);
@@ -119,8 +116,8 @@ public class LeaveApplicationController {
     public String SaveLeave(@ModelAttribute("leaveForm") LeaveApplicationForm leaveForm, BindingResult result,
             HttpSession session,Model model) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-        if (userSession == null)
-            return "redirect:/login";
+//        if (userSession == null)
+//            return "redirect:/login";
             
         var staff = this.staffService.FindByUserId(userSession.getStaffId());
         LeaveApplication leaveApplication = new LeaveApplication();
@@ -154,8 +151,8 @@ public class LeaveApplicationController {
     public String UpdateLeave(@ModelAttribute("leaveForm") LeaveApplicationForm leaveForm, BindingResult result,
             HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-        if (userSession == null)
-            return "redirect:/login";
+//        if (userSession == null)
+//            return "redirect:/login";
         var staff = this.staffService.FindByUserId(userSession.getStaffId());
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setId(leaveForm.getId());

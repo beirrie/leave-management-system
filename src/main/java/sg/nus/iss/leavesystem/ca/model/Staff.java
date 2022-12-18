@@ -5,12 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -25,6 +22,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "employees")
@@ -42,6 +40,13 @@ public class Staff {
 	@Column(columnDefinition = "nvarchar(50) not null")
 	private String lastName;
 
+	@Transient
+	private String name;
+	@Transient
+	public String getName() {
+		return lastName+" "+firstName;
+	}
+	
 	@Column(columnDefinition = "nvarchar(255) not null")
 	private String emailAdd;
 

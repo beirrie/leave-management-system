@@ -30,12 +30,12 @@ public class HomeController {
 
     @PostMapping(value = "/authenticate")
     public String authenticate(Model model, @ModelAttribute("user") User user, BindingResult bindingResult,HttpSession session) {
-        User dbUser = userService.authenticate(user.getUserName(), user.getPassword());
+        System.out.println("Attempting to authenticate");
+    	User dbUser = userService.authenticate(user.getUserName(), user.getPassword());
         if (dbUser == null) {
             model.addAttribute("loginMessage", "Incorrect username/password");
             return "login";
         }
-
         UserSession userSession = new UserSession();
         userSession.setStaffId(dbUser.getEmployee().getId());
         userSession.setUserName(dbUser.getUserName());
