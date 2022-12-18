@@ -34,7 +34,8 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     @Override
     public List<LeaveApplication> getStaffLeavesByManager(Staff manager) {
         List<LeaveApplication> leaveAppList = new ArrayList<>();
-        leaveAppList = getAllLeaveApplications().stream().filter(leave -> leave.getEmployeeManager().getId() == manager.getId())
+        leaveAppList = getAllLeaveApplications().stream()
+                .filter(leave -> leave.getEmployeeManager().getId() == manager.getId())
                 .collect(Collectors.toList());
         return leaveAppList;
     }
@@ -42,7 +43,9 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     @Override
     public List<LeaveApplication> getStaffLeavesByManagerAndStatus(Staff manager, String status) {
         List<LeaveApplication> leaveAppList = new ArrayList<>();
-        leaveAppList = getAllLeaveApplications().stream().filter(leave -> leave.getEmployeeManager().getId() == manager.getId() && status.contains(leave.getApplicationStatus()))
+        leaveAppList = getAllLeaveApplications().stream()
+                .filter(leave -> leave.getEmployeeManager().getId() == manager.getId()
+                        && status.contains(leave.getApplicationStatus()))
                 .collect(Collectors.toList());
         return leaveAppList;
     }
@@ -58,7 +61,8 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     @Override
     public List<LeaveApplication> getStaffLeavesByIdAndStatus(Long staffId, String status) {
         List<LeaveApplication> leaveAppList = new ArrayList<>();
-        leaveAppList = getAllLeaveApplications().stream().filter(leave -> leave.getEmployee().getId() == staffId && status.contains(leave.getApplicationStatus()))
+        leaveAppList = getAllLeaveApplications().stream().filter(
+                leave -> leave.getEmployee().getId() == staffId && status.contains(leave.getApplicationStatus()))
                 .collect(Collectors.toList());
         return leaveAppList;
     }
@@ -70,7 +74,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     @Override
     public void setApprovalStatus(LeaveApplication app, String status,
-                                  String remarks, Staff approver) {
+            String remarks, Staff approver) {
         app.setApplicationStatus(status);
         app.setMgrRemarks(remarks);
         app.setDateReviewed(LocalDateTime.now());

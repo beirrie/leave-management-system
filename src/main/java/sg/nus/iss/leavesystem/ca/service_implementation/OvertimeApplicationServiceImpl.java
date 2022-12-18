@@ -50,7 +50,7 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
 
     @Override
     public void setApprovalStatus(OvertimeApplication app, String status,
-                                  String remarks, Staff approver) {
+            String remarks, Staff approver) {
 
         app.setApplicationStatus(status);
         app.setManagerRemarks(remarks);

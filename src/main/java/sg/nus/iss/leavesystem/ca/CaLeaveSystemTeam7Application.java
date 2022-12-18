@@ -11,15 +11,19 @@ import org.springframework.context.annotation.Bean;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.LeaveType;
+import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
 import sg.nus.iss.leavesystem.ca.repository.LeaveSchemeRepository;
 import sg.nus.iss.leavesystem.ca.repository.LeaveTypeRepository;
+import sg.nus.iss.leavesystem.ca.repository.OverTimeApplicationRepository;
 import sg.nus.iss.leavesystem.ca.repository.RoleRepository;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
 import sg.nus.iss.leavesystem.ca.repository.UserRepository;
+import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
+import sg.nus.iss.leavesystem.ca.service_implementation.OvertimeApplicationServiceImpl;
 
 @SpringBootApplication
 public class CaLeaveSystemTeam7Application {
@@ -35,7 +39,8 @@ public class CaLeaveSystemTeam7Application {
 			LeaveSchemeRepository LeaveSchemeRepo,
 			LeaveTypeRepository leaveTypeRepo,
 			LeaveApplicationRepository leaveApplicationRepo,
-			RoleRepository roleRepo) {
+			RoleRepository roleRepo,
+			OverTimeApplicationRepository otRepo) {
 		return args -> {
 
 			// Add leave schemes
@@ -80,10 +85,10 @@ public class CaLeaveSystemTeam7Application {
 			approvedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 12, 0, 0));
 			approvedAnnualLeave1.setApplicationStatus("Approved");
 			approvedAnnualLeave1.setEmployeeManager(manager1);
-			approvedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			approvedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
 			approvedAnnualLeave1.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(approvedAnnualLeave1);
-			
+
 			LeaveApplication approvedAnnualLeave2 = new LeaveApplication();
 			approvedAnnualLeave2.setEmployee(staff2);
 			approvedAnnualLeave2.setTypeOfLeave(annual);
@@ -98,11 +103,10 @@ public class CaLeaveSystemTeam7Application {
 			approvedAnnualLeave2.setApplicationDate(LocalDateTime.of(2022, 12, 13, 0, 0));
 			approvedAnnualLeave2.setApplicationStatus("Approved");
 			approvedAnnualLeave2.setEmployeeManager(manager1);
-			approvedAnnualLeave2.setDateReviewed(LocalDateTime.of(2022,12,14,0,0));
+			approvedAnnualLeave2.setDateReviewed(LocalDateTime.of(2022, 12, 14, 0, 0));
 			approvedAnnualLeave2.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(approvedAnnualLeave2);
-			
-			
+
 			LeaveApplication appliedAnnualLeave1 = new LeaveApplication();
 			appliedAnnualLeave1.setEmployee(staff1);
 			appliedAnnualLeave1.setTypeOfLeave(annual);
@@ -117,11 +121,10 @@ public class CaLeaveSystemTeam7Application {
 			appliedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
 			appliedAnnualLeave1.setApplicationStatus("Applied");
 			appliedAnnualLeave1.setEmployeeManager(manager1);
-			//appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave1);
-			
-			
+
 			LeaveApplication appliedMedicalApplication1 = new LeaveApplication();
 			appliedMedicalApplication1.setEmployee(staff2);
 			appliedMedicalApplication1.setTypeOfLeave(medical);
@@ -136,10 +139,10 @@ public class CaLeaveSystemTeam7Application {
 			appliedMedicalApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 10, 0, 0));
 			appliedMedicalApplication1.setApplicationStatus("Applied");
 			appliedMedicalApplication1.setEmployeeManager(manager1);
-			//appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
-			//appliedMedicalApplication.setMgrRemarks("okay");
+			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			// appliedMedicalApplication.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(appliedMedicalApplication1);
-			
+
 			LeaveApplication updatedMedleaveApplication1 = new LeaveApplication();
 			updatedMedleaveApplication1.setEmployee(staff1);
 			updatedMedleaveApplication1.setTypeOfLeave(medical);
@@ -154,14 +157,10 @@ public class CaLeaveSystemTeam7Application {
 			updatedMedleaveApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 8, 0, 0));
 			updatedMedleaveApplication1.setApplicationStatus("Updated");
 			updatedMedleaveApplication1.setEmployeeManager(manager1);
-			//updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			// updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
 			updatedMedleaveApplication1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(updatedMedleaveApplication1);
-			
-			
-			
-			
-			
+
 			LeaveApplication rejectedLeaveApplication1 = new LeaveApplication();
 			rejectedLeaveApplication1.setEmployee(staff1);
 			rejectedLeaveApplication1.setTypeOfLeave(annual);
@@ -176,10 +175,10 @@ public class CaLeaveSystemTeam7Application {
 			rejectedLeaveApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 5, 0, 0));
 			rejectedLeaveApplication1.setApplicationStatus("Rejected");
 			rejectedLeaveApplication1.setEmployeeManager(manager1);
-			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
+			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
 			rejectedLeaveApplication1.setMgrRemarks("Sorry, urgent project deadline to meet");
 			leaveApplicationRepo.saveAndFlush(rejectedLeaveApplication1);
-			
+
 			LeaveApplication rejectedLeaveApplication2 = new LeaveApplication();
 			rejectedLeaveApplication2.setEmployee(staff2);
 			rejectedLeaveApplication2.setTypeOfLeave(annual);
@@ -194,10 +193,10 @@ public class CaLeaveSystemTeam7Application {
 			rejectedLeaveApplication2.setApplicationDate(LocalDateTime.of(2022, 11, 10, 0, 0));
 			rejectedLeaveApplication2.setApplicationStatus("Rejected");
 			rejectedLeaveApplication2.setEmployeeManager(manager1);
-			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,11,15,0,0));
+			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022, 11, 15, 0, 0));
 			rejectedLeaveApplication2.setMgrRemarks("Sorry, urgent project deadline to meet");
 			leaveApplicationRepo.saveAndFlush(rejectedLeaveApplication2);
-			
+
 			LeaveApplication cancelledLeaveApplication1 = new LeaveApplication();
 			cancelledLeaveApplication1.setEmployee(staff1);
 			cancelledLeaveApplication1.setTypeOfLeave(annual);
@@ -212,10 +211,44 @@ public class CaLeaveSystemTeam7Application {
 			cancelledLeaveApplication1.setApplicationDate(LocalDateTime.of(2022, 11, 3, 0, 0));
 			cancelledLeaveApplication1.setApplicationStatus("Cancelled");
 			cancelledLeaveApplication1.setEmployeeManager(manager1);
-			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,11,3,0,0));
+			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022, 11, 3, 0, 0));
 			cancelledLeaveApplication1.setMgrRemarks("ok");
 			leaveApplicationRepo.saveAndFlush(cancelledLeaveApplication1);
-			
+
+			// OvertimeApplication ot1 = new OvertimeApplication();
+			// ot1.setEmployee(staff1);
+			// ot1.setAppliedDateTime(LocalDateTime.of(2022, 12, 25, 0, 0));
+			// ot1.setApprover(manager1);
+			// ot1.setDateApplicationReviewed(LocalDateTime.of(2022, 12, 26, 0, 0));
+			// ot1.setApplicationStatus("Applied");
+			// ot1.setDate_OT(LocalDateTime.of(2022, 12, 27, 0, 0, 0));
+			// ot1.setEmployeeComment("I need to work");
+			// ot1.setHours_OT(1);
+			// ot1.setManagerRemarks("I allowed");
+
+			OvertimeApplication otApp2 = new OvertimeApplication();
+			otApp2.setId(2L);
+			otApp2.setEmployee(staff2);
+			otApp2.setAppliedDateTime(LocalDateTime.now());
+			otApp2.setHours_OT(1.0);
+			otApp2.setEmployeeComment("Employee comment");
+
+			OvertimeApplication otApp3 = new OvertimeApplication();
+			otApp3.setId(3L);
+			otApp3.setEmployee(staff1);
+			otApp3.setAppliedDateTime(LocalDateTime.now());
+			otApp3.setHours_OT(1.0);
+			otApp3.setEmployeeComment("Employee comment");
+
+			otRepo.saveAndFlush(otApp3);
+			otRepo.saveAndFlush(otApp2);
+
+			// List<OvertimeApplication> otps = otRepo.findAll();
+
+			// System.out.println("hihihihihihihihihihihihihihihihihihihihihih");
+			// OvertimeApplicationService otservice = new OvertimeApplicationServiceImpl();
+			// List<OvertimeApplication> ot = otservice.getAllOvertimeApplication();
+			// otps.forEach(myot -> System.out.println(myot));
 		};
 	}
 }

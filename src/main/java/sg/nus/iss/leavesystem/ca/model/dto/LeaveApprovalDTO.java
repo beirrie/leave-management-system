@@ -5,27 +5,28 @@ public class LeaveApprovalDTO {
     private String applicationStatus;
     private Long approverId;
     private String approverRemark;
-    private Long leaveId; 
+    private Long leaveId;
 
-    public LeaveApprovalDTO(String applicationStatus, Long approverId, String approverRemark,Long leaveId) {
+    public LeaveApprovalDTO() {
+
+    }
+
+    public LeaveApprovalDTO(String applicationStatus, Long approverId, String approverRemark, Long leaveId) {
         this.applicationStatus = applicationStatus;
         this.approverId = approverId;
         this.approverRemark = approverRemark;
         this.leaveId = leaveId;
     }
 
-    
     public Long getLeaveId() {
-		return leaveId;
-	}
+        return leaveId;
+    }
 
+    public void setLeaveId(Long leaveId) {
+        this.leaveId = leaveId;
+    }
 
-	public void setLeaveId(Long leaveId) {
-		this.leaveId = leaveId;
-	}
-
-
-	public String getApplicationStatus() {
+    public String getApplicationStatus() {
         return applicationStatus;
     }
 
