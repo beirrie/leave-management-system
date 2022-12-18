@@ -69,8 +69,9 @@
 								<td th:text="${leave.additionalComments}"></td>
 								<td>
 									<!-- <button type="button"> -->
-									<a th:href="@{/manager/leave_application/} + ${leave.id}"
-										class="btn btn-link"><span>View</span></a>
+								<a class="btn btn-info"
+									   th:href="@{/manager/leave_application/{id}(id = ${leave.getId}) }">View
+								</a>
 									<!-- </button> -->
 								</td>
 							</tr>

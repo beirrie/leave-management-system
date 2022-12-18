@@ -5,6 +5,7 @@ public class OvertimeApprovalDTO {
     private String applicationStatus;
     private Long approverId;
     private String approverRemark;
+    private Long otId;
 
     public OvertimeApprovalDTO() {
 
@@ -36,7 +37,15 @@ public class OvertimeApprovalDTO {
         return approverRemark;
     }
 
-    public void setApproveRemark(String approveRemark) {
-        this.approverRemark = approveRemark;
+    public void setApproverRemark(String approverRemark) {
+        this.approverRemark = approverRemark;
+    }
+
+    public Long getOtId() {
+        return otId;
+    }
+
+    public void setOtId(Long otId) {
+        this.otId = otId;
     }
 }

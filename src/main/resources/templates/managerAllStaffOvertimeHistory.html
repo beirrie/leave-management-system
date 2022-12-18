@@ -28,7 +28,7 @@
             <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Pending OT applications</h1>
+                    <h1 class="h2">All subordinates OT application history</h1>
                 </div>
 
                 <!-- <h2>Section title</h2> -->
@@ -44,7 +44,7 @@
                                 <th>Applied Date</th>
                                 <th>Status</th>
                                 <th>Reviewed Date</th>
-                                <th>Approver</th>
+<!--                                <th>Approver</th>-->
                                 <th>Manager Comment</th>
                                 <!-- <th>Action</th> -->
                             </tr>
@@ -52,7 +52,7 @@
                         <tbody>
                             <tr th:each=" ot : ${overtimes}">
                                 <td th:text="${ot.id}"></td>
-                                <td th:text="${ot.employee.firstName + ' ' + ot.employee.lastName }">
+                                <td th:text="${ot.getEmployee.getFirstName + ' ' + ot.getEmployee.getLastName }">
                                 </td>
                                 <td th:text="${#temporals.format(ot.date_OT,'dd-MM-yyyy')}"></td>
                                 <td th:text="${ot.hours_OT}"></td>
@@ -61,7 +61,7 @@
                                 <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
                                 <td th:text="${ot.applicationStatus}"></td>
                                 <td th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
-                                <td th:text="${ot.approver.firstName}"></td>
+<!--                                <td th:text="${ot.getApprover.getFirstName}"></td>-->
                                 <td th:text="${ot.managerRemarks}"></td>
 
                                 <!-- <td>

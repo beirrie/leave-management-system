@@ -15,12 +15,7 @@ public interface OvertimeApplicationService {
     List<OvertimeApplication> getAllByStaff(Staff staff);
     OvertimeApplication getById(Long appId);
     void newApplication(OvertimeApplication app);
-    void setApprovalStatus(OvertimeApplication app, String status,
-                           String remarks, Staff approver);
-
-   void setApprovalStatus(OvertimeApplication app, int status,
-                          String remarks, Long approverId);
-
-    void newAPIApplication(Staff employee, LocalDateTime OT_Date,
-    		double hours, String employeeComment);
+    void setApprovalStatus(OvertimeApplication app, String status, String remarks, Staff approver);
+    void newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment);
+    List<OvertimeApplication> getAllPendingByManager(Staff manager1);
 }

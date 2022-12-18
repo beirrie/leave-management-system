@@ -29,7 +29,7 @@
             <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Approve or Reject Overtime</h1>
+                    <h1 class="h2">Modify Overtime Application</h1>
 
 
                 </div>
@@ -79,9 +79,8 @@
                     </div>
                     <br>
                 </div>
-                <form th:action=@{/manager/ot_application} method="post" th:object="${overtimeApprovalDTO}">
-                    <input type="hidden" th:field="${approverId}" />
-                    <input type="hidden" th:field="${overtimeId}" />
+                <form th:action="@{/manager/modify_overtime}" method="post" th:object="${dto}">
+                    <input type="hidden" th:field="*{otId}" />
 
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Approve or Reject</label>
@@ -94,8 +93,8 @@
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Approver Remark</label>
                         <!-- <fieldset> -->
-                        <textarea class="form-control" th:field="*{approverRemark}" th:rows="${approverRemark}"
-                            rows="3"></textarea>
+                        <textarea class="form-control" th:field="*{approverRemark}"
+                            rows="3" required></textarea>
                         <!-- </fieldset>	 -->
 
                     </div>

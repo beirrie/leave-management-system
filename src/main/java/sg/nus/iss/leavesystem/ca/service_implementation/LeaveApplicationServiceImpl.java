@@ -81,4 +81,44 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         app.setEmployeeManager(approver);
         leaveAppRepo.saveAndFlush(app);
     }
+
+    @Override
+    public void CreateApplication(LeaveApplication leaveApplication) {
+        this.leaveAppRepo.save(leaveApplication);
+    }
+
+    @Override
+    public List<LeaveApplication> GetByStaffId(long staffId) {
+        return this.leaveAppRepo.FindByUserId(staffId);
+    }
+
+    @Override
+    public Optional<LeaveApplication> GetById(long id) {
+        return this.leaveAppRepo.findById(id);
+    }
+
+    @Override
+    public void UpdateApplication(LeaveApplication leaveApplication) {
+        this.leaveAppRepo.save(leaveApplication);
+    }
+
+    @Override
+    public void DeleteLeave(LeaveApplication leaveApplication) {
+        this.leaveAppRepo.delete(leaveApplication);
+    }
+
+    @Override
+    public List<LeaveApplication> getAllPendingByManager(Staff manager) {
+
+        List<LeaveApplication> appliedList = getStaffLeavesByManagerAndStatus(manager, "Applied");
+        List<LeaveApplication> updatedList = getStaffLeavesByManagerAndStatus(manager, "Updated");
+
+        List<LeaveApplication> combinedList = new ArrayList<>();
+
+        combinedList.addAll(appliedList);
+        combinedList.addAll(updatedList);
+
+        return combinedList;
+    }
+
 }

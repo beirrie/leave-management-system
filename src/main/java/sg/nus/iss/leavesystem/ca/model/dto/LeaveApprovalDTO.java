@@ -7,15 +7,15 @@ public class LeaveApprovalDTO {
     private String approverRemark;
     private Long leaveId;
 
+
     public LeaveApprovalDTO() {
 
     }
 
-    public LeaveApprovalDTO(String applicationStatus, Long approverId, String approverRemark, Long leaveId) {
+    public LeaveApprovalDTO(String applicationStatus, Long approverId, String approverRemark) {
         this.applicationStatus = applicationStatus;
         this.approverId = approverId;
         this.approverRemark = approverRemark;
-        this.leaveId = leaveId;
     }
 
     public Long getLeaveId() {
@@ -46,7 +46,8 @@ public class LeaveApprovalDTO {
         return approverRemark;
     }
 
-    public void setApproveRemark(String approveRemark) {
-        this.approverRemark = approveRemark;
+    public void setApproverRemark(String approverRemark) {
+        this.approverRemark = approverRemark;
     }
+
 }

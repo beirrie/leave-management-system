@@ -58,10 +58,9 @@
                                 <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
                                 <td th:text="${ot.applicationStatus}"></td>
                                 <td>
-                                    <button type="button">
-                                        <a th:href="@{/manager/ot_application/} + ${ot.id}"
-                                            class="btn btn-link"><span>Approve/Reject</span></a>
-                                    </button>
+                                <a class="btn btn-info"
+                                       th:href="@{/manager/ot_application/{id}(id = ${ot.getId}) }">View
+                                </a>
                                 </td>
                             </tr>
 
