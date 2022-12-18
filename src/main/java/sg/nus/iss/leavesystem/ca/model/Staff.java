@@ -82,6 +82,8 @@ public class Staff {
 
 	private double accumulated_OT_Hours;
 
+	public boolean isActive = true;
+
 	// Constructor
 
 	public Staff() {
@@ -221,4 +223,13 @@ public class Staff {
 	public void setCoveringLeaves(List<LeaveApplication> coveringLeaves) {
 		this.coveringLeaves = coveringLeaves;
 	}
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 }
