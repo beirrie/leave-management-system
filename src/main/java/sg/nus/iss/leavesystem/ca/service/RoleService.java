@@ -9,4 +9,8 @@ import sg.nus.iss.leavesystem.ca.model.Role;
 @Service
 public interface RoleService {
 	List<Role> findAllRoles();
+
+	Role findRoleByID(Long roleId);
+
+	Role findRoleByID(String roleId);
 }

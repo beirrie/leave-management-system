@@ -4,7 +4,8 @@
 <body>
 	<h3>New staff Page</h3>
 
-	<form action="#" th:action="@{/admin/staff/create}" th:object="${staffForm}" method="post">
+	<form action="#" th:action="@{/admin/staff/create}" th:object="${userStaffForm}" method="post">
+		<input type="hidden" name="userId" th:value="${user.id}" />
 		<table>
 			<tbody>
 				<tr>
@@ -13,6 +14,12 @@
 						<input type="text" th:field="*{id}" />
 					</td> -->
 					<!-- <td th:if="${#fields.hasErrors('staff.id')}" th:errors="*{staffId}"></td> -->
+				</tr>
+				<tr>
+					<td><span>Username</span></td>
+					<td>
+						<span th:text="${user.userName}"></span>
+					</td>
 				</tr>
 				<tr>
 					<td><span>First Name</span></td>
@@ -30,7 +37,7 @@
 				<tr>
 					<td><span>Email Address</span></td>
 					<td>
-						<input type="text" th:field="*{emailAdd}" />
+						<input type="email" th:field="*{emailAdd}" />
 					</td>
 				</tr>
 				<tr>
@@ -49,7 +56,8 @@
 					<td>
 						<select th:field="*{managerId}">
 							<option selected disabled value="">Select Manager</option>
-							<option th:each="mgr : ${managers}" th:value="${mgr.id}" th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'">
+							<option th:each="mgr : ${managers}" th:value="${mgr.id}"
+								th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'">
 								Managers
 							</option>
 						</select>

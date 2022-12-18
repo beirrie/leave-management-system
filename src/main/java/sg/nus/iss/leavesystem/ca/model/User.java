@@ -17,33 +17,38 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="users")
+
+@Table(name = "users")
+
 public class User {
-	
-	//Attribute
+
+	// Attribute
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String userName;
 	private String password;
-	
-	@OneToOne(mappedBy="user")
+
+	@OneToOne(mappedBy = "user")
 	private Staff employee;
-	
+
 	@ManyToMany
 	@JsonBackReference
 	private List<Role> roles = new ArrayList<>();
-	
-	//Constructor
-	public User() {}
-	
+
+	private Boolean isActive = true;
+
+	// Constructor
+	public User() {
+	}
+
 	public User(String username, String password) {
 		this.userName = username;
 		this.password = password;
 	}
 
-	//Method
+	// Method
 
 	public Long getId() {
 		return id;
@@ -83,10 +88,17 @@ public class User {
 
 	public void setRoleSet(List<Role> roleSet) {
 		this.roles = roleSet;
-	}	
-	
-	public void addRole(Role role){
+	}
+
+	public void addRole(Role role) {
 		roles.add(role);
 	}
-	
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 }
