@@ -1,45 +1,54 @@
 package sg.nus.iss.leavesystem.ca.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="users")
+
+@Table(name = "users")
 
 public class User {
-	
-	//Attribute
+
+	// Attribute
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String userName;
 	private String password;
-	
-	@OneToOne(mappedBy="user")
+
+	@OneToOne(mappedBy = "user")
 	private Staff employee;
-	
+
 	@ManyToMany
-	private List<Role> roles;
-	
-	//Constructor
-	public User() {}
-	
+	@JsonBackReference
+	private List<Role> roles = new ArrayList<>();
+
+	private Boolean isActive = true;
+
+	// Constructor
+	public User() {
+	}
+
 	public User(String username, String password) {
 		this.userName = username;
 		this.password = password;
 	}
 
-	//Method
+	// Method
 
 	public Long getId() {
 		return id;
@@ -64,11 +73,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public Staff getEmployee() {
 		return employee;
 	}
-
+	
 	public void setEmployee(Staff employee) {
 		this.employee = employee;
 	}
@@ -79,7 +88,17 @@ public class User {
 
 	public void setRoleSet(List<Role> roleSet) {
 		this.roles = roleSet;
-	}	
-	
-	
+	}
+
+	public void addRole(Role role) {
+		roles.add(role);
+	}
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 }

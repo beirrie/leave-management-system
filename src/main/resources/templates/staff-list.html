@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Staff List page</h3>
+	
+	<div th:if="${not #lists.isEmpty(staffList)}">
+		<table style="border: 1;">
+			<tr class="listHeading">
+				<th><span>Staff Id</span></th>
+				<th><span>Manager Id</span></th>
+				<th><span>Name</span></th>
+				<th><span>Email</span></th>
+
+				<th><span>Edit</span></th>
+				<th><span>Delete</span></th>
+			</tr>
+			<tr th:each="staff : ${staffList}" class="listRecord">
+				<td align="left" th:text="${staff.staffId}">Staff Id</td>
+				<td align="left" th:text="${staff.managerId}">Manager Id</td>
+				<td align="left" th:text="${staff.firstName + ' ' + staff.lastName}">Name</td>
+				<td align="left" th:text="${staff.emailAdd}">Email</td>
+
+				<td><a th:href="@{/admin/staff/edit/}+${staff.staffId}" class="btn btn-default"><span>edit</span></a></td>
+
+				<td><a th:href="@{/admin/staff/deactivate/}+${staff.staffId}" class="btn btn-default"><span>delete</span></a></td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>New staff Page</h3>
+
+	<form action="#" th:action="@{/admin/staff/create}" th:object="${userStaffForm}" method="post">
+		<input type="hidden" name="userId" th:value="${user.id}" />
+		<table>
+			<tbody>
+				<tr>
+					<!-- <td><span>Staff Id</span></td>
+					<td>
+						<input type="text" th:field="*{id}" />
+					</td> -->
+					<!-- <td th:if="${#fields.hasErrors('staff.id')}" th:errors="*{staffId}"></td> -->
+				</tr>
+				<tr>
+					<td><span>Username</span></td>
+					<td>
+						<span th:text="${user.userName}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td><span>First Name</span></td>
+					<td>
+						<input type="text" th:field="*{firstName}" />
+					</td>
+					<!-- <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td> -->
+				</tr>
+				<tr>
+					<td><span>Last Name</span></td>
+					<td>
+						<input type="text" th:field="*{lastName}" />
+					</td>
+				</tr>
+				<tr>
+					<td><span>Email Address</span></td>
+					<td>
+						<input type="email" th:field="*{emailAdd}" />
+					</td>
+				</tr>
+				<tr>
+					<td><span>Leave Scheme</span></td>
+					<td>
+						<select th:field="*{leaveSchemeId}">
+							<option th:each="leaveScheme : ${leaveSchemes}" th:value="${leaveScheme.id}"
+								th:text="${leaveScheme.employmentScheme}">
+								LeaveScheme
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><span>Manager</span></td>
+					<td>
+						<select th:field="*{managerId}">
+							<option selected disabled value="">Select Manager</option>
+							<option th:each="mgr : ${managers}" th:value="${mgr.id}"
+								th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'">
+								Managers
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Create" />
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+</body>
+
+</html>

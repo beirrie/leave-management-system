@@ -1,8 +1,11 @@
 package sg.nus.iss.leavesystem.ca.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
+import sg.nus.iss.leavesystem.ca.model.LeaveType;
+
 public interface LeaveTypeService {
+	
+    List<LeaveType> GetAll();
 
 }
