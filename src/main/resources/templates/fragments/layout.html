@@ -36,7 +36,7 @@
 							<div class="dropdown-divider"></div>
 							Records
 							<a class="dropdown-item" th:href="@{/LeaveBalance}">View Leave Balance</a>
-							<a class="dropdown-item" th:href="@{/LeaveBalance}">View Leave Application History</a>
+							<a class="dropdown-item" th:href="@{/LeaveHistory}">View Leave Application History</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown">
@@ -60,8 +60,9 @@
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							User Management
-							<a class="dropdown-item" href="#">Create New User</a>
-							<a class="dropdown-item" href="#">View All Users</a>
+							<a class="dropdown-item" th:href="@{/admin/user/create}">Create New User</a>
+							<a class="dropdown-item" th:href="@{/admin/user/list}">View All Users</a>
+							<a class="dropdown-item" th:href="@{/admin/staff/list}">View All Staff</a>
 							<div class="dropdown-divider"></div>
 							Others
 							<a class="dropdown-item" th:href="@{/admin/viewleaveschemes}">Maintain Leave Scheme(s)</a>
