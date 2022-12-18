@@ -143,13 +143,26 @@ public class StaffController {
 	}
 
 	@GetMapping("/deactivate/{id}")
-	public String deleteStaff(@PathVariable("id") String id) {
+	public String deactivateStaff(@PathVariable("id") String id) {
 		Staff staff = staffService.findStaffByID(id);
 		staffService.deactivateStaff(staff);
 		User user = userService.findUserByStaffID(id);
 		userService.deactivateUser(user);
 
 		String message = "The staff " + staff.getId() + " was successfully deactivated.";
+		System.out.println(message);
+
+		return "redirect:/admin/staff/list";
+	}
+
+	@GetMapping("/activate/{id}")
+	public String activateStaff(@PathVariable("id") String id) {
+		Staff staff = staffService.findStaffByID(id);
+		staffService.activateStaff(staff);
+		User user = userService.findUserByStaffID(id);
+		userService.activateUser(user);
+
+		String message = "The staff " + staff.getId() + " was successfully activated.";
 		System.out.println(message);
 
 		return "redirect:/admin/staff/list";

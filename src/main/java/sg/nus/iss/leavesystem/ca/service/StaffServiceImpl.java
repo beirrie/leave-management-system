@@ -134,4 +134,11 @@ public class StaffServiceImpl implements StaffService {
 		staff.setIsActive(false);
 		return staff.getIsActive();
 	}
+
+	@Transactional
+	@Override
+	public Boolean activateStaff(Staff staff) {
+		staff.setIsActive(true);
+		return staff.getIsActive();
+	}
 }
