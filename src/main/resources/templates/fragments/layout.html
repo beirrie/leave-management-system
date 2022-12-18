@@ -12,7 +12,7 @@
 	<div th:fragment="menu" id="menu">
 		<!-- Navigation -->
 		<nav class="navbar navbar-dark bg-dark">
-			<a class="navbar-brand" href="#">Team 7 Leave System</a>
+			<a class="navbar-brand" th:href="@{/LeaveApplication}">Team 7 Leave System</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -24,52 +24,55 @@
 						<a class="nav-link" th:href="@{/LeaveApplication}">Home <span
 								class="sr-only">(current)</span></a>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Employee
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							Application
-							<a class="dropdown-item" th:href="@{/AddLeave}">Apply Leave</a>
-							<a class="dropdown-item" href="#">Apply OT Claim</a>
-							<div class="dropdown-divider"></div>
-							Records
-							<a class="dropdown-item" th:href="@{/LeaveBalance}">View Leave Balance</a>
-							<a class="dropdown-item" th:href="@{/LeaveBalance}">View Leave Application History</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Manager
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							Pending Approval
-							<a class="dropdown-item" href="#">Pending Staff Leave Application(s)</a>
-							<a class="dropdown-item" href="#">Pending Staff OT Claim(s)</a>
-							<div class="dropdown-divider"></div>
-							Staff Records
-							<a class="dropdown-item" href="#">View Staff(s) Leave Records</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Admin
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							User Management
-							<a class="dropdown-item" href="#">Create New User</a>
-							<a class="dropdown-item" href="#">View All Users</a>
-							<div class="dropdown-divider"></div>
-							Others
-							<a class="dropdown-item" th:href="@{/admin/viewleaveschemes}">Maintain Leave Scheme(s)</a>
-							<a class="dropdown-item" th:href="@{/admin/viewpublicholidays}">Maintain Public
-								Holiday(s)</a>
-							<a class="dropdown-item" href="#">Maintain Role(s)</a>
-						</div>
-					</li>
+					<div th:each="role: ${roles}">
+						<li class="nav-item dropdown" th:if="${role == 'employee'}">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Employee
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								Application
+								<a class="dropdown-item" th:href="@{/AddLeave}">Apply Leave</a>
+								<a class="dropdown-item" href="#">Apply OT Claim</a>
+								<div class="dropdown-divider"></div>
+								Records
+								<a class="dropdown-item" th:href="@{/LeaveBalance}">View Leave Balance</a>
+								<a class="dropdown-item" th:href="@{/LeaveBalance}">View Leave Application History</a>
+							</div>
+						</li>
+						<li class="nav-item dropdown" th:if="${role == 'manager'}">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Manager
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								Pending Approval
+								<a class="dropdown-item" href="#">Pending Staff Leave Application(s)</a>
+								<a class="dropdown-item" href="#">Pending Staff OT Claim(s)</a>
+								<div class="dropdown-divider"></div>
+								Staff Records
+								<a class="dropdown-item" href="#">View Staff(s) Leave Records</a>
+							</div>
+						</li>
+						<li class="nav-item dropdown" th:if="${role == 'admin'}">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Admin
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								User Management
+								<a class="dropdown-item" href="#">Create New User</a>
+								<a class="dropdown-item" href="#">View All Users</a>
+								<div class="dropdown-divider"></div>
+								Others
+								<a class="dropdown-item" th:href="@{/admin/viewleaveschemes}">Maintain Leave
+									Scheme(s)</a>
+								<a class="dropdown-item" th:href="@{/admin/viewpublicholidays}">Maintain Public
+									Holiday(s)</a>
+								<a class="dropdown-item" href="#">Maintain Role(s)</a>
+							</div>
+						</li>
+					</div>
 					<li class="nav-item active">
 						<a class="nav-link" th:href="@{/logout}">Logout <span class="sr-only">(current)</span></a>
 					</li>

@@ -55,11 +55,15 @@ public class CaLeaveSystemTeam7Application {
 
 			User user1 = new User("Robert", "password123");
 			user1.addRole(manager);
+			user1.addRole(employee);
 			User user2 = userRepo.saveAndFlush(new User("Albert", "albert123"));
 			userRepo.saveAndFlush(user1);
 			User user3 = new User("userSarah", "pw123");
 			user3.addRole(manager);
 			userRepo.saveAndFlush(user3);
+			User user4 = new User("admin", "password123");
+			user4.addRole(admin);
+			userRepo.saveAndFlush(user4);
 
 			Staff staff1 = staffRepo.saveAndFlush(new Staff("Robert", "Lin", "robert@email.com", ls1, user1));
 			Staff staff2 = new Staff("Albert", "Tan", "albert@email.com", ls2, user2);
@@ -69,6 +73,10 @@ public class CaLeaveSystemTeam7Application {
 			staffRepo.saveAndFlush(staff3);
 			staff1.setManager(staff3);
 			staffRepo.saveAndFlush(staff1);
+			Staff staff4 = new Staff("Shaun", "Lin", "shaun@gmail.com", ls2, user4);
+			staff4.setManager(staff1);
+			staffRepo.saveAndFlush(staff4);
+
 
 			List<Staff> myStaffs = staffRepo.findAll();
 			myStaffs.forEach(myStaff -> System.out.println(myStaff));
