@@ -24,4 +24,8 @@ public interface PublicHolidayService {
             String dateOfHoliday, String description);
 
     void deleteAllPublicHolidaysData();
+    
+    PublicHoliday updatePublicHoliday(String phID, String phName, String phDate, String phDescription);
+    
+	void deletePublicHoliday(String phID);
 }

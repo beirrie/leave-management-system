@@ -3,6 +3,11 @@ package sg.nus.iss.leavesystem.ca.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +17,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
+
 @Table(name = "users")
 
 public class User {
@@ -28,7 +34,10 @@ public class User {
 	private Staff employee;
 
 	@ManyToMany
+	@JsonBackReference
 	private List<Role> roles = new ArrayList<>();
+
+	private Boolean isActive = true;
 
 	// Constructor
 	public User() {
@@ -40,10 +49,6 @@ public class User {
 	}
 
 	// Method
-
-	public void addRole(Role role) {
-		roles.add(role);
-	}
 
 	public Long getId() {
 		return id;
@@ -68,11 +73,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public Staff getEmployee() {
 		return employee;
 	}
-
+	
 	public void setEmployee(Staff employee) {
 		this.employee = employee;
 	}
@@ -85,4 +90,15 @@ public class User {
 		this.roles = roleSet;
 	}
 
+	public void addRole(Role role) {
+		roles.add(role);
+	}
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 }

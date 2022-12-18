@@ -2,7 +2,9 @@ package sg.nus.iss.leavesystem.ca.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,9 +24,10 @@ public class LeaveApplication {
 
 	@ManyToOne
 	@JoinColumn(name = "employeeId", referencedColumnName = "id")
+	@JsonBackReference
 	private Staff employee;
 
-	@ManyToOne
+	@ManyToOne(fetch= FetchType.LAZY)
 	private LeaveType typeOfLeave;
 
 	private Boolean isAbroad;
@@ -92,11 +95,11 @@ public class LeaveApplication {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public Staff getEmployee() {
 		return employee;
 	}
-
+	
 	public void setEmployee(Staff employee) {
 		this.employee = employee;
 	}

@@ -5,8 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,9 +22,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "employees")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Staff {
 
 	// Attribute
@@ -31,14 +40,23 @@ public class Staff {
 	@Column(columnDefinition = "nvarchar(50) not null")
 	private String lastName;
 
+	@Transient
+	private String name;
+	@Transient
+	public String getName() {
+		return lastName+" "+firstName;
+	}
+	
 	@Column(columnDefinition = "nvarchar(255) not null")
 	private String emailAdd;
 
-	@ManyToOne
+	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name = "manager_Id", referencedColumnName = "id")
+	@JsonBackReference
 	private Staff manager;
 
-	@OneToMany(mappedBy = "manager")
+	@OneToMany(fetch= FetchType.LAZY,mappedBy = "manager")
+	@JsonManagedReference
 	private Set<Staff> subordinates = new HashSet<>();
 
 	@OneToOne
@@ -63,6 +81,8 @@ public class Staff {
 	private User user;
 
 	private double accumulated_OT_Hours;
+
+	public boolean isActive = true;
 
 	// Constructor
 
@@ -137,11 +157,13 @@ public class Staff {
 	public void setLeaveScheme(LeaveScheme leaveScheme) {
 		this.leaveScheme = leaveScheme;
 	}
-
+	
+	@JsonBackReference
 	public List<LeaveApplication> getLeaveApplicationRecords() {
 		return leaveApplicationRecords;
 	}
 
+	@JsonBackReference
 	public void setLeaveApplicationRecords(List<LeaveApplication> leaveApplicationRecords) {
 		this.leaveApplicationRecords = leaveApplicationRecords;
 	}
@@ -201,4 +223,13 @@ public class Staff {
 	public void setCoveringLeaves(List<LeaveApplication> coveringLeaves) {
 		this.coveringLeaves = coveringLeaves;
 	}
+
+	public boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 }
