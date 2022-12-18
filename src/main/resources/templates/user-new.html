@@ -11,13 +11,13 @@
     <form action="#" th:action="@{'/admin/user/create'}" th:object="${userForm}" method="post">
       <div class="form-group">
         <label class="control-label required">User Name</label>
+        <p class="small text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
         <input type="text" th:field="*{userName}" class="form-control mb-5 col-5" />
-        <!-- <td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></td> -->
       </div>
       <div class="form-group">
         <label class="control-label required">Password</label>
-        <input type="text" th:field="*{password}" class="form-control mb-5 col-5" />
-        <!-- <td th:if="${#fields.hasErrors('name')}" th:errors="*{password}"></td> -->
+        <p class="small text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        <input type="password" th:field="*{password}" class="form-control mb-5 col-5" />
       </div>
       <div class="form-group">
         <label class="control-label required" for="roles">User roles (multiple select):</label>

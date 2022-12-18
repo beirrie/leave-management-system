@@ -67,9 +67,9 @@ public class StaffController {
 		if (result.hasErrors()) {
 			User userDetails = new User();
 			userDetails.setId(staff.getUserId());
+			userDetails.setPassword(staff.getPassword());
 			userDetails.setUserName(staff.getUserName());
 			model.addAttribute("user", userDetails);
-			// model.addAttribute("userStaffForm", new UserStaffForm());
 			model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
 			model.addAttribute("managers", staffService.findAllManagers());
 			return "staff-new";

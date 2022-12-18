@@ -10,22 +10,22 @@
 		<hr>
 		<form action="#" th:action="@{/admin/staff/create}" th:object="${userStaffForm}" method="post">
 			<input type="hidden" name="userId" th:value="${user.id}" />
+			<input type="hidden" name="password" th:value="${user.password}" />
 			<div class="form-group">
 				<label class="control-label required">Username</label>
 				<input th:field="${user.userName}" readonly class="form-control mb-5 col-5" />
 			</div>
 			<div class="form-group">
 				<label class="control-label required">First Name</label>
-				<input type="text" th:field="*{firstName}" class="form-control mb-5 col-5" />
-				<!-- <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td> -->
+				<input type="text" th:field="*{firstName}" class="form-control mb-5 col-5" required />
 			</div>
 			<div class="form-group">
 				<label class="control-label required">Last Name</label>
-				<input type="text" th:field="*{lastName}" class="form-control mb-5 col-5" />
+				<input type="text" th:field="*{lastName}" class="form-control mb-5 col-5" required />
 			</div>
 			<div class="form-group">
 				<label class="control-label required">Email Address</label>
-				<input type="email" th:field="*{emailAdd}" class="form-control mb-5 col-5" />
+				<input type="email" th:field="*{emailAdd}" class="form-control mb-5 col-5" required />
 			</div>
 			<div class="form-group">
 				<label class="control-label required">Leave Scheme</label>
