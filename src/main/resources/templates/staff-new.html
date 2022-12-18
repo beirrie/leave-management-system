@@ -37,8 +37,22 @@
 				</select>
 			</div>
 			<div class="form-group">
+				<label class="control-label required">Medical Leaves Entitled</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('medicalLeaveBalance')}"
+					th:errors="*{medicalLeaveBalance}"></p>
+				<input type="number" min="0" step="1" th:field="*{medicalLeaveBalance}"
+					class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Annual Leaves Entitled</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('annualLeaveBalance')}"
+					th:errors="*{annualLeaveBalance}"></p>
+				<input type="number" min="0" step="1" th:field="*{annualLeaveBalance}"
+					class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
 				<label class="control-label required">Manager</label>
-				<select th:field="*{managerId}" class="form-control mb-5 col-5">
+				<select th:field="*{managerId}" class="form-control mb-5 col-5" required>
 					<option selected disabled value="">Select Manager</option>
 					<option th:each="mgr : ${managers}" th:value="${mgr.id}"
 						th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'">

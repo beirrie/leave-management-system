@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	private UserStaffFormValidator userStaffFormValidator;
 
-	@InitBinder
+	@InitBinder("userForm")
 	private void initUserStaffFormBinder(WebDataBinder binder) {
 		binder.addValidators(userStaffFormValidator);
 	}
