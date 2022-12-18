@@ -43,4 +43,10 @@ public class HomeController {
 
         return "redirect:/LeaveApplication";
     }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+    	session.invalidate();
+        return "login";
+    }
 }
