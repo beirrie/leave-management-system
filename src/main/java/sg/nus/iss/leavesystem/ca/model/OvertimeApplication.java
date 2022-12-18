@@ -50,6 +50,8 @@ public class OvertimeApplication {
 		this.hours_OT = hours;
 		this.employeeComment = employeeComment;
 		this.appliedDateTime = LocalDateTime.now();
+		this.employee = employee;
+		this.employeeManager = employee.getManager();
 		this.applicationStatus = "Applied";
 	}
 

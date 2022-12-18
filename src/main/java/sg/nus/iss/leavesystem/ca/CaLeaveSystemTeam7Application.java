@@ -8,12 +8,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import sg.nus.iss.leavesystem.ca.model.APIKey;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.LeaveType;
 import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
+import sg.nus.iss.leavesystem.ca.repository.APIKeyRepository;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
 import sg.nus.iss.leavesystem.ca.repository.LeaveSchemeRepository;
 import sg.nus.iss.leavesystem.ca.repository.LeaveTypeRepository;
@@ -35,7 +37,8 @@ public class CaLeaveSystemTeam7Application {
 			LeaveSchemeRepository LeaveSchemeRepo,
 			LeaveTypeRepository leaveTypeRepo,
 			LeaveApplicationRepository leaveApplicationRepo,
-			RoleRepository roleRepo) {
+			RoleRepository roleRepo,
+			APIKeyRepository APIKeyRepo) {
 		return args -> {
 
 			// Add leave schemes
@@ -87,6 +90,11 @@ public class CaLeaveSystemTeam7Application {
 			leaveAppl.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
 			leaveAppl.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(leaveAppl);
+			
+			APIKey newAPIKey = new APIKey("Shaun", "Lin", "shanfu87@yahoo.com");
+			APIKeyRepo.saveAndFlush(newAPIKey);
+			System.out.println(newAPIKey.toString());
+						
 		};
 	}
 }
