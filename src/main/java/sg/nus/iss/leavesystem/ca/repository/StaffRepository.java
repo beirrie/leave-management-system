@@ -1,15 +1,14 @@
 package sg.nus.iss.leavesystem.ca.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import sg.nus.iss.leavesystem.ca.model.Staff;
 
-@Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 
 	@Query("SELECT DISTINCT s FROM Staff s, Staff m WHERE s.id = m.manager.id")
@@ -20,4 +19,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 
 	@Query("SELECT s FROM Staff s WHERE s.id = :sid")
 	Staff findStaffByID(@Param("sid") String id);
+	
+    @Query("SELECT u FROM Staff u WHERE u.user.id = ?1")
+    Optional<Staff> FindByUserId(long userId);
 }

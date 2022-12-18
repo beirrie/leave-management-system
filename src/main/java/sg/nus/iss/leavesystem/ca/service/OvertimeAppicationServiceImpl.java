@@ -15,23 +15,25 @@ public class OvertimeAppicationServiceImpl implements OvertimeApplicationService
 	
 	@Resource
 	OverTimeApplicationRepository OTrepo;
-//	@Override
-//	public List<OvertimeApplication> getAllOvertimeApplication() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public void newApplication(OvertimeApplication app) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void setApprovalStatus(OvertimeApplication app, int status, String remarks, Long approverId) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	@Override
+	public List<OvertimeApplication> getAllOvertimeApplication() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void newApplication(OvertimeApplication app) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setApprovalStatus(OvertimeApplication app, int status,String remarks, Long approverId) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 	@Override
 	public void newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment) {

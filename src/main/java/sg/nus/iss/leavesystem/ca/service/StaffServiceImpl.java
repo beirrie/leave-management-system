@@ -27,6 +27,11 @@ public class StaffServiceImpl implements StaffService {
 	public Staff findStaffByID(String id) {
 		return staffRepository.findStaffByID(id);
 	}
+	
+    @Override
+    public Staff FindByUserId(long userId) {
+        return staffRepository.FindByUserId(userId).get();
+    }
 
 	@Transactional
 	@Override
