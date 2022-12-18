@@ -28,18 +28,52 @@
       <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Approve or Reject App</h1>
-          <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group me-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-              <span data-feather="calendar" class="align-text-bottom"></span>
-              This week
-            </button>
-          </div>
+          <h1 class="h2">Approve or Reject Leave</h1>
         </div>
+        <div style="width: 400px;">
+          <div class="d-flex justify-content-between">
+            <span>Leave ID</span>
+            <input type="value" th:value="${leave.id}" disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Staff ID</span>
+            <input type="value" th:value="${leave.employee.id}" disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Staff Name</span>
+            <input type="value" th:value="${leave.employee.firstName} +' '+${leave.employee.lastName}" disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Leave Type</span>
+            <input type="value" th:value="${leave.typeOfLeave.leaveTypeName}" disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Leave Start</span>
+            <input type=" value" th:value="${#temporals.format(leave.startDate,'dd-MM-yyyy')}" disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Leave End</span>
+            <input type="value" th:value="${#temporals.format(leave.endDate,'dd-MM-yyyy')}" disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Covering Staff</span>
+            <input type="value" th:value="${leave.coveringStaff.firstName + ' ' + leave.coveringStaff.lastName}"
+              disabled />
+          </div>
+          <br>
+          <div class="d-flex justify-content-between">
+            <span>Staff Remarks</span>
+            <textarea class="form-control" disabled rows="2">[[${leave.additionalComments}]]</textarea>
+          </div>
+          <br>
+        </div>
+
         <form th:action=@{/manager/leave_application} method="post" th:object="${leaveApprovalDTO}">
           <input type="hidden" th:field="${approverId}" />
           <input type="hidden" th:field="${leaveId}" />

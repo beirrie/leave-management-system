@@ -230,18 +230,34 @@ public class CaLeaveSystemTeam7Application {
 			otApp2.setId(2L);
 			otApp2.setEmployee(staff2);
 			otApp2.setAppliedDateTime(LocalDateTime.now());
+			otApp2.setDate_OT(LocalDateTime.of(2022, 12, 26, 0, 0));
 			otApp2.setHours_OT(1.0);
+			otApp2.setApplicationStatus("Applied");
 			otApp2.setEmployeeComment("Employee comment");
 
 			OvertimeApplication otApp3 = new OvertimeApplication();
 			otApp3.setId(3L);
 			otApp3.setEmployee(staff1);
 			otApp3.setAppliedDateTime(LocalDateTime.now());
+			otApp3.setDate_OT(LocalDateTime.of(2022, 12, 27, 0, 0));
 			otApp3.setHours_OT(1.0);
+			otApp3.setApplicationStatus("Applied");
 			otApp3.setEmployeeComment("Employee comment");
 
-			otRepo.saveAndFlush(otApp3);
-			otRepo.saveAndFlush(otApp2);
+			OvertimeApplication otApp1 = new OvertimeApplication();
+			otApp1.setId(1L);
+			otApp1.setEmployee(staff1);
+			otApp1.setAppliedDateTime(LocalDateTime.now());
+			otApp1.setDate_OT(LocalDateTime.of(2022, 12, 15, 0, 0));
+			otApp1.setHours_OT(1.0);
+			otApp1.setApplicationStatus("Approved");
+			otApp1.setEmployeeComment("Employee comment");
+			otApp1.setApprover(manager1);
+			otApp1.setDateApplicationReviewed(LocalDateTime.of(2022, 12, 10, 0, 0, 0));
+			otApp1.setManagerRemarks("So Far So Good");
+			// otRepo.saveAndFlush(otApp3);
+			// otRepo.saveAndFlush(otApp2);
+			otRepo.saveAndFlush(otApp1);
 
 			// List<OvertimeApplication> otps = otRepo.findAll();
 

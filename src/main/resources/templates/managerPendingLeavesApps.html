@@ -49,6 +49,7 @@
 								<th>End Date</th>
 								<th>Applied Date</th>
 								<th>Application Status</th>
+								<th>Staff Remark</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -63,12 +64,14 @@
 								</td>
 								<td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}">startDate</td>
 								<td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}">endDate</td>
+								<td th:text="${#temporals.format(leave.applicationDate,'dd-MM-yyyy')}">endDate</td>
 								<td th:text="${leave.applicationStatus}"></td>
+								<td th:text="${leave.additionalComments}"></td>
 								<td>
-									<button type="button">
-										<a th:href="@{/manager/leave_application/} + ${leave.id}"
-											class="btn btn-link"><span>Approve/Reject</span></a>
-									</button>
+									<!-- <button type="button"> -->
+									<a th:href="@{/manager/leave_application/} + ${leave.id}"
+										class="btn btn-link"><span>View</span></a>
+									<!-- </button> -->
 								</td>
 							</tr>
 						</tbody>

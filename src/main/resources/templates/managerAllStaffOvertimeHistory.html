@@ -43,7 +43,10 @@
                                 <th>Employee Comment</th>
                                 <th>Applied Date</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th>Reviewed Date</th>
+                                <th>Approver</th>
+                                <th>Manager Comment</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -57,12 +60,16 @@
                                 </td>
                                 <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
                                 <td th:text="${ot.applicationStatus}"></td>
-                                <td>
+                                <td th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
+                                <td th:text="${ot.approver.firstName}"></td>
+                                <td th:text="${ot.managerRemarks}"></td>
+
+                                <!-- <td>
                                     <button type="button">
                                         <a th:href="@{/manager/ot_application/} + ${ot.id}"
-                                            class="btn btn-link"><span>Approve/Reject</span></a>
+                                            class="btn btn-link"><span>View</span></a>
                                     </button>
-                                </td>
+                                </td> -->
                             </tr>
 
                         </tbody>

@@ -6,6 +6,10 @@ public class OvertimeApprovalDTO {
     private Long approverId;
     private String approverRemark;
 
+    public OvertimeApprovalDTO() {
+
+    }
+
     public OvertimeApprovalDTO(String applicationStatus, Long approverId, String approverRemark) {
         this.applicationStatus = applicationStatus;
         this.approverId = approverId;
