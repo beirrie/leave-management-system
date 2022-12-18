@@ -1,4 +1,4 @@
-package sg.nus.iss.leavesystem.ca.service;
+package sg.nus.iss.leavesystem.ca.service_implementation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,9 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import sg.nus.iss.leavesystem.ca.model.PublicHoliday;
 import sg.nus.iss.leavesystem.ca.repository.PublicHolidayRepository;
+import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
 
 @Service
-public class PublicHolidayServiceImpl implements PublicHolidayService{
+public class PublicHolidayServiceImpl implements PublicHolidayService {
 	
 	@Resource
 	public PublicHolidayRepository publicHolidayRepo;
