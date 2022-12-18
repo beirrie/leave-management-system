@@ -19,6 +19,8 @@ public interface StaffService {
 	Staff findStaffByID(Long id);
 
 	Staff findStaffByID(String id);
+	
+    Staff FindByUserId(long userId);
 
 	List<Staff> findAllManagers();
 

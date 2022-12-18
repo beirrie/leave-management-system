@@ -25,7 +25,12 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAllUsers() {
 		return userRepository.findAll();
 	}
-
+	
+  @Override
+  public User authenticate(String userName, String password) {
+      return userRepository.FindByUserNameAndPassword(userName, password);
+  }
+    
 	@Transactional
 	@Override
 	public User findUser(Long userId) {

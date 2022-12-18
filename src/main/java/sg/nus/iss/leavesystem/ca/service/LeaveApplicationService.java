@@ -1,8 +1,19 @@
 package sg.nus.iss.leavesystem.ca.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
-@Service
+import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
+
 public interface LeaveApplicationService {
 
+    void CreateApplication(LeaveApplication leaveApplication);
+
+    void UpdateApplication(LeaveApplication leaveApplication);
+
+    List<LeaveApplication> GetByStaffId(long staffId);
+
+    Optional<LeaveApplication> GetById(long id);
+
+    void DeleteLeave(LeaveApplication leaveApplication);
 }

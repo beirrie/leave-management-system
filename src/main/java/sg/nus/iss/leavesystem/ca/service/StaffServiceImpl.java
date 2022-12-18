@@ -40,6 +40,11 @@ public class StaffServiceImpl implements StaffService {
 		Long staffId = Long.parseLong(id);
 		return staffRepository.findById(staffId).orElse(null);
 	}
+	
+    @Override
+    public Staff FindByUserId(long userId) {
+        return staffRepository.FindByUserId(userId).get();
+    }
 
 	@Transactional
 	@Override
