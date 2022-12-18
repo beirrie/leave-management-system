@@ -40,11 +40,11 @@ public class StaffServiceImpl implements StaffService {
 		Long staffId = Long.parseLong(id);
 		return staffRepository.findById(staffId).orElse(null);
 	}
-	
-    @Override
-    public Staff FindByUserId(long userId) {
-        return staffRepository.FindByUserId(userId).get();
-    }
+
+	@Override
+	public Staff FindByUserId(long userId) {
+		return staffRepository.FindByUserId(userId).get();
+	}
 
 	@Transactional
 	@Override
@@ -69,7 +69,7 @@ public class StaffServiceImpl implements StaffService {
 		staff.setLeaveScheme(leaveScheme);
 		Staff manager = findStaffByID(userStaffForm.getManagerId());
 		staff.setManager(manager);
-		
+
 		user.setRoleSet(userStaffForm.getRoles());
 
 		return staffRepository.saveAndFlush(staff);
@@ -92,16 +92,15 @@ public class StaffServiceImpl implements StaffService {
 			if (s.getManager() != null) {
 				managerId = s.getManager().getId().toString();
 			}
-			if (s.getIsActive()) {
-				staffList.add(
-						new StaffForm(
-								s.getId().toString(),
-								s.getFirstName(),
-								s.getLastName(),
-								s.getEmailAdd(),
-								managerId,
-								s.getLeaveScheme().getId().toString()));
-			}
+			staffList.add(
+					new StaffForm(
+							s.getId().toString(),
+							s.getFirstName(),
+							s.getLastName(),
+							s.getEmailAdd(),
+							managerId,
+							s.getLeaveScheme().getId().toString(),
+							Boolean.toString(s.getIsActive())));
 		}
 		return staffList;
 	}
@@ -123,7 +122,8 @@ public class StaffServiceImpl implements StaffService {
 							s.getLastName(),
 							s.getEmailAdd(),
 							managerId,
-							s.getLeaveScheme().getId().toString()));
+							s.getLeaveScheme().getId().toString(),
+							Boolean.toString(s.getIsActive())));
 		}
 		return staffList;
 	}
