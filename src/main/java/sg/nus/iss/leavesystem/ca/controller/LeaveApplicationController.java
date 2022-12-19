@@ -23,6 +23,7 @@ import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 import sg.nus.iss.leavesystem.ca.service.LeaveTypeService;
+import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.util.Util;
 import sg.nus.iss.leavesystem.ca.validator.LeaveApplicationFormValidator;
@@ -38,6 +39,8 @@ public class LeaveApplicationController {
     LeaveApplicationService leaveApplicationService;
     @Autowired
     private LeaveApplicationFormValidator leaveFormValidator;
+    @Autowired
+    private PublicHolidayService publicHolidayService;
 
     @InitBinder("leaveForm")
     private void initEmployeeBinder(WebDataBinder binder) {
@@ -143,7 +146,7 @@ public class LeaveApplicationController {
         var staff = this.staffService.findById(userSession.getStaffId());
         if (userSession == null)
             return "redirect:/login";
-
+        Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
         leaveApplication.setEmployee(staff);
@@ -196,6 +199,7 @@ public class LeaveApplicationController {
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             return "EditLeave";
         }
+        Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setId(leaveForm.getId());
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
