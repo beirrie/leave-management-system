@@ -75,12 +75,11 @@
 
           <div class="form-group">
             <label>Approver Remark</label>
-            <p class="small text-danger" th:if="${#fields.hasErrors('approverRemark')}" th:errors="*{approverRemark}">ERROR!</p>
+            <p class="small text-danger" th:if="${#fields.hasErrors('approverRemark')}" th:errors="*{approverRemark}">
+              ERROR!</p>
             <!-- <fieldset> -->
-            <textarea class="form-control mb-5 col-5" th:field="*{approverRemark}" rows="3" ></textarea>
-          	<p th:if="${#fields.hasErrors('approverRemark')}" th:errors="*{approverRemark}">ERROR!</p>
+            <textarea class="form-control mb-5 col-5" th:field="*{approverRemark}" rows="3"></textarea>
             <!-- </fieldset>	 -->
-
           </div>
           <br />
           <button class="btn btn-primary" type="submit">Save</button>
