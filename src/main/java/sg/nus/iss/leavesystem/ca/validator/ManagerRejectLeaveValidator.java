@@ -19,18 +19,13 @@ public class ManagerRejectLeaveValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "approverRemark", "approverRemark.blank", "approver remarks cannot be empty");
-		System.out.println("validate before target");
 		LeaveApprovalDTO rejectedLeaveApp = (LeaveApprovalDTO)target;
-		if(rejectedLeaveApp.getApplicationStatus() == "Rejected") {
+		if(rejectedLeaveApp.getApplicationStatus().equalsIgnoreCase("Rejected") && rejectedLeaveApp.getApproverRemark().isBlank()) {
+			System.out.println("Application status" + rejectedLeaveApp.getApplicationStatus());
+			System.out.println("getApproverRemarks " + rejectedLeaveApp.getApproverRemark());
+			System.out.println("validate before target");
 			errors.rejectValue("approverRemark", "approverRemark.blank", "Approver Remarks is required for leave application rejection");
 		}
-//		if(rejectedLeaveApp.getApplicationStatus().equalsIgnoreCase("Rejected") && rejectedLeaveApp.getApproverRemark().isBlank()) {
-//			System.out.println("Application status" + rejectedLeaveApp.getApplicationStatus());
-//			System.out.println("getApproverRemarks " + rejectedLeaveApp.getApproverRemark());
-//			System.out.println("validate before target");
-//			errors.rejectValue("approverRemark", "approverRemark.blank", "Approver Remarks is required for leave application rejection");
-//		}
 		
 	}
 

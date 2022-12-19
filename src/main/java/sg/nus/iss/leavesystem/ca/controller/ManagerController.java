@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -22,20 +21,20 @@ import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
+import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.model.dto.LeaveApprovalDTO;
 import sg.nus.iss.leavesystem.ca.model.dto.OvertimeApprovalDTO;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.validator.ManagerRejectLeaveValidator;
-import sg.nus.iss.leavesystem.ca.model.UserSession;
 
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
 
-	private static final Logger logger =  LoggerFactory.getLogger(ManagerController.class); 
-	
+    private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
+
     @Autowired
     private LeaveApplicationService leaveAppService;
 
@@ -44,13 +43,13 @@ public class ManagerController {
 
     @Autowired
     private StaffService staffService;
-    
+
     @Autowired
     private ManagerRejectLeaveValidator managerRejectLeaveValidator;
-    
-    @InitBinder("managerRejectLeave")
+
+    @InitBinder("dto")
     private void initBinder(WebDataBinder binder) {
-    	binder.addValidators(managerRejectLeaveValidator);
+        binder.addValidators(managerRejectLeaveValidator);
     }
 
     @GetMapping("/home")
@@ -83,38 +82,43 @@ public class ManagerController {
         Staff manager = staffService.findStaffByID(userSession.getStaffId());
         
         model.addAttribute("roles", roles); 
+        model.addAttribute("roles", roles);
         String[] approveOrReject = { "Approved", "Rejected" };
         LeaveApplication leaveAppToApproveOrReject = leaveAppService.getLeaveById(leaveId);
         
         List<LeaveApplication> overlapLeaveApps = leaveAppService.getOverlapLeavesWithCurrentStaff(leaveAppToApproveOrReject, manager);
-        overlapLeaveApps.stream().forEach(x->System.out.println(x));
+        model.addAttribute("overlapLeaves", overlapLeaveApps);
         model.addAttribute("leave", leaveAppToApproveOrReject);
         LeaveApprovalDTO dto = new LeaveApprovalDTO();
         dto.setLeaveId(leaveId);
         model.addAttribute("dto", dto);
         model.addAttribute("ListApproveOrReject", approveOrReject);
-        
-        
-        
-        
-        
-        
+        //System.out.println("leave size" + overlapLeaveApps.size());
         return "managerApproveOrRejectLeave";
     }
-//    /
+
+    // /
     @PostMapping("/modify_leave")
-    public String approveOrRejectLeaveAppById(@Validated @ModelAttribute("dto") LeaveApprovalDTO leaveApprovalDTO,
-                                              BindingResult bindingResult, HttpSession session) {
-        if(bindingResult.hasErrors()) {
-        	logger.info("inside bindingresult post");
-        	return "managerApproveOrRejectLeave";
+    public String approveOrRejectLeaveAppById(@Valid @ModelAttribute("dto") LeaveApprovalDTO leaveApprovalDTO,
+            BindingResult bindingResult, Model model, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            logger.info("inside bindingresult post");
+            UserSession userSession = (UserSession) session.getAttribute("user");
+            List<String> roles = userSession.getUserRoles();
+
+            model.addAttribute("roles", roles);
+            String[] approveOrReject = { "Approved", "Rejected" };
+            model.addAttribute("leave", leaveAppService.getLeaveById(leaveApprovalDTO.getLeaveId()));
+            model.addAttribute("ListApproveOrReject", approveOrReject);
+            return "managerApproveOrRejectLeave";
         }
         logger.info(leaveApprovalDTO.getApplicationStatus());
-    	UserSession userSession = (UserSession) session.getAttribute("user");
+        UserSession userSession = (UserSession) session.getAttribute("user");
         Staff approver = staffService.findStaffByID(userSession.getStaffId());
 
         LeaveApplication retrievedApp = leaveAppService.getLeaveById(leaveApprovalDTO.getLeaveId());
-        leaveAppService.setApprovalStatus(retrievedApp, leaveApprovalDTO.getApplicationStatus(), leaveApprovalDTO.getApproverRemark(),
+        leaveAppService.setApprovalStatus(retrievedApp, leaveApprovalDTO.getApplicationStatus(),
+                leaveApprovalDTO.getApproverRemark(),
                 approver);
         return "redirect:/manager/pending_leave_applications";
     }
@@ -124,8 +128,8 @@ public class ManagerController {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
 
-        model.addAttribute("roles", roles); 
-    	String[] approveOrReject = { "Approved", "Rejected" };
+        model.addAttribute("roles", roles);
+        String[] approveOrReject = { "Approved", "Rejected" };
         model.addAttribute("overtime", overtimeApplicationService.getById(otId));
         OvertimeApprovalDTO dto = new OvertimeApprovalDTO();
         dto.setOtId(otId);
@@ -136,7 +140,7 @@ public class ManagerController {
 
     @PostMapping("/modify_overtime")
     public String approveOrRejectOTAppById(@ModelAttribute OvertimeApprovalDTO overtimeApprovalDTO,
-                                           BindingResult bindingResult, HttpSession session) {
+            BindingResult bindingResult, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         Staff approver = staffService.findStaffByID(userSession.getStaffId());
 
