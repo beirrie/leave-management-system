@@ -72,16 +72,8 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
     @Override
     public List<OvertimeApplication> getAllPendingByManager(Staff manager) {
 
-        String status1 = "Applied";
-        String status2 = "Updated";
-
-//        List<OvertimeApplication> appliedList =
-//                otRepo.findByStatus(status1);
-//        List<OvertimeApplication> updatedList =
-//                otRepo.findByStatus(status2);
-
         List<OvertimeApplication> appliedList =
-                otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Approved");
+                otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Applied");
         List<OvertimeApplication> updatedList =
                 otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Updated");
 
