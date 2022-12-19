@@ -60,11 +60,12 @@
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								Pending Approval
-								<a class="dropdown-item" href="#">Pending Staff Leave Application(s)</a>
-								<a class="dropdown-item" href="#">Pending Staff OT Claim(s)</a>
+								<a class="dropdown-item" href="/manager/pending_leave_applications">Pending Staff Leave Application(s)</a>
+								<a class="dropdown-item" href="/manager/pending_ot_applications">Pending Staff OT Claim(s)</a>
 								<div class="dropdown-divider"></div>
 								Staff Records
-								<a class="dropdown-item" href="#">View Staff(s) Leave Records</a>
+								<a class="dropdown-item" href="/manager/employees_leave_history">View Staff(s) Leave Records</a>
+								<a class="dropdown-item" href="/manager/employees_ot_history">View Staff(s) Overtime Records</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown" th:if="${role == 'admin'}">
