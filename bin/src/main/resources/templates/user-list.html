@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<body>
+
+	<h3>User List page</h3>
+
+	<a th:href="@{/admin/user/create}">Add User</a>
+
+	<div th:if="${not #lists.isEmpty(userList)}">
+
+		<table style="border: 1;">
+			<thead>
+				<tr class="listHeading">
+					<th><span>User Id</span></th>
+					<th><span>Username</span></th>
+					<th><span>Password</span></th>
+					<th><span>Employee Id</span></th>
+					<!-- <th><span>Edit</span></th>
+					<th><span>Delete</span></th> -->
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="user : ${userList}" class="listRecord">
+					<td th:text="${user.id}">Id</td>
+					<td th:text="${user.userName}">Name</td>
+					<td th:text="${user.employee!=null}?${user.employee.id}:'not assigned'">Employee Id</td>
+
+					<!-- <td><a th:href="@{/admin/user/edit/}+${user.Id}" class="btn btn-default"><span
+								th:text="#{caption.edit}"></span></a></td>
+					<td><a th:href="@{/admin/user/delete/}+${user.Id}" class="btn btn-default"><span
+								th:text="#{caption.delete}"></span></a></td> -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+
+</html>

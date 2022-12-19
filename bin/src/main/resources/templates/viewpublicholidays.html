@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	</div>
+	<div>
+		<br><br>
+		<table>
+			<tr>
+				<td style="width:200px; vertical-align:text-top">
+					<form action=# th:action="@{/admin/pullpublicholiday}" method="POST">
+						<input type="submit" value="Refresh Table" style="width:300px" class="btn btn-primary btn-lg">
+						Delete existing data and refresh table with official PH data
+						</input>
+					</form>
+				</td>
+				<td style="width:200px; vertical-align:text-top">
+					<form action=# th:action="@{/admin/addpublicholiday}" method="GET">
+						<input type="submit" value="Add New Public Holiday" style="width:300px"
+							class="btn btn-primary btn-lg">
+						</input>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<table class="table" th:if="${not #lists.isEmpty(holidays)}">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Public Holiday Name </th>
+					<th scope="col">Date</th>
+					<th scope="col">Description</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tr th:each="holiday, iterStat:${holidays}">
+				<th scope="row" th:text="${iterStat.index}+1"></th>
+				<td th:text=${holiday.publicHolidayName}> Public Holiday Name </td>
+				<td th:text=${holiday.dateOfHoliday}> Date </td>
+				<td th:text=${holiday.description}> Description </td>
+				<td>
+					<form action=# th:action="@{/admin/editpublicholiday}" method="GET">
+						<input type="hidden" th:value=${holiday.id} name="idHoliday">
+						<input type="submit" value="Edit" style="width:100px" class="btn btn-primary btn-lg">
+						</input>
+					</form>
+					<br>
+					<form action=# th:action="@{/admin/deletepublicholiday}" method="GET">
+						<input type="hidden" th:value=${holiday.id} name="idHoliday">
+						<input type="submit" value="Delete" style="width:100px" class="btn btn-primary btn-lg">
+						</input>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

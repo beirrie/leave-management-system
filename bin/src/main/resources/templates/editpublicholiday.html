@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+  	<div th:replace="fragments/layout.html :: menu"/></div>
+	<div>
+		<p>This page is for <b>editing</b> public holiday.</p>
+		<form action=# th:action="@{/admin/updatepublicholiday}" th:object="${ph}" method="POST">
+			<p>
+			<label for="ph_name">Public Holiday Name</label><br>
+			<input name="phName" type=text id="ph_name" th:value="*{publicHolidayName}"></input>
+			<input name="phID" type=hidden id="ph_id" th:value="*{id}"></input>			
+			</p>
+			<p>
+			<label for="ph_date">Date</label><br>
+			<input name="phDate" type=date id="ph_date" th:value="${convertedDate}"></input>		
+			</p>
+			<p>
+			<label for="ph_description">Brief Description of Public Holiday</label><br>
+			<textarea name="phDescription" rows="5" cols="33" id="ph_description" th:inline="text">[[${ph.description}]]</textarea>		
+			</p>
+			<input type="submit" value="Submit" style="width:300px" class="btn btn-primary btn-lg"></input>
+		</form>
+		<br>
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Public Holiday Name </td>
+					<th scope="col">Date</td>
+					<th scope="col">Description</td>
+				</tr>
+			</thead>
+			<tr>
+				<td scope="row">1</td>
+				<td th:text=${ph.publicHolidayName}> Public Holiday Name </td>
+				<td th:text=${ph.dateOfHoliday}> Date </td>
+				<td th:text=${ph.description}> Description </td>
+			</tr>			
+		</table>
+	</div>
+</body>
+</html>
