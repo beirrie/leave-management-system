@@ -11,6 +11,26 @@
 <body>
   <div th:replace="fragments/layout.html :: menu" />
   <div class="container">
+  
+  
+    <div class="row">
+	  <table class = "thead-dark" th:if="${not #lists.isEmpty(overlapLeaves)}">
+	    	<tr>
+	  		<th>Employee </th>
+	  		<th>Start Date</th>
+	  		<th>End Date</th>
+	  		<th>Leave Type</th>
+	  		<th>Levae Status</th>
+	  	</tr>
+	  	<tr th:each= "leave:${overlapLeaves}">
+	  		<td th:text="${leave.employee.firstName} +' '+${leave.employee.lastName}"></td>
+	  		<td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}"></td>
+	  		<td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"></td>
+	  		<td th:text="${leave.typeOfLeave.leaveTypeName}"></td>
+	  		<td th:text="${leave.applicationStatus}"></td>
+	  	</tr>
+	  </table>
+  </div>
     <div class="row">
 
       <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
@@ -96,20 +116,7 @@
     </div>
   </div>
   
-  <div>
-  <table th:if="${not #lists.isEmpty(overlapLeaves)}">
-    	<tr>
-  		<th>Employee </th>
-  		<th>Start Date</th>
-  		<th>End Date</th>
-  	</tr>
-  	<tr th:each= "leave:${overlapLeaves}">
-  		<td th:text="${leave.employee.firstName} +' '+${leave.employee.lastName}"></td>
-  		<td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}"></td>
-  		<td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"></td>
-  	</tr>
-  </table>
-  </div>
+
 </body>
 
 </html>
