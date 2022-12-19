@@ -66,7 +66,7 @@ public class LeaveApplicationController {
 //        if (userSession == null)
 //            return "redirect:/login";
 
-        Staff staff = staffService.FindByUserId(userSession.getStaffId());
+        Staff staff = staffService.findById(userSession.getStaffId());
 
         model.addAttribute("staff", staff);
 
