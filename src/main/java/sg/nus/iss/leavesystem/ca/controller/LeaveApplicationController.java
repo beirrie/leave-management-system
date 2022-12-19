@@ -125,11 +125,13 @@ public class LeaveApplicationController {
     @GetMapping("/deleteLeave/{id}")
     public String DeleteLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
         UserSession userSession = (UserSession) session.getAttribute("user");
+        Staff staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles); 
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
-
+        staff.reinstateLeaveBalance(leaveApplication);
         this.leaveApplicationService.DeleteLeave(leaveApplication);
+        this.staffService.updateStaff(staff);
 
         return "redirect:/LeaveHistory";
     }
