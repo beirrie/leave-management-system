@@ -28,7 +28,7 @@ public class LeaveApplication {
 	@JsonBackReference
 	private Staff employee;
 
-	@ManyToOne(fetch= FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private LeaveType typeOfLeave;
 
 	private Boolean isAbroad;
@@ -96,11 +96,11 @@ public class LeaveApplication {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Staff getEmployee() {
 		return employee;
 	}
-	
+
 	public void setEmployee(Staff employee) {
 		this.employee = employee;
 	}
@@ -217,24 +217,35 @@ public class LeaveApplication {
 		this.mgrRemarks = mgrRemarks;
 	}
 
-	public String getPeriod()
-	{
-		return Util.convertDateToString(startDate) +" - "+Util.convertDateToString(endDate);
+	public String getPeriod() {
+		return Util.convertDateToString(startDate) + " - " + Util.convertDateToString(endDate);
 	}
 
-	public String getDuration()
-	{
+	public long getBeforeDuration() {
 		long durationInDay = 0;
 		LocalDateTime tempDate = startDate;
-		while(!tempDate.isAfter(endDate))
-		{
-			if(!Util.isWeekend(tempDate) && !Util.isPublicHoliday(tempDate)){
+		while (!tempDate.isAfter(endDate)) {
+			durationInDay++;
+			tempDate = tempDate.plusDays(1);
+		}
+		return durationInDay;
+	}
+
+	public String getDuration() {
+		long beforeDurationInDay = getBeforeDuration();
+		if (beforeDurationInDay > 14) {
+			return String.valueOf(beforeDurationInDay);
+		}
+		long durationInDay = 0;
+		LocalDateTime tempDate = startDate;
+		while (!tempDate.isAfter(endDate)) {
+			if (!Util.isWeekend(tempDate) && !Util.isPublicHoliday(tempDate)) {
 				durationInDay++;
 			}
 
 			tempDate = tempDate.plusDays(1);
 		}
-		
+
 		return String.valueOf(durationInDay);
 	}
 }
