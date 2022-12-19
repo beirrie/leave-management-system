@@ -17,9 +17,9 @@ public interface OverTimeApplicationRepository extends JpaRepository<OvertimeApp
             ":id")
     List<OvertimeApplication> findByManager(@Param("id") Long id);
 
-    @Query("SELECT e FROM OvertimeApplication e where e.employee.id = " + ":id")
+    @Query("SELECT e FROM OvertimeApplication e where e.employee.id = :id ORDER BY e.date_OT DESC")
     List<OvertimeApplication> findByStaff(Long id);
 
     List<OvertimeApplication> findByEmployee_Manager_IdAndEmployee_OvertimeApplicationRecords_ApplicationStatus(Long id, String applicationStatus);
-
+        
 }

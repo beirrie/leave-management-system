@@ -51,7 +51,8 @@ public class LeaveApplicationController {
     @GetMapping("/LeaveBalance")
     public String LeaveBalance(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles);
 //        if (userSession == null)
 //            return "redirect:/login";
 
@@ -84,9 +85,9 @@ public class LeaveApplicationController {
 
     @GetMapping("/editLeave/{id}")
     public String EditLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
-//        UserSession userSession = (UserSession) session.getAttribute("user");
-//        if (userSession == null)
-//            return "redirect:/login";
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
 
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
@@ -108,9 +109,9 @@ public class LeaveApplicationController {
 
     @GetMapping("/deleteLeave/{id}")
     public String DeleteLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
-//        UserSession userSession = (UserSession) session.getAttribute("user");
-//        if (userSession == null)
-//            return "redirect:/login";
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
 
         this.leaveApplicationService.DeleteLeave(leaveApplication);
