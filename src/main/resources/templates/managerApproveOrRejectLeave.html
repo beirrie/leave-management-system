@@ -75,7 +75,7 @@
 
           <div class="form-group">
             <label>Approver Remark</label>
-            <textarea class="form-control mb-5 col-5" th:field="*{approverRemark}" rows="3"></textarea>
+            <textarea class="form-control mb-2 col-5" th:field="*{approverRemark}" rows="3"></textarea>
                <p class="large text-danger" th:if="${#fields.hasErrors('approverRemark')}" th:errors="*{approverRemark}">
               ERROR!</p>
             <!-- <fieldset> -->

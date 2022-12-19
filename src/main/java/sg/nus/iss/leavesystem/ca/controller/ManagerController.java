@@ -33,7 +33,7 @@ import sg.nus.iss.leavesystem.ca.validator.ManagerRejectLeaveValidator;
 @RequestMapping("/manager")
 public class ManagerController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
+    //private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
     @Autowired
     private LeaveApplicationService leaveAppService;
@@ -93,16 +93,13 @@ public class ManagerController {
         dto.setLeaveId(leaveId);
         model.addAttribute("dto", dto);
         model.addAttribute("ListApproveOrReject", approveOrReject);
-        //System.out.println("leave size" + overlapLeaveApps.size());
         return "managerApproveOrRejectLeave";
     }
 
-    // /
     @PostMapping("/modify_leave")
     public String approveOrRejectLeaveAppById(@Valid @ModelAttribute("dto") LeaveApprovalDTO leaveApprovalDTO,
             BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            logger.info("inside bindingresult post");
             UserSession userSession = (UserSession) session.getAttribute("user");
             List<String> roles = userSession.getUserRoles();
 
@@ -112,7 +109,6 @@ public class ManagerController {
             model.addAttribute("ListApproveOrReject", approveOrReject);
             return "managerApproveOrRejectLeave";
         }
-        logger.info(leaveApprovalDTO.getApplicationStatus());
         UserSession userSession = (UserSession) session.getAttribute("user");
         Staff approver = staffService.findStaffByID(userSession.getStaffId());
 
