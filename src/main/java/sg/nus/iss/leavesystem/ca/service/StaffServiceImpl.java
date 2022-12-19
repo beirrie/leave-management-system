@@ -142,6 +142,11 @@ public class StaffServiceImpl implements StaffService {
 		return staff.getIsActive();
 	}
 
+	@Override
+	public Staff findById(long id) {
+		return this.staffRepository.findById(id).get();
+	}
+
     @Override
     public void modifyCompensationLeaveBalance(Staff staff, double hours) {
         double balance = staff.getCompensationLeaveBalence();

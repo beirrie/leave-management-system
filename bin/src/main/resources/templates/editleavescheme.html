@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+  	<div th:replace="fragments/layout.html :: menu"/></div>
+	<div>
+		<p>This page is for <b>editing</b> leave scheme.</p>
+		<form action=# th:object="${leavescheme}" th:action="@{/admin/updateleavescheme}" method="POST">
+			<p>
+			<input type=hidden th:value="*{id}" name="idLeaveScheme"></input>
+			<label for="leavescheme_name">Leave Scheme Name</label>
+			<input type=text id="leavescheme_name" th:value="*{employmentScheme}" name="employmentScheme"></input>
+			</p>
+			<p>
+			<label for="annual_leave_entitlement">Annual Leave Entitlement</label>
+			<input type=number id="annual_leave_entitlement" th:value="*{annualLeaveEntitlement}" name="annualLeaveEntitlement"></input>		
+			</p>
+			<p>
+			<label for="medical_leave_entitlement">Medical Leave Entitlement</label>
+			<input type=number id="medical_leave_entitlement" th:value="*{medicalLeaveEntitlement}" name="medicalLeaveEntitlement"></input>		
+			</p>
+			<input type="submit" value="Submit"></input>
+		</form>
+		<br>
+		<table class="table" th:if="${not #lists.isEmpty(existingschemes)}">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Employment Scheme </td>
+					<th scope="col">Annual Leave</td>
+					<th scope="col">Medical Leave</td>
+				</tr>
+			</thead>
+			<tr th:each="scheme:${existingschemes}">
+				<th scope="row" th:text=${scheme.id}></th>
+				<td th:text=${scheme.employmentScheme}> Employment Scheme Name </td>
+				<td th:text=${scheme.annualLeaveEntitlement}> Annual Leave </td>
+				<td th:text=${scheme.medicalLeaveEntitlement}> Medical Leave </td>
+			</tr>			
+		</table>
+	</div>
+</body>
+</html>

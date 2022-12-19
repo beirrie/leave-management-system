@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div class="container">
+		<div class="d-flex flex-row justify-content-between align-items-end">
+			<h1>Staff List</h1>
+			<form th:action="@{/admin/user/create}">
+				<button type="submit" class="btn btn-info">Add Staff</button>
+			</form>
+		</div>
+		<hr>
+		<div th:if="${not #lists.isEmpty(staffList)}">
+			<table style="width:100%; border: 1;" class="table table-striped table-responsive-md">
+				<thead>
+					<tr>
+						<th style="white-space: nowrap;">Staff Id</th>
+						<th style="white-space: nowrap;">Manager Id</th>
+						<th width="50%">Name</th>
+						<th width="50%">Email</th>
+						<th style="white-space: nowrap;">Status</th>
+						<th style="white-space: nowrap;">Edit</th>
+						<th style="white-space: nowrap;">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="staff : ${staffList}" class="listRecord">
+						<td align="left" th:text="${staff.staffId}">Staff Id</td>
+						<td align="left" th:text="${staff.managerId}">Manager Id</td>
+						<td align="left" th:text="${staff.firstName + ' ' + staff.lastName}">Name</td>
+						<td align="left" th:text="${staff.emailAdd}">Email</td>
+						<td align="left" th:text="${staff.isActive}">Status</td>
+						<td><a th:href="@{/admin/staff/edit/}+${staff.staffId}">Edit</a></td>
+						<td>
+							<div th:if="${staff.isActive}">
+								<a value="${staff.isActive}"
+									th:href="@{/admin/staff/deactivate/}+${staff.staffId}">Deactivate</a>
+							</div>
+							<div th:unless="${staff.isActive}">
+								<a th:href="@{/admin/staff/activate/}+${staff.staffId}">Activate</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</body>
+
+</html>

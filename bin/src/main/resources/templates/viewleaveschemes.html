@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	</div>
+	<div>
+		<br><br>
+		<table>
+			<tr>
+				<td style="width:200px; vertical-align:text-top">
+					<form action=# th:action="@{/admin/addleavescheme}" method="GET">
+						<input type="submit" value="Add New Leave Scheme" style="width:300px"
+							class="btn btn-primary btn-lg">
+						</input>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<table class="table" th:if="${not #lists.isEmpty(existingschemes)}">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Employment Scheme </td>
+					<th scope="col">Annual Leave</td>
+					<th scope="col">Medical Leave</td>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tr th:each="scheme:${existingschemes}">
+				<th scope="row" th:text=${scheme.id}></th>
+				<td th:text=${scheme.employmentScheme}> Employment Scheme Name </td>
+				<td th:text=${scheme.annualLeaveEntitlement}> Annual Leave </td>
+				<td th:text=${scheme.medicalLeaveEntitlement}> Medical Leave </td>
+				<td>
+					<form action=# th:action="@{/admin/deactivateleavescheme}" method="GET">
+						<input type="hidden" th:value=${scheme.id} name="idLeaveScheme">
+						<div th:if="${scheme.isActive}">
+							<input type="submit" value="Deactivate" style="width:130px"
+								class="btn btn-primary btn-lg"></input>
+						</div>
+						<div th:unless="${scheme.isActive}">
+							<input type="submit" value="Activate" style="width:130px"
+								class="btn btn-primary btn-lg"></input>
+						</div>
+					</form>
+					<form action=# th:action="@{/admin/editleavescheme}" method="GET">
+						<input type="hidden" th:value=${scheme.id} name="idLeaveScheme">
+						<input type="submit" value="Edit" style="width:100px" class="btn btn-primary btn-lg">
+						</input>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>
