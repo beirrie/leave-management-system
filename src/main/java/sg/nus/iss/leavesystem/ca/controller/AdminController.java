@@ -20,8 +20,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.PublicHoliday;
+import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.LeaveTypeService;
 import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
@@ -43,14 +45,20 @@ public class AdminController {
 	//Methods for Leave Schemes Related Features
 	
 	@GetMapping("/viewleaveschemes")
-	public String viewLeaveSchemes(Model model) {
+	public String viewLeaveSchemes(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		List<LeaveScheme> leaveSchemes = _leaveSchemeService.getAllLeaveScheme();
 		model.addAttribute("existingschemes", leaveSchemes);
 		return "viewleaveschemes";
 	}
 	
 	@GetMapping("/addleavescheme")
-	public String editLeaveScheme(Model model) {
+	public String editLeaveScheme(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		List<LeaveScheme> leaveSchemes = _leaveSchemeService.getAllLeaveScheme();
 		LeaveScheme emptyLeaveScheme = new LeaveScheme();
 		model.addAttribute("existingschemes", leaveSchemes);
@@ -65,7 +73,10 @@ public class AdminController {
 	}
 	
 	@GetMapping("/editleavescheme")
-	public String editLeaveScheme(String idLeaveScheme, Model model) {
+	public String editLeaveScheme(String idLeaveScheme, Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		Long lsID = Long.parseLong(idLeaveScheme);
 		LeaveScheme ls_Edit = _leaveSchemeService.getLeaveSchemeByID(lsID);
 		model.addAttribute("leavescheme",ls_Edit);
@@ -87,7 +98,10 @@ public class AdminController {
 	//Methods for Public Holidays Related Features
 	
 	@GetMapping("/viewpublicholidays")
-	public String viewpublicholidays(Model model) throws JsonMappingException, JsonProcessingException{
+	public String viewpublicholidays(Model model, HttpSession session) throws JsonMappingException, JsonProcessingException{
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		List<PublicHoliday> publicHolidays = _publicHolidayService.getAllPublicHolidays();
 		int counter = publicHolidays.size();
 		model.addAttribute("holidays", publicHolidays);
@@ -103,7 +117,10 @@ public class AdminController {
 	}
 	
 	@GetMapping("/addpublicholiday")
-	public String addpublicholiday(Model model) {
+	public String addpublicholiday(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		List<PublicHoliday> publicHolidays = _publicHolidayService.getAllPublicHolidays();
 		PublicHoliday emptyPublicHoliday = new PublicHoliday();
 		model.addAttribute("holidays", publicHolidays);
@@ -119,7 +136,10 @@ public class AdminController {
 	}
 	
 	@GetMapping("/editpublicholiday")
-	public String addnewpublicholiday(String idHoliday, Model model) {
+	public String addnewpublicholiday(String idHoliday, Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		Long phID = Long.parseLong(idHoliday);
 		PublicHoliday ph_Edit = _publicHolidayService.getPublicHoliday(phID);
 		LocalDateTime dt = ph_Edit.getDateOfHoliday();

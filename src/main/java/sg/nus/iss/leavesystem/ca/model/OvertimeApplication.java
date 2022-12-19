@@ -3,6 +3,8 @@ package sg.nus.iss.leavesystem.ca.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class OvertimeApplication {
     @JoinColumn(name = "employee_Id", referencedColumnName = "id")
     private Staff employee;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime date_OT; //
 
     private double hours_OT; //
@@ -46,6 +49,16 @@ public class OvertimeApplication {
 
     public OvertimeApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment) {
         this.employee = employee;
+        this.date_OT = OT_Date;
+        this.hours_OT = hours;
+        this.employeeComment = employeeComment;
+        this.appliedDateTime = LocalDateTime.now();
+        this.applicationStatus = "Applied";
+    }
+    
+    public OvertimeApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment, Staff approver) {
+        this.employee = employee;
+        this.approver = approver;
         this.date_OT = OT_Date;
         this.hours_OT = hours;
         this.employeeComment = employeeComment;

@@ -1,5 +1,7 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +43,9 @@ public class ManagerController {
 
     @GetMapping("/pending_leave_applications")
     public String ViewPendingLeavesApp(HttpSession session, Model model) {
-        //TODO get manager id from session to populate list with subordinates
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
        Staff manager1 = staffService.findStaffByID("3");
         model.addAttribute("leaves", leaveAppService.getAllPendingByManager(manager1));
         return "managerPendingLeavesApps";
@@ -49,6 +53,9 @@ public class ManagerController {
 
     @GetMapping("/pending_ot_applications")
     public String ViewPendingOTApp(HttpSession session, Model model) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         Staff manager1 = staffService.findStaffByID("3");
         model.addAttribute("overtimes",
                 overtimeApplicationService.getAllPendingByManager(manager1));
@@ -56,7 +63,10 @@ public class ManagerController {
     }
 
     @GetMapping("/leave_application/{id}")
-    public String showLeaveAppById(@PathVariable("id") Long leaveId, Model model) {
+    public String showLeaveAppById(@PathVariable("id") Long leaveId, Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         String[] approveOrReject = { "Approved", "Rejected" };
         model.addAttribute("leave", leaveAppService.getLeaveById(leaveId));
         LeaveApprovalDTO dto = new LeaveApprovalDTO();
@@ -77,8 +87,11 @@ public class ManagerController {
     }
 
     @GetMapping("/ot_application/{id}")
-    public String showOTAppById(@PathVariable("id") Long otId, Model model) {
-        String[] approveOrReject = { "Approved", "Rejected" };
+    public String showOTAppById(@PathVariable("id") Long otId, Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
+    	String[] approveOrReject = { "Approved", "Rejected" };
         model.addAttribute("overtime", overtimeApplicationService.getById(otId));
         OvertimeApprovalDTO dto = new OvertimeApprovalDTO();
         dto.setOtId(otId);
@@ -98,7 +111,10 @@ public class ManagerController {
     }
 
     @GetMapping("/employees_leave_history")
-    public String getAllStaffLeaveHistory(Model model) {
+    public String getAllStaffLeaveHistory(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         Staff manager = staffService.findStaffByID("3");// todo change to get from session
         model.addAttribute("leaves", leaveAppService.getStaffLeavesByManager(manager));
 
@@ -106,7 +122,10 @@ public class ManagerController {
     }
 
     @GetMapping("/employees_ot_history")
-    public String getAllStaffOTHistory(Model model) {
+    public String getAllStaffOTHistory(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         Staff manager = staffService.findStaffByID("3");// todo change to get from session
         model.addAttribute("overtimes", overtimeApplicationService.getAllByManager(manager));
 

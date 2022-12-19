@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.User;
+import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.RoleService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
@@ -30,7 +32,7 @@ public class UserController {
 	@Autowired
 	private UserStaffFormValidator userStaffFormValidator;
 
-	@InitBinder("userStaffForm")
+	@InitBinder("userForm")
 	private void initUserStaffFormBinder(WebDataBinder binder) {
 		binder.addValidators(userStaffFormValidator);
 	}
@@ -45,14 +47,20 @@ public class UserController {
 	private RoleService roleService;
 
 	@GetMapping("/list")
-	public String userListPage(Model model) {
+	public String userListPage(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		List<User> userList = userService.findAllUsers();
 		model.addAttribute("userList", userList);
 		return "user-list";
 	}
 
 	@GetMapping("/create")
-	public String newStaffPage(Model model) {
+	public String newStaffPage(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> allroles = userSession.getUserRoles();
+        model.addAttribute("roles", allroles); 
 		model.addAttribute("userForm", new UserStaffForm());
 		List<Role> roles = roleService.findAllRoles();
 		model.addAttribute("roles", roles);
@@ -61,7 +69,7 @@ public class UserController {
 	}
 
 	@PostMapping("/create")
-	public String createNewUser(@Valid @ModelAttribute UserStaffForm userForm, BindingResult result,
+	public String createNewUser(@Valid @ModelAttribute("userForm") UserStaffForm userForm, BindingResult result,
 			RedirectAttributes redirectAttrs, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("userForm", userForm);

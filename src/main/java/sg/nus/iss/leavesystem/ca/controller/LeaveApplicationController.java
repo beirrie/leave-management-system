@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplicationForm;
+import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
@@ -34,9 +35,14 @@ public class LeaveApplicationController {
     LeaveApplicationService leaveApplicationService;
 
     @GetMapping(value={"/LeaveApplication", "/"})
-    public String Main(HttpSession session) {
-//        UserSession userSession = (UserSession) session.getAttribute("user");
-//
+    public String Main(HttpSession session, Model model) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles);
+        for(String role: roles) {
+        	System.out.println(role);
+        }
+//		model.addAttribute("userSession", userSession);
 //        if (userSession == null)
 //            return "redirect:/login";
         return "LeaveApplication";
@@ -45,7 +51,8 @@ public class LeaveApplicationController {
     @GetMapping("/LeaveBalance")
     public String LeaveBalance(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles);
 //        if (userSession == null)
 //            return "redirect:/login";
 
@@ -78,9 +85,9 @@ public class LeaveApplicationController {
 
     @GetMapping("/editLeave/{id}")
     public String EditLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
-//        UserSession userSession = (UserSession) session.getAttribute("user");
-//        if (userSession == null)
-//            return "redirect:/login";
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
 
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
@@ -102,9 +109,9 @@ public class LeaveApplicationController {
 
     @GetMapping("/deleteLeave/{id}")
     public String DeleteLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
-//        UserSession userSession = (UserSession) session.getAttribute("user");
-//        if (userSession == null)
-//            return "redirect:/login";
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
 
         this.leaveApplicationService.DeleteLeave(leaveApplication);

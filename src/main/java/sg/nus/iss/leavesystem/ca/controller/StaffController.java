@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
+import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.RoleService;
@@ -48,13 +50,19 @@ public class StaffController {
 	RoleService roleService;
 
 	@GetMapping("/list")
-	public String staffListPage(Model model) {
+	public String staffListPage(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		model.addAttribute("staffList", staffService.getStaffList());
 		return "staff-list";
 	}
 
 	@GetMapping("/create")
-	public String newStaffPage(Model model) {
+	public String newStaffPage(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		model.addAttribute("userStaffForm", new UserStaffForm());
 		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
 		model.addAttribute("managers", staffService.findAllManagers());
@@ -62,7 +70,18 @@ public class StaffController {
 	}
 
 	@PostMapping("/create")
-	public String newStaffPage(@ModelAttribute UserStaffForm staff, BindingResult result) {
+	public String newStaffPage(@Valid @ModelAttribute("userStaffForm") UserStaffForm staff, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			User userDetails = new User();
+			userDetails.setId(staff.getUserId());
+			userDetails.setPassword(staff.getPassword());
+			userDetails.setUserName(staff.getUserName());
+			model.addAttribute("user", userDetails);
+			model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
+			model.addAttribute("managers", staffService.findAllManagers());
+			return "staff-new";
+		}
 		Staff newStaff = new Staff();
 		newStaff.setUser(userService.findUser(staff.getUserId()));
 		newStaff.setFirstName(staff.getFirstName());
@@ -70,12 +89,17 @@ public class StaffController {
 		newStaff.setEmailAdd(staff.getEmailAdd());
 		newStaff.setManager(staffService.findStaffByID(staff.getManagerId()));
 		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staff.getLeaveSchemeId())));
+		newStaff.setAnnualLeaveBalance(staff.getAnnualLeaveBalance());
+		newStaff.setMedicalLeaveBalance(staff.getMedicalLeaveBalance());
 		staffService.createStaff(newStaff);
 		return "redirect:/admin/staff/list";
 	}
 
 	@GetMapping("/edit/{id}")
-	public String editStaffPage(@PathVariable("id") String id, Model model) {
+	public String editStaffPage(@PathVariable("id") String id, Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		Staff staff = staffService.findStaffByID(id);
 		User staffUser = userService.findUserByStaffID(id);
 
@@ -130,13 +154,26 @@ public class StaffController {
 	}
 
 	@GetMapping("/deactivate/{id}")
-	public String deleteStaff(@PathVariable("id") String id) {
+	public String deactivateStaff(@PathVariable("id") String id) {
 		Staff staff = staffService.findStaffByID(id);
 		staffService.deactivateStaff(staff);
 		User user = userService.findUserByStaffID(id);
 		userService.deactivateUser(user);
 
 		String message = "The staff " + staff.getId() + " was successfully deactivated.";
+		System.out.println(message);
+
+		return "redirect:/admin/staff/list";
+	}
+
+	@GetMapping("/activate/{id}")
+	public String activateStaff(@PathVariable("id") String id) {
+		Staff staff = staffService.findStaffByID(id);
+		staffService.activateStaff(staff);
+		User user = userService.findUserByStaffID(id);
+		userService.activateUser(user);
+
+		String message = "The staff " + staff.getId() + " was successfully activated.";
 		System.out.println(message);
 
 		return "redirect:/admin/staff/list";

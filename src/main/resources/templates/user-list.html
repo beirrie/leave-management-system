@@ -27,7 +27,6 @@
 				<tr th:each="user : ${userList}" class="listRecord">
 					<td th:text="${user.id}">Id</td>
 					<td th:text="${user.userName}">Name</td>
-					<td th:text="${user.password}">Password</td>
 					<td th:text="${user.employee!=null}?${user.employee.id}:'not assigned'">Employee Id</td>
 
 					<!-- <td><a th:href="@{/admin/user/edit/}+${user.Id}" class="btn btn-default"><span

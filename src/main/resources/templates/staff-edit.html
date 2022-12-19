@@ -1,109 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<head th:replace="fragments/layout.html :: html_head" />
+
 <body>
-	<h3>Edit staff Page</h3>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div class="container">
+		<h1>Edit User</h1>
+		<hr>
+		<form action="#" th:action="@{/admin/staff/edit/}+${userStaffForm.staffId}" th:object="${userStaffForm}"
+			method="post">
+			<div class="form-group">
+				<label class="control-label required">User Id</label>
+				<input type="text" th:field="*{userId}" readonly class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Username</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+				<input type="text" th:field="*{userName}" class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Password</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+				<input type="text" th:field="*{password}" class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Staff Id</label>
+				<input type="text" th:field="*{staffId}" readonly class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">First Name</label>
+				<input type="text" th:field="*{firstName}" class="form-control mb-5 col-5" required />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Last Name</label>
+				<input type="text" th:field="*{lastName}" class="form-control mb-5 col-5" required />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Email Address</label>
+				<input type="email" th:field="*{emailAdd}" class="form-control mb-5 col-5" required />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Leave Scheme</label>
+				<select th:field="*{leaveSchemeId}" class="form-control mb-5 col-5">
+					<option th:each="leaveScheme : ${leaveSchemes}" th:value="${leaveScheme.id}"
+						th:text="${leaveScheme.employmentScheme}">
+						LeaveScheme
+					</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Medical Leave Balance</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('medicalLeaveBalance')}"
+					th:errors="*{medicalLeaveBalance}"></p>
+				<input type="number" min="0" step="1" th:field="*{medicalLeaveBalance}"
+					class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Annual Leave Balance</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('annualLeaveBalance')}"
+					th:errors="*{annualLeaveBalance}"></p>
+				<input type="number" min="0" step="1" th:field="*{annualLeaveBalance}"
+					class="form-control mb-5 col-5" />
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Manager</label>
+				<select th:field="*{managerId}" required class="form-control mb-5 col-5">
+					<option th:each="mgr : ${managers}" th:value="${mgr.id}"
+						th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'"
+						th:selected="${userStaffForm.managerId == mgr.id}">
+						Managers
+					</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="roles">User roles (multiple select):</label>
+				<p class="small text-danger" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></p>
+				<select multiple="multiple" name="roles" id="roles" required class="form-control mb-5 col-5">
+					<option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.roleName}"
+						th:selected="${userStaffForm.roles.contains(role)}">
+						Roles
+					</option>
+				</select>
 
-	<form action="#" th:action="@{/admin/staff/edit/}+${userStaffForm.staffId}" th:object="${userStaffForm}"
-		method="post">
-		<table>
-			<tbody>
-				<tr>
-					<td><span>User Id</span></td>
-					<td><input type="text" th:field="*{userId}" readonly style="background-color:white; border:0px;" />
-					</td>
-				</tr>
-				<tr>
-					<td><span>Username</span></td>
-					<td><input type="text" th:field="*{userName}" /></td>
-				</tr>
-				<tr>
-					<td><span>Password</span></td>
-					<td><input type="text" th:field="*{password}" /></td>
-				</tr>
-				<tr>
-					<td><span>Staff Id</span></td>
-					<td><input type="text" th:field="*{staffId}" readonly style="background-color:white; border:0px;" />
-					</td>
-				</tr>
-				<tr>
-					<td><span>First Name</span></td>
-					<td>
-						<input type="text" th:field="*{firstName}" />
-					</td>
-				</tr>
-				<tr>
-					<td><span>Last Name</span></td>
-					<td>
-						<input type="text" th:field="*{lastName}" />
-					</td>
-				</tr>
-				<tr>
-					<td><span>Email Address</span></td>
-					<td>
-						<input type="email" th:field="*{emailAdd}" />
-					</td>
-				</tr>
-				<tr>
-					<td><span>Leave Scheme</span></td>
-					<td>
-						<select th:field="*{leaveSchemeId}">
-							<option th:each="leaveScheme : ${leaveSchemes}" th:value="${leaveScheme.id}"
-								th:text="${leaveScheme.employmentScheme}">
-								LeaveScheme
-							</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><span>Medical Leave Balance</span></td>
-					<td>
-						<input type="number" min="0" step="1" th:field="*{medicalLeaveBalance}" />
-					</td>
-					<td th:if="${#fields.hasErrors('medicalLeaveBalance')}" th:errors="*{medicalLeaveBalance}"></td>
-				</tr>
-				<tr>
-					<td><span>Annual Leave Balance</span></td>
-					<td>
-						<input type="number" min="0" step="1" th:field="*{annualLeaveBalance}" />
-					</td>
-					<td th:if="${#fields.hasErrors('annualLeaveBalance')}" th:errors="*{annualLeaveBalance}"></td>
-				</tr>
-				<tr>
-					<td><span>Manager</span></td>
-					<td>
-						<select th:field="*{managerId}" required>
-							<option th:each="mgr : ${managers}" th:value="${mgr.id}"
-								th:text="${mgr.firstName} + ' ' + ${mgr.lastName} + ' (id: ' + ${mgr.id} + ')'"
-								th:selected="${userStaffForm.managerId == mgr.id}">
-								Managers
-							</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><label for="roles">User roles (multiple select):</label></td>
-					<td>
-						<select multiple="multiple" name="roles" id="roles" required>
-							<option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.roleName}"
-								th:selected="${userStaffForm.roles.contains(role)}">
-								Roles
-							</option>
-						</select>
-					</td>
-					<td th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" value="Save" />
-					</td>
-					<td></td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-
+			</div>
+			<button type="submit" class="btn btn-info col-2" value="Save" />Save</button>
+		</form>
 </body>
 
 </html>
