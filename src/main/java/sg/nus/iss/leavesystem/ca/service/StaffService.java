@@ -16,6 +16,8 @@ public interface StaffService {
 
 	List<Staff> findAllStaff();
 
+	List<Staff> findStaffExcludeSelf(long userId);
+
 	Staff findStaffByID(Long id);
 
 	Staff findStaffByID(String id);

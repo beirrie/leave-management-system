@@ -166,4 +166,9 @@ public class StaffServiceImpl implements StaffService {
 		staff.setAccumulated_OT_Hours(updatedTotalBalanceHours);
 		staffRepository.saveAndFlush(staff);
     }
+
+	@Override
+	public List<Staff> findStaffExcludeSelf(long userId) {
+		return staffRepository.findAllStaffExcludeID(String.valueOf(userId));
+	}
 }
