@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.stereotype.Component;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {

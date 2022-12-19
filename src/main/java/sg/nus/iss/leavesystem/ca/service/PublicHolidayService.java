@@ -11,18 +11,18 @@ import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.PublicHoliday;
 
 public interface PublicHolidayService {
-	
-	PublicHoliday getPublicHoliday(Long id);
-	
+
+    PublicHoliday getPublicHoliday(Long id);
+
     List<PublicHoliday> getAllPublicHolidays();
-    
+
     PublicHoliday getPublicHolidayByID(Long publicHolidayID);
-    
+
     void pullPublicHolidaysData() throws JsonMappingException, JsonProcessingException;
-    
-    PublicHoliday createPublicHoliday(String publicHolidayName, 
-    		String dateOfHoliday, String description);
-    
+
+    PublicHoliday createPublicHoliday(String publicHolidayName,
+            String dateOfHoliday, String description);
+
     void deleteAllPublicHolidaysData();
     
     PublicHoliday updatePublicHoliday(String phID, String phName, String phDate, String phDescription);
