@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
@@ -35,5 +36,7 @@ public interface StaffService {
 	Staff findById(long id);
 
 	void modifyCompensationLeaveBalance(Staff staff, double hours);
+
+	void modifyOtherLeaveBalance(Staff staff, LeaveApplication app);
 
 }

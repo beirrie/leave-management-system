@@ -14,10 +14,14 @@ import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
+import sg.nus.iss.leavesystem.ca.service.StaffService;
 
 @Service
 @Transactional
 public class LeaveApplicationServiceImpl implements LeaveApplicationService {
+
+    @Autowired
+    StaffService staffService;
 
     @Autowired
     private LeaveApplicationRepository leaveAppRepo;
@@ -79,6 +83,11 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         app.setMgrRemarks(remarks);
         app.setDateReviewed(LocalDateTime.now());
         app.setEmployeeManager(approver);
+
+        if (app.getApplicationStatus().equalsIgnoreCase("Rejected")){
+            staffService.modifyOtherLeaveBalance(app.getEmployee(),app);
+        }
+
         leaveAppRepo.saveAndFlush(app);
     }
 
