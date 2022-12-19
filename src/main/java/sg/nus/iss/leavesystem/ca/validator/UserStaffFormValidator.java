@@ -56,11 +56,7 @@ public class UserStaffFormValidator implements Validator {
 				Staff staff = staffService.findStaffByID(userStaffForm.getStaffId());
 				if (staff.getSubordinates().size() != 0) {
 					errors.rejectValue("roles", "error.roles",
-<<<<<<< HEAD
 							"Manager with subordinates must retain a manager role.");
-=======
-							"Manager with subordinates cannot be set to an employee role.");
->>>>>>> Manager
 				}
 			}
 		}

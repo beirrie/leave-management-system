@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import sg.nus.iss.leavesystem.ca.util.Util;
 
 @Entity
 @Table(name = "leave_applications")
@@ -214,5 +215,26 @@ public class LeaveApplication {
 
 	public void setMgrRemarks(String mgrRemarks) {
 		this.mgrRemarks = mgrRemarks;
+	}
+
+	public String getPeriod()
+	{
+		return Util.convertDateToString(startDate) +" - "+Util.convertDateToString(endDate);
+	}
+
+	public String getDuration()
+	{
+		long durationInDay = 0;
+		LocalDateTime tempDate = startDate;
+		while(!tempDate.isAfter(endDate))
+		{
+			if(!Util.isWeekend(tempDate) && !Util.isPublicHoliday(tempDate)){
+				durationInDay++;
+			}
+
+			tempDate = tempDate.plusDays(1);
+		}
+		
+		return String.valueOf(durationInDay);
 	}
 }

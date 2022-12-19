@@ -141,4 +141,9 @@ public class StaffServiceImpl implements StaffService {
 		staff.setIsActive(true);
 		return staff.getIsActive();
 	}
+
+	@Override
+	public Staff findById(long id) {
+		return this.staffRepository.findById(id).get();
+	}
 }
