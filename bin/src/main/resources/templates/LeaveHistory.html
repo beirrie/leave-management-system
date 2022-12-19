@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaves</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container my-2 center">
+
+        <h1>Leave History</h1>
+        <hr>
+        <table style="width:100%; border: 1;" class="table table-striped table-responsive-md">
+            <thead>
+                <tr>
+                    <th>Leave Type</th>
+                    <th>Period</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="leave:${leaveList}">
+                    <td th:text="${leave.typeOfLeave.leaveTypeName}"></td>
+                    <td th:text="${leave.getPeriod()}"></td>
+                    <td th:text="${leave.getDuration()}"></td>
+                    <td th:text="${leave.applicationStatus}"> </td>
+                    <td>
+                         <a th:href="@{/editLeave/{id}(id=${leave.id})}" class="btn-sm btn-primary">Update</a>
+                            <a th:href="@{/deleteLeave/{id}(id=${leave.id})}" class="btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+
+        <a href="/LeaveApplication"> Back to Leave Application</a>
+    </div>
+</body>
+
+</html>

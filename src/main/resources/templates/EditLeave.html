@@ -1,27 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management System</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min_leave.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <!--  jQuery -->
-<script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
-
-<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
-<link rel="stylesheet" href="/bootstrap/css/bootstrap-iso.css" />
-
-<!-- Bootstrap Date-Picker Plugin -->
-<script type="text/javascript" src="/bootstrap/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="/bootstrap/css/bootstrap-datepicker3.css"/>
-</head>
+<head th:replace="fragments/layout.html :: html_head" />
 
 <body>
+    <div th:replace="fragments/layout.html :: menu" />
     <div class="container">
-        <h1>New Leave Application</h1>
+        <h1>Edit Leave Application</h1>
         <hr>
         <form action="#" th:action="@{/updateLeave}" th:object="${leaveForm}" method="POST">
             <input type="hidden" th:field="*{id}" />
@@ -35,11 +20,13 @@
             <div class="form-group">
                 <label class="control-label required">Start Date</label>
                 <input id="startDateStr" readonly type="text" th:field="*{startDateStr}" placeholder="DD/MM/YYYY" class="form-control mb-5 col-5">
+                <label th:if="${#fields.hasErrors('startDateStr')}" style="color:red;" th:errors="*{startDateStr}" class="control-label mb-4 col-4"></label>
             </div>
 
             <div class="form-group">
                 <label class="control-label required">End Date</label>
                 <input id="endDateStr" readonly type="text" th:field="*{endDateStr}" placeholder="DD/MM/YYYY" class="form-control mb-5 col-5">
+                <label th:if="${#fields.hasErrors('endDateStr')}" style="color:red;" th:errors="*{endDateStr}" class="control-label mb-4 col-4"></label>
             </div>
 
             <div class="form-group">
@@ -62,6 +49,7 @@
             <div class="form-group">
                 <label class="control-label required">Contract Details</label>
                 <input type="text" th:field="*{contactNumber}" placeholder="Contact Details" class="form-control mb-5 col-5">
+                <label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}" class="control-label mb-4 col-4"></label>
             </div>
 
             <div class="form-group">

@@ -232,4 +232,12 @@ public class Staff {
 		this.isActive = isActive;
 	}
 
+	public void deductLeave(LeaveApplication leaveApplication){
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+		}
+	}
 }

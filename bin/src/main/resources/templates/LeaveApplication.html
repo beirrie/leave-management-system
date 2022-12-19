@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{fragments/layout}">
+
+<head th:replace="fragments/layout.html :: html_head" />
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<br />
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="card" style="height:150px;">
+					<h5 class="card-header"><a href="/LeaveBalance">Leave Balance</a></h5>
+					<div class="card-body">
+						<p class="card-text d-flex justify-content-between">
+							<span class="font-weight-bold">Review current plan balances and absences taken or
+								requested</span>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-4">
+				<div class="card" style="height:150px;">
+					<h5 class="card-header"><a href="/LeaveHistory">Existing Leaves</a></h5>
+					<div class="card-body">
+						<p class="card-text d-flex justify-content-between">
+							<span class="font-weight-bold">View, change or withdraw existing leave requests</span>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-4">
+				<div class="card" style="height:150px;">
+					<h5 class="card-header"><a href="/AddLeave">Apply For Leave</a></h5>
+					<div class="card-body">
+						<p class="card-text d-flex justify-content-between">
+							<span class="font-weight-bold">Request a leave and submit for approval</span>
+						</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<footer b-8i4qlzt809 class="border-top footer text-muted">
+		<div b-8i4qlzt809 class="container">
+			&copy; 2022 - Leave Application
+		</div>
+	</footer>
+	<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</html>
