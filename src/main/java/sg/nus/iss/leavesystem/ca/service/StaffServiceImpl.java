@@ -169,6 +169,11 @@ public class StaffServiceImpl implements StaffService {
     }
 
 	@Override
+	public List<Staff> findStaffExcludeSelf(long userId) {
+		return staffRepository.findAllStaffExcludeID(String.valueOf(userId));
+	}
+
+	@Override
 	public void modifyOtherLeaveBalance(Staff staff, LeaveApplication app) {
 		double duration = Double.parseDouble(app.getDuration());
 

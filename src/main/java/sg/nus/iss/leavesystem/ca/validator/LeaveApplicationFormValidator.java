@@ -24,15 +24,22 @@ public class LeaveApplicationFormValidator implements Validator {
         LocalDateTime startDate = Util.convertStringToDate(leaveForm.getStartDateStr());
 
         if (endDate.isBefore(startDate)) {
-            errors.rejectValue("endDateStr", null, "End date must not be less than Start Date");
+            errors.rejectValue("endDateStr", null, "End date must not be less than Start Date!");
         }
 
         if(Util.isWeekend(startDate)){
-            errors.rejectValue("startDateStr", null, "Start date must not be on weekend");
+            errors.rejectValue("startDateStr", null, "Start date must not be on weekend!");
         }
 
         if(Util.isWeekend(endDate)){
-            errors.rejectValue("endDateStr", null, "End date must not be on weekend");
+            errors.rejectValue("endDateStr", null, "End date must not be on weekend!");
+        }
+
+        if(leaveForm.getIsAbroad()){
+            if(leaveForm.getContactNumber() == "" || leaveForm.getContactNumber() == null)
+            {
+                errors.rejectValue("contactNumber", null, "Contact Details is mandatory!");
+            }
         }
     }
 

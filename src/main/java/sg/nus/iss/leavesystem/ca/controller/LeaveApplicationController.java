@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplicationForm;
-import sg.nus.iss.leavesystem.ca.model.Role;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
@@ -89,18 +88,20 @@ public class LeaveApplicationController {
     @GetMapping("/AddLeave")
     public String AddLeave(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
+        var staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles); 
         LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
         model.addAttribute("leaveForm", leaveApplication);
         model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-        model.addAttribute("coveringStaffList", staffService.findAllStaff());
+        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
         return "AddLeave";
     }
 
     @GetMapping("/editLeave/{id}")
     public String EditLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
         UserSession userSession = (UserSession) session.getAttribute("user");
+        var staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles); 
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
@@ -117,7 +118,7 @@ public class LeaveApplicationController {
 
         model.addAttribute("leaveForm", leaveApplicationForm);
         model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-        model.addAttribute("coveringStaffList", staffService.findAllStaff());
+        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
         return "EditLeave";
     }
 
@@ -137,17 +138,17 @@ public class LeaveApplicationController {
     public String SaveLeave(@ModelAttribute("leaveForm") @Valid LeaveApplicationForm leaveForm, BindingResult result,
             HttpSession session, Model model) {
         UserSession userSession = (UserSession) session.getAttribute("user");
+        var staff = this.staffService.findById(userSession.getStaffId());
         if (userSession == null)
             return "redirect:/login";
 
         if (result.hasErrors()) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-            model.addAttribute("coveringStaffList", staffService.findAllStaff());
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             return "AddLeave";
         }
 
-        var staff = this.staffService.findById(userSession.getStaffId());
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
         leaveApplication.setEmployee(staff);
@@ -166,7 +167,7 @@ public class LeaveApplicationController {
         if (leaveApplication.getEndDate().isBefore(leaveApplication.getStartDate())) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-            model.addAttribute("coveringStaffList", staffService.findAllStaff());
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             return "AddLeave";
         }
 
@@ -178,15 +179,15 @@ public class LeaveApplicationController {
     public String UpdateLeave(@ModelAttribute("leaveForm") @Valid LeaveApplicationForm leaveForm, BindingResult result,
             HttpSession session, Model model) {
         UserSession userSession = (UserSession) session.getAttribute("user");
+        var staff = this.staffService.findById(userSession.getStaffId());
         if (userSession == null)
             return "redirect:/login";
         if (result.hasErrors()) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-            model.addAttribute("coveringStaffList", staffService.findAllStaff());
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             return "EditLeave";
         }
-        var staff = this.staffService.findById(userSession.getStaffId());
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setId(leaveForm.getId());
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());

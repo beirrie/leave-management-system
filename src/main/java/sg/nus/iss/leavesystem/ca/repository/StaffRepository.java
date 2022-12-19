@@ -26,4 +26,5 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
   
 	@Query("SELECT s FROM Staff s WHERE s.user.id <> :sid")
 	List<Staff> findAllStaffExcludeID(@Param("sid") String id);
+
 }
