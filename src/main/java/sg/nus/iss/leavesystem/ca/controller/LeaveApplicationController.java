@@ -215,4 +215,44 @@ public class LeaveApplicationController {
         this.leaveApplicationService.UpdateApplication(leaveApplication);
         return "redirect:/LeaveApplication";
     }
+    
+    @GetMapping("/cancelLeave/{id}")
+    public String CancelLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        Staff staff = this.staffService.findById(userSession.getStaffId());
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
+        LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
+        leaveApplication.setApplicationStatus("Cancelled");
+        this.leaveApplicationService.UpdateApplication(leaveApplication);
+        staff.reinstateLeaveBalance(leaveApplication);
+        this.staffService.updateStaff(staff);
+
+        return "redirect:/LeaveHistory";
+    }
+    
+    @GetMapping("/viewLeave/{id}")
+    public String ViewLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        var staff = this.staffService.findById(userSession.getStaffId());
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
+        LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
+        LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
+        leaveApplicationForm.setId(leaveApplication.getId());
+        leaveApplicationForm.setLeaveType(leaveApplication.getTypeOfLeave());
+        leaveApplicationForm.setAdditionalComments(leaveApplication.getAdditionalComments());
+        leaveApplicationForm.setCoveringStaff(leaveApplication.getCoveringStaff());
+        leaveApplicationForm.setContactNumber(leaveApplication.getContactNumber());
+        leaveApplicationForm.setApplicationStatus(leaveApplication.getApplicationStatus());
+        leaveApplicationForm.setIsAbroad(leaveApplication.getIsAbroad());
+        leaveApplicationForm.setStartDate(leaveApplication.getStartDate());
+        leaveApplicationForm.setEndDate(leaveApplication.getEndDate());
+
+        model.addAttribute("leaveForm", leaveApplicationForm);
+        model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
+        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+        return "viewleavedetails";
+    }
+
 }
