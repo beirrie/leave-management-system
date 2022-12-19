@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
+import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.RoleService;
@@ -48,13 +50,19 @@ public class StaffController {
 	RoleService roleService;
 
 	@GetMapping("/list")
-	public String staffListPage(Model model) {
+	public String staffListPage(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		model.addAttribute("staffList", staffService.getStaffList());
 		return "staff-list";
 	}
 
 	@GetMapping("/create")
-	public String newStaffPage(Model model) {
+	public String newStaffPage(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		model.addAttribute("userStaffForm", new UserStaffForm());
 		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
 		model.addAttribute("managers", staffService.findAllManagers());
@@ -88,7 +96,10 @@ public class StaffController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String editStaffPage(@PathVariable("id") String id, Model model) {
+	public String editStaffPage(@PathVariable("id") String id, Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles); 
 		Staff staff = staffService.findStaffByID(id);
 		User staffUser = userService.findUserByStaffID(id);
 
