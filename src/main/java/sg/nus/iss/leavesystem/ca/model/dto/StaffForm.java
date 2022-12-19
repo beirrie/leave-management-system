@@ -8,18 +8,20 @@ public class StaffForm {
 	private String emailAdd = "";
 	private String managerId = "";
 	private String leaveSchemeId = "";
+	private String isActive = "true";
 
 	public StaffForm() {
 	}
 
 	public StaffForm(String staffId, String firstName, String lastName, String emailAdd, String managerId,
-			String leaveSchemeId) {
+			String leaveSchemeId, String isActive) {
 		this.staffId = staffId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAdd = emailAdd;
 		this.managerId = managerId;
 		this.leaveSchemeId = leaveSchemeId;
+		this.isActive = isActive;
 	}
 
 	public String getLeaveSchemeId() {
@@ -68,5 +70,13 @@ public class StaffForm {
 
 	public void setStaffId(String id) {
 		this.staffId = id;
+	}
+
+	public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
 }

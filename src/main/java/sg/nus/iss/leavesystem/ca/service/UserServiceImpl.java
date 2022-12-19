@@ -25,12 +25,12 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAllUsers() {
 		return userRepository.findAll();
 	}
-	
-  @Override
-  public User authenticate(String userName, String password) {
-      return userRepository.FindByUserNameAndPassword(userName, password);
-  }
-    
+
+	@Override
+	public User authenticate(String userName, String password) {
+		return userRepository.FindByUserNameAndPassword(userName, password);
+	}
+
 	@Transactional
 	@Override
 	public User findUser(Long userId) {
@@ -53,6 +53,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean deactivateUser(User user) {
 		user.setIsActive(false);
+		return user.getIsActive();
+	}
+
+	@Transactional
+	@Override
+	public Boolean activateUser(User user) {
+		user.setIsActive(true);
 		return user.getIsActive();
 	}
 }

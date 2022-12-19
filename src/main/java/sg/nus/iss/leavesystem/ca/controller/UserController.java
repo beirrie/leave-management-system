@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	private UserStaffFormValidator userStaffFormValidator;
 
-	@InitBinder("userStaffForm")
+	@InitBinder("userForm")
 	private void initUserStaffFormBinder(WebDataBinder binder) {
 		binder.addValidators(userStaffFormValidator);
 	}
@@ -61,7 +61,7 @@ public class UserController {
 	}
 
 	@PostMapping("/create")
-	public String createNewUser(@Valid @ModelAttribute UserStaffForm userForm, BindingResult result,
+	public String createNewUser(@Valid @ModelAttribute("userForm") UserStaffForm userForm, BindingResult result,
 			RedirectAttributes redirectAttrs, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("userForm", userForm);
