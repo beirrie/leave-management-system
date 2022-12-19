@@ -43,20 +43,16 @@ public class ManagerController {
 
     @GetMapping("/pending_leave_applications")
     public String ViewPendingLeavesApp(HttpSession session, Model model) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-       Staff manager1 = staffService.findStaffByID("3");
+        Staff manager1 = getStaff(model, session);
+
         model.addAttribute("leaves", leaveAppService.getAllPendingByManager(manager1));
         return "managerPendingLeavesApps";
     }
 
     @GetMapping("/pending_ot_applications")
     public String ViewPendingOTApp(HttpSession session, Model model) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-        Staff manager1 = staffService.findStaffByID("3");
+        Staff manager1 = getStaff(model, session);
+
         model.addAttribute("overtimes",
                 overtimeApplicationService.getAllPendingByManager(manager1));
         return "managerPendingOTApps";
@@ -66,6 +62,7 @@ public class ManagerController {
     public String showLeaveAppById(@PathVariable("id") Long leaveId, Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
+
         model.addAttribute("roles", roles); 
         String[] approveOrReject = { "Approved", "Rejected" };
         model.addAttribute("leave", leaveAppService.getLeaveById(leaveId));
@@ -78,9 +75,11 @@ public class ManagerController {
 
     @PostMapping("/modify_leave")
     public String approveOrRejectLeaveAppById(@ModelAttribute LeaveApprovalDTO leaveApprovalDTO,
-                                              BindingResult bindingResult) {
+                                              BindingResult bindingResult, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        Staff approver = staffService.findStaffByID(userSession.getStaffId());
+
         LeaveApplication retrievedApp = leaveAppService.getLeaveById(leaveApprovalDTO.getLeaveId());
-        Staff approver = staffService.findStaffByID("3");// todo change to get from session
         leaveAppService.setApprovalStatus(retrievedApp, leaveApprovalDTO.getApplicationStatus(), leaveApprovalDTO.getApproverRemark(),
                 approver);
         return "redirect:/manager/pending_leave_applications";
@@ -90,6 +89,7 @@ public class ManagerController {
     public String showOTAppById(@PathVariable("id") Long otId, Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
+
         model.addAttribute("roles", roles); 
     	String[] approveOrReject = { "Approved", "Rejected" };
         model.addAttribute("overtime", overtimeApplicationService.getById(otId));
@@ -101,9 +101,12 @@ public class ManagerController {
     }
 
     @PostMapping("/modify_overtime")
-    public String approveOrRejectOTAppById(@ModelAttribute OvertimeApprovalDTO overtimeApprovalDTO, BindingResult bindingResult) {
+    public String approveOrRejectOTAppById(@ModelAttribute OvertimeApprovalDTO overtimeApprovalDTO,
+                                           BindingResult bindingResult, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        Staff approver = staffService.findStaffByID(userSession.getStaffId());
+
         OvertimeApplication retrievedApp = overtimeApplicationService.getById(overtimeApprovalDTO.getOtId());
-        Staff approver = staffService.findStaffByID("3");// todo change to get from session
         overtimeApplicationService.setApprovalStatus(retrievedApp, overtimeApprovalDTO.getApplicationStatus(),
                 overtimeApprovalDTO.getApproverRemark(),
                 approver);
@@ -112,10 +115,7 @@ public class ManagerController {
 
     @GetMapping("/employees_leave_history")
     public String getAllStaffLeaveHistory(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-        Staff manager = staffService.findStaffByID("3");// todo change to get from session
+        Staff manager = getStaff(model, session);
         model.addAttribute("leaves", leaveAppService.getStaffLeavesByManager(manager));
 
         return "managerAllStaffLeaveHistory";
@@ -123,13 +123,18 @@ public class ManagerController {
 
     @GetMapping("/employees_ot_history")
     public String getAllStaffOTHistory(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-        Staff manager = staffService.findStaffByID("3");// todo change to get from session
+        Staff manager = getStaff(model, session);
         model.addAttribute("overtimes", overtimeApplicationService.getAllByManager(manager));
 
         return "managerAllStaffOvertimeHistory";
+    }
+
+    private Staff getStaff(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles);
+        Staff manager = staffService.findStaffByID(userSession.getStaffId());
+        return manager;
     }
 
 }
