@@ -80,13 +80,25 @@ public class ManagerController {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
 
+        Staff manager = staffService.findStaffByID(userSession.getStaffId());
+        
         model.addAttribute("roles", roles); 
         String[] approveOrReject = { "Approved", "Rejected" };
-        model.addAttribute("leave", leaveAppService.getLeaveById(leaveId));
+        LeaveApplication leaveAppToApproveOrReject = leaveAppService.getLeaveById(leaveId);
+        
+        List<LeaveApplication> overlapLeaveApps = leaveAppService.getOverlapLeavesWithCurrentStaff(leaveAppToApproveOrReject, manager);
+        overlapLeaveApps.stream().forEach(x->System.out.println(x));
+        model.addAttribute("leave", leaveAppToApproveOrReject);
         LeaveApprovalDTO dto = new LeaveApprovalDTO();
         dto.setLeaveId(leaveId);
         model.addAttribute("dto", dto);
         model.addAttribute("ListApproveOrReject", approveOrReject);
+        
+        
+        
+        
+        
+        
         return "managerApproveOrRejectLeave";
     }
 //    /
@@ -158,5 +170,7 @@ public class ManagerController {
         Staff manager = staffService.findStaffByID(userSession.getStaffId());
         return manager;
     }
+    
+    
 
 }

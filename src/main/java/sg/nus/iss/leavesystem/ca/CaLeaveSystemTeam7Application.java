@@ -149,9 +149,9 @@ public class CaLeaveSystemTeam7Application {
 			appliedAnnualLeave1.setIsAbroad(false);
 			appliedAnnualLeave1.setContactNumber("99999999");
 			appliedAnnualLeave1.setCoveringStaff(staff2);
-			appliedAnnualLeave1.setStartDate(LocalDateTime.of(2023, 1, 5, 0, 0));
+			appliedAnnualLeave1.setStartDate(LocalDateTime.of(2023, 1, 3, 0, 0));
 			appliedAnnualLeave1.setStartAM_or_PM("AM");
-			appliedAnnualLeave1.setEndDate(LocalDateTime.of(2023, 1, 6, 0, 0));
+			appliedAnnualLeave1.setEndDate(LocalDateTime.of(2023, 1, 5, 0, 0));
 			appliedAnnualLeave1.setEndAM_or_PM("PM");
 			appliedAnnualLeave1.setAdditionalComments("Moving house");
 			appliedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
@@ -160,6 +160,42 @@ public class CaLeaveSystemTeam7Application {
 			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave1);
+			
+			LeaveApplication appliedAnnualLeave2 = new LeaveApplication();
+			appliedAnnualLeave2.setEmployee(staff2);
+			appliedAnnualLeave2.setTypeOfLeave(annual);
+			appliedAnnualLeave2.setIsAbroad(false);
+			appliedAnnualLeave2.setContactNumber("99999999");
+			appliedAnnualLeave2.setCoveringStaff(staff4);
+			appliedAnnualLeave2.setStartDate(LocalDateTime.of(2023, 1, 2, 0, 0));
+			appliedAnnualLeave2.setStartAM_or_PM("AM");
+			appliedAnnualLeave2.setEndDate(LocalDateTime.of(2023, 1, 3, 0, 0));
+			appliedAnnualLeave2.setEndAM_or_PM("PM");
+			appliedAnnualLeave2.setAdditionalComments("Repair Car");
+			appliedAnnualLeave2.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
+			appliedAnnualLeave2.setApplicationStatus("Applied");
+			appliedAnnualLeave2.setEmployeeManager(staff3);
+			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			appliedAnnualLeave2.setMgrRemarks("");
+			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave2);
+			
+			LeaveApplication appliedAnnualLeave3 = new LeaveApplication();
+			appliedAnnualLeave3.setEmployee(staff2);
+			appliedAnnualLeave3.setTypeOfLeave(annual);
+			appliedAnnualLeave3.setIsAbroad(false);
+			appliedAnnualLeave3.setContactNumber("99999999");
+			appliedAnnualLeave3.setCoveringStaff(staff4);
+			appliedAnnualLeave3.setStartDate(LocalDateTime.of(2023, 1, 4, 0, 0));
+			appliedAnnualLeave3.setStartAM_or_PM("AM");
+			appliedAnnualLeave3.setEndDate(LocalDateTime.of(2023, 1, 6, 0, 0));
+			appliedAnnualLeave3.setEndAM_or_PM("PM");
+			appliedAnnualLeave3.setAdditionalComments("Repair House");
+			appliedAnnualLeave3.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
+			appliedAnnualLeave3.setApplicationStatus("Applied");
+			appliedAnnualLeave3.setEmployeeManager(staff3);
+			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			appliedAnnualLeave3.setMgrRemarks("");
+			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave3);
 
 			LeaveApplication appliedMedicalApplication1 = new LeaveApplication();
 			appliedMedicalApplication1.setEmployee(staff2);

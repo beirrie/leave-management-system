@@ -121,4 +121,23 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         return combinedList;
     }
 
+
+	@Override
+	public List<LeaveApplication> getOverlapLeavesWithCurrentStaff(LeaveApplication leaveApp, Staff manager) {
+		
+		LocalDateTime currStaffStartDate = leaveApp.getStartDate();
+		LocalDateTime currStaffEndDate = leaveApp.getEndDate(); 
+		
+		List<LeaveApplication> leaveAppsOverLap =  getStaffLeavesByManager(manager).stream()
+				.filter(otherStaff-> otherStaff.getEndDate().isAfter(currStaffStartDate))
+				.filter(otherStaff-> otherStaff.getEndDate().isEqual(currStaffStartDate))
+				.filter(otherStaff-> otherStaff.getStartDate().isBefore(currStaffEndDate))
+				.filter(otherStaff-> otherStaff.getStartDate().isEqual(currStaffEndDate))
+				.collect(Collectors.toList());
+		return leaveAppsOverLap;
+	}
+
+
+
+    
 }
