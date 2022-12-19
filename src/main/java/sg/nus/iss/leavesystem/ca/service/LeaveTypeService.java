@@ -8,4 +8,5 @@ public interface LeaveTypeService {
 	
     List<LeaveType> GetAll();
 
+    LeaveType findById(long id);
 }

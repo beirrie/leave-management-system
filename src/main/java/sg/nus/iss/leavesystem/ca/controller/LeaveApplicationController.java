@@ -142,13 +142,6 @@ public class LeaveApplicationController {
         if (userSession == null)
             return "redirect:/login";
 
-        if (result.hasErrors()) {
-            model.addAttribute("leaveForm", leaveForm);
-            model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-            return "AddLeave";
-        }
-
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
         leaveApplication.setEmployee(staff);
@@ -163,15 +156,28 @@ public class LeaveApplicationController {
         leaveApplication.setEmployeeManager(staff);
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
+        leaveApplication.setTypeOfLeave(leaveTypeService.findById(leaveApplication.getTypeOfLeave().getId()));
+        
+        if(!staff.isLeaveBalanceEnough(leaveApplication))
+        {
+            model.addAttribute("leaveForm", leaveForm);
+            model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+            result.rejectValue("endDateStr", null, "Balance exceeded!");
+            return "AddLeave";
+        }
 
-        if (leaveApplication.getEndDate().isBefore(leaveApplication.getStartDate())) {
+        if (result.hasErrors()) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             return "AddLeave";
         }
 
-        this.leaveApplicationService.CreateApplication(leaveApplication);
+        this.leaveApplicationService.CreateApplication(leaveApplication);   
+        staff.deductLeave(leaveApplication);
+        this.staffService.updateStaff(staff);
+
         return "redirect:/LeaveApplication";
     }
 
