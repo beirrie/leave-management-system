@@ -34,4 +34,6 @@ public interface StaffService {
 
 	Staff findById(long id);
 
+	void modifyCompensationLeaveBalance(Staff staff, double hours);
+
 }
