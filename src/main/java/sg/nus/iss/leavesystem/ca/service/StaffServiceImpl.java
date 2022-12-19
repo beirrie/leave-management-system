@@ -141,4 +141,24 @@ public class StaffServiceImpl implements StaffService {
 		staff.setIsActive(true);
 		return staff.getIsActive();
 	}
+
+    @Override
+    public void modifyCompensationLeaveBalance(Staff staff, double hours) {
+        double balance = staff.getCompensationLeaveBalence();
+		double totalBalanceHours = staff.getAccumulated_OT_Hours() + hours;
+		double addToBalanceLeave;
+		double updatedTotalBalanceHours = totalBalanceHours;
+		double totalLeaveToSet = 0;
+
+		if (totalBalanceHours >= 4.0) {
+			addToBalanceLeave = Math.floor(totalBalanceHours / 4) * 0.5;
+			totalLeaveToSet = balance + addToBalanceLeave;
+			updatedTotalBalanceHours = totalBalanceHours % 4;
+			staff.setCompensationLeaveBalence(totalLeaveToSet);
+			staff.setAccumulated_OT_Hours(totalBalanceHours);
+		}
+		staff.setCompensationLeaveBalence(totalLeaveToSet);
+		staff.setAccumulated_OT_Hours(updatedTotalBalanceHours);
+		staffRepository.saveAndFlush(staff);
+    }
 }

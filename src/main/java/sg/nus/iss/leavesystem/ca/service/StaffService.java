@@ -32,4 +32,6 @@ public interface StaffService {
 	
 	Boolean activateStaff(Staff staff);
 
+	void modifyCompensationLeaveBalance(Staff staff, double hours);
+
 }
