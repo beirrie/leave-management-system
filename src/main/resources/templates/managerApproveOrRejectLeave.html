@@ -11,80 +11,137 @@
 <body>
   <div th:replace="fragments/layout.html :: menu" />
   <div class="container">
+
+
     <div class="row">
+
+      <table class="thead-dark" th:if="${not #lists.isEmpty(overlapLeaves)}">
+        <tr>
+          <th>Employee </th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Leave Type</th>
+          <th>Levae Status</th>
+        </tr>
+        <tr th:each="leave:${overlapLeaves}">
+          <td th:text="${leave.employee.firstName} +' '+${leave.employee.lastName}"></td>
+          <td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}"></td>
+          <td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"></td>
+          <td th:text="${leave.typeOfLeave.leaveTypeName}"></td>
+          <td th:text="${leave.applicationStatus}"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="row">
+
 
       <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Modify Leave Application</h1>
         </div>
+        <div class="row">
+          <div class="col-md-9 ms-sm-auto col-lg-6 px-md-4">
+            <form th:action=@{/manager/modify_leave} method="post" th:object="${dto}">
+              <input type="hidden" th:field="*{leaveId}" />
 
-        <form th:action=@{/manager/modify_leave} method="post" th:object="${dto}">
-          <input type="hidden" th:field="*{leaveId}" />
+              <div class="form-group">
+                <label class="control-label required">Leave ID</label>
+                <input type="text" class="form-control mb-5" th:value="${leave.id}" disabled>
+              </div>
 
-          <div class="form-group">
-            <label class="control-label required">Leave ID</label>
-            <input type="text" class="form-control mb-5 col-5" th:value="${leave.id}" disabled>
+              <div class="form-group">
+                <label class="control-label required">Staff ID</label>
+                <input type="text" class="form-control mb-5" th:value="${leave.employee.id}" disabled>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Staff Name </label>
+                <input type="text" class="form-control mb-5"
+                  th:value="${leave.employee.firstName} +' '+${leave.employee.lastName}" disabled>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Leave Type</label>
+                <input type="text" class="form-control mb-5" th:value="${leave.typeOfLeave.leaveTypeName}" disabled>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Leave Start</label>
+                <input type="text" class="form-control mb-5"
+                  th:value="${#temporals.format(leave.startDate,'dd-MM-yyyy')}" disabled />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Leave End</label>
+                <input type="text" class="form-control mb-5" th:value="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"
+                  disabled />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Covering Staff</label>
+                <input type="text" class="form-control mb-5" id="additionalComments"
+                  th:value="${leave.coveringStaff.firstName + ' ' + leave.coveringStaff.lastName}" disabled />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Staff Remarks</label>
+                <textarea class="form-control mb-5" disabled rows="2">[[${leave.additionalComments}]]</textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Status</label>
+                <select class="form-control mb-5" th:field="*{applicationStatus}">
+                  <option th:each="status :${ListApproveOrReject}" th:value=${status} th:text=${status}></option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Approver Remark</label>
+                <textarea class="form-control mb-2" th:field="*{approverRemark}" rows="3"></textarea>
+                <p class="large text-danger" th:if="${#fields.hasErrors('approverRemark')}"
+                  th:errors="*{approverRemark}">
+                  ERROR!</p>
+                <!-- <fieldset> -->
+
+                <!-- </fieldset>	 -->
+              </div>
+              <br />
+              <button class="btn btn-primary" type="submit">Save</button>
+              <button class="btn btn-warning" type="reset">Reset</button>
+            </form>
           </div>
 
-          <div class="form-group">
-            <label class="control-label required">Staff ID</label>
-            <input type="text" class="form-control mb-5 col-5" th:value="${leave.employee.id}" disabled>
+          <div class="col-md-9 ms-sm-auto col-lg-6 px-md-4">
+            <table class="table">
+
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" colspan="5" style="text-align: center;">Conflict Leaves</th>
+                </tr>
+
+              </thead>
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Leave Type</th>
+                  <th scope="col">Leave Status</th>
+                </tr>
+              </thead>
+              <tbody th:if="${not #lists.isEmpty(overlapLeaves)}">
+                <tr th:each="leave:${overlapLeaves}">
+                  <td th:text="${leave.employee.firstName} +' '+${leave.employee.lastName}"></td>
+                  <td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}"></td>
+                  <td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"></td>
+                  <td th:text="${leave.typeOfLeave.leaveTypeName}"></td>
+                  <td th:text="${leave.applicationStatus}"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-
-          <div class="form-group">
-            <label class="control-label required">Staff Name </label>
-            <input type="text" class="form-control mb-5 col-5"
-              th:value="${leave.employee.firstName} +' '+${leave.employee.lastName}" disabled>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label required">Leave Type</label>
-            <input type="text" class="form-control mb-5 col-5" th:value="${leave.typeOfLeave.leaveTypeName}" disabled>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label required">Leave Start</label>
-            <input type="text" class="form-control mb-5 col-5"
-              th:value="${#temporals.format(leave.startDate,'dd-MM-yyyy')}" disabled />
-          </div>
-
-          <div class="form-group">
-            <label class="control-label required">Leave End</label>
-            <input type="text" class="form-control mb-5 col-5"
-              th:value="${#temporals.format(leave.endDate,'dd-MM-yyyy')}" disabled />
-          </div>
-
-          <div class="form-group">
-            <label class="control-label required">Covering Staff</label>
-            <input type="text" class="form-control mb-5 col-5" id="additionalComments"
-              th:value="${leave.coveringStaff.firstName + ' ' + leave.coveringStaff.lastName}" disabled />
-          </div>
-
-          <div class="form-group">
-            <label class="control-label required">Staff Remarks</label>
-            <textarea class="form-control mb-5 col-5" disabled rows="2">[[${leave.additionalComments}]]</textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Status</label>
-            <select class="form-control mb-5 col-5" th:field="*{applicationStatus}">
-              <option th:each="status :${ListApproveOrReject}" th:value=${status} th:text=${status}></option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Approver Remark</label>
-            <!-- <fieldset> -->
-            <textarea class="form-control mb-5 col-5" th:field="*{approverRemark}" rows="3" required></textarea>
-            <!-- </fieldset>	 -->
-
-          </div>
-          <br />
-          <button class="btn btn-primary" type="submit">Save</button>
-          <button class="btn btn-warning" type="reset">Reset</button>
-        </form>
-
+        </div>
 
         <hr>
 
@@ -93,6 +150,8 @@
       </main>
     </div>
   </div>
+
+
 </body>
 
 </html>

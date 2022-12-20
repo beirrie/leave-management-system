@@ -72,35 +72,35 @@
 	</div>
 	<script>
 		$(document).ready(function () {
-			var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023", "1-5-2023", "2-6-2023", "29-6-2023", "9-8-2023", "13-11-2023", "25-12-2023"];
+			//var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023", "1-5-2023", "2-6-2023", "29-6-2023", "9-8-2023", "13-11-2023", "25-12-2023"];
 			$('#startDateStr').datepicker({
 				format: 'dd/mm/yyyy',
 				todayHighlight: true,
 				autoclose: true,
-				daysOfWeekDisabled: [0, 6],
+				//daysOfWeekDisabled: [0, 6],
 				beforeShowDay: function (date) {
 					dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-					if (disableDates.indexOf(dmy) != -1) {
-						return false;
-					}
-					else {
-						return true;
-					}
+					// if (disableDates.indexOf(dmy) != -1) {
+					// 	return false;
+					// }
+					// else {
+					// 	return true;
+					// }
 				}
 			})
 			$('#endDateStr').datepicker({
 				format: 'dd/mm/yyyy',
 				todayHighlight: true,
 				autoclose: true,
-				daysOfWeekDisabled: [0, 6],
+				//daysOfWeekDisabled: [0, 6],
 				beforeShowDay: function (date) {
 					dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-					if (disableDates.indexOf(dmy) != -1) {
-						return false;
-					}
-					else {
-						return true;
-					}
+					// if (disableDates.indexOf(dmy) != -1) {
+					// 	return false;
+					// }
+					// else {
+					// 	return true;
+					// }
 				}
 			})
 		})

@@ -25,4 +25,7 @@ public interface LeaveApplicationService {
     Optional<LeaveApplication> GetById(long id);
     void DeleteLeave(LeaveApplication leaveApplication);
 	List<LeaveApplication> getAllPendingByManager(Staff manager1);
+	List<LeaveApplication> getOverlapLeavesWithCurrentStaff(LeaveApplication leaveApp,Staff manager);
+	List<LeaveApplication> getListForReport(Long managerId, Long staffId, String leaveTypeName, String startPeriod,
+											String endPeriod);
 }

@@ -1,7 +1,8 @@
 package sg.nus.iss.leavesystem.ca.model.dto;
 
-public class LeaveApprovalDTO {
+import jakarta.validation.Valid;
 
+public class LeaveApprovalDTO {
     private String applicationStatus;
     private Long approverId;
     private String approverRemark;

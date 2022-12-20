@@ -47,6 +47,9 @@ public class PublicHoliday {
 		this.publicHolidayName = publicHolidayName;
 	}
 
+	public void setDateOfHoliday(LocalDateTime dateTime){
+		this.dateOfHoliday = dateTime;
+	}
 	public LocalDateTime getDateOfHoliday() {
 		return dateOfHoliday;
 	}

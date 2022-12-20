@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
@@ -147,7 +148,12 @@ public class StaffServiceImpl implements StaffService {
 		return this.staffRepository.findById(id).get();
 	}
 
-    @Override
+	@Override
+	public List<Staff> findByManager(Staff manager) {
+		return staffRepository.findByManager_Id(manager.getId());
+	}
+
+	@Override
     public void modifyCompensationLeaveBalance(Staff staff, double hours) {
         double balance = staff.getCompensationLeaveBalence();
 		double totalBalanceHours = staff.getAccumulated_OT_Hours() + hours;
@@ -173,7 +179,27 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
+	public void modifyOtherLeaveBalance(Staff staff, LeaveApplication app) {
+		double duration = Double.parseDouble(app.getDuration());
+
+		if (app.getTypeOfLeave().getLeaveTypeName().equalsIgnoreCase("annual") && app.getApplicationStatus().equalsIgnoreCase("Rejected")) {
+
+			double balance = staff.getAnnualLeaveBalance();
+			double updatedBalance = balance + duration;
+			staff.setAnnualLeaveBalance(updatedBalance);
+			staffRepository.saveAndFlush(staff);
+
+		} else if (app.getTypeOfLeave().getLeaveTypeName().equalsIgnoreCase("medical") && app.getApplicationStatus().equalsIgnoreCase("Rejected")) {
+
+			double balance = staff.getMedicalLeaveBalance();
+			double updatedBalance = balance + duration;
+			staff.setMedicalLeaveBalance(updatedBalance);
+			staffRepository.saveAndFlush(staff);
+		}
+	}
+
+	@Override
 	public void updateStaff(Staff staff) {
-		staffRepository.save(staff);		
+		staffRepository.save(staff);
 	}
 }

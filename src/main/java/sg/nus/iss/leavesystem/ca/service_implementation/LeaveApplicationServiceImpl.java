@@ -14,10 +14,15 @@ import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
+import sg.nus.iss.leavesystem.ca.service.StaffService;
+import sg.nus.iss.leavesystem.ca.util.StringToDateTimeYYYYMMDD;
 
 @Service
 @Transactional
 public class LeaveApplicationServiceImpl implements LeaveApplicationService {
+
+    @Autowired
+    StaffService staffService;
 
     @Autowired
     private LeaveApplicationRepository leaveAppRepo;
@@ -79,6 +84,11 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
         app.setMgrRemarks(remarks);
         app.setDateReviewed(LocalDateTime.now());
         app.setEmployeeManager(approver);
+
+        if (app.getApplicationStatus().equalsIgnoreCase("Rejected")){
+            staffService.modifyOtherLeaveBalance(app.getEmployee(),app);
+        }
+
         leaveAppRepo.saveAndFlush(app);
     }
 
@@ -120,5 +130,48 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
         return combinedList;
     }
+
+
+	@Override
+	public List<LeaveApplication> getOverlapLeavesWithCurrentStaff(LeaveApplication leaveApp, Staff manager) {
+		
+		LocalDateTime currStaffStartDate = leaveApp.getStartDate();
+		LocalDateTime currStaffEndDate = leaveApp.getEndDate(); 
+		
+		List<LeaveApplication> leaveAppsOverLap =  getStaffLeavesByManager(manager).stream()
+				.filter( otherStaff-> 
+				(otherStaff.getEndDate().isAfter(currStaffStartDate) && otherStaff.getStartDate().isBefore(currStaffEndDate))  
+				|| (otherStaff.getEndDate().isEqual(currStaffStartDate) && otherStaff.getStartDate().isBefore(currStaffEndDate)) 
+				|| (otherStaff.getStartDate().isBefore(currStaffEndDate) && otherStaff.getEndDate().isAfter(currStaffStartDate)) 
+				|| (otherStaff.getStartDate().isEqual(currStaffEndDate) && otherStaff.getEndDate().isAfter(currStaffStartDate))
+						)
+				.filter(leave->leave.getEmployee().getId() != leaveApp.getEmployee().getId())
+				.collect(Collectors.toList());
+				//.filter(otherStaff-> otherStaff.getEndDate().isEqual(currStaffStartDate))
+				//.filter(otherStaff-> otherStaff.getStartDate().isBefore(currStaffEndDate))
+				//.filter(otherStaff-> otherStaff.getStartDate().isEqual(currStaffEndDate))
+
+		return leaveAppsOverLap;
+	}
+
+    @Override
+    public List<LeaveApplication> getListForReport(Long managerId,Long staffId, String leaveTypeName,
+                                                   String startPeriod,
+                                                   String endPeriod) {
+
+        LocalDateTime start = StringToDateTimeYYYYMMDD.convertYYYYMMDD_DT(startPeriod);
+        LocalDateTime end = StringToDateTimeYYYYMMDD.convertYYYYMMDD_DT(endPeriod);
+
+        if(leaveTypeName.equalsIgnoreCase("All") && !(staffId ==0L)){
+            return leaveAppRepo.findForReportByStaffId(managerId, staffId, start, end);
+        } else if (staffId == 0L && !leaveTypeName.equalsIgnoreCase("All")) {
+            return leaveAppRepo.findForReportByLeaveType(managerId, leaveTypeName, start, end);
+        } else if (staffId == 0L && leaveTypeName.equalsIgnoreCase("All")) {
+            return leaveAppRepo.findForReportByDate(managerId, start, end);
+        } else {
+            return leaveAppRepo.findByFilter(managerId, staffId, leaveTypeName, start, end);
+        }
+    }
+
 
 }

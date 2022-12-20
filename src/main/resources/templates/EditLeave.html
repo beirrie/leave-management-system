@@ -10,6 +10,8 @@
         <hr>
         <form action="#" th:action="@{/updateLeave}" th:object="${leaveForm}" method="POST">
             <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{previousDuration}"/>
+            <input type="hidden" th:field="*{previousLeaveTypeId}"/>
             <div class="form-group">
                 <label class="control-label required">Leave Type</label>
                 <select name="leaveTypes" th:field="*{leaveType.id}" class="form-control mb-5 col-5">
@@ -71,31 +73,31 @@
             format: 'dd/mm/yyyy',
             todayHighlight: true,
             autoclose: true,
-            daysOfWeekDisabled: [0, 6],
-            beforeShowDay: function(date){
-                dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-                if(disableDates.indexOf(dmy) != -1){
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            }
+            // daysOfWeekDisabled: [0, 6],
+            // beforeShowDay: function(date){
+            //     dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            //     if(disableDates.indexOf(dmy) != -1){
+            //         return false;
+            //     }
+            //     else{
+            //         return true;
+            //     }
+            // }
         })
         $('#endDateStr').datepicker({
             format: 'dd/mm/yyyy',
             todayHighlight: true,
             autoclose: true,
-            daysOfWeekDisabled: [0, 6],
-            beforeShowDay: function(date){
-                dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-                if(disableDates.indexOf(dmy) != -1){
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            }
+            // daysOfWeekDisabled: [0, 6],
+            // beforeShowDay: function(date){
+            //     dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            //     if(disableDates.indexOf(dmy) != -1){
+            //         return false;
+            //     }
+            //     else{
+            //         return true;
+            //     }
+            // }
         })
     })
 </script>
