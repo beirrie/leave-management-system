@@ -232,4 +232,38 @@ public class Staff {
 		this.isActive = isActive;
 	}
 
+	public void deductLeave(LeaveApplication leaveApplication){
+		long duration = Long.parseLong(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			annualLeaveBalance-= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			medicalLeaveBalance-= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			compensationLeaveBalence-= duration;
+		}
+	}
+
+	public void reinstateLeaveBalance(LeaveApplication leaveApplication){
+		long duration = Long.parseLong(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			annualLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			medicalLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			compensationLeaveBalence+= duration;
+		} 
+	}
+
+	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication)
+	{
+		long duration = Long.parseLong(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			if(duration > annualLeaveBalance) return false;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			if(duration > medicalLeaveBalance) return false;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			if(duration > compensationLeaveBalence) return false;
+		}
+		return true;
+	}
 }

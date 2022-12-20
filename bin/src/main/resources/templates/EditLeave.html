@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management System</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min_leave.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!--  jQuery -->
+<script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+
+<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+<link rel="stylesheet" href="/bootstrap/css/bootstrap-iso.css" />
+
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="/bootstrap/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap-datepicker3.css"/>
+</head>
+
+<body>
+    <div class="container">
+        <h1>New Leave Application</h1>
+        <hr>
+        <form action="#" th:action="@{/updateLeave}" th:object="${leaveForm}" method="POST">
+            <input type="hidden" th:field="*{id}" />
+            <div class="form-group">
+                <label class="control-label required">Leave Type</label>
+                <select name="leaveTypes" th:field="*{leaveType.id}" class="form-control mb-5 col-5">
+                    <option th:each="leaveType : ${leaveTypeList}" th:value="${leaveType.id}" th:text="${leaveType.leaveTypeName}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">Start Date</label>
+                <input id="startDateStr" readonly type="text" th:field="*{startDateStr}" placeholder="DD/MM/YYYY" class="form-control mb-5 col-5">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">End Date</label>
+                <input id="endDateStr" readonly type="text" th:field="*{endDateStr}" placeholder="DD/MM/YYYY" class="form-control mb-5 col-5">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">Additional Comments</label>
+                <input type="text" th:field="*{additionalComments}" placeholder="Additional Comments" class="form-control mb-5 col-5">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">Work Dissemination</label>
+                <select name="coveringStaffs" th:field="*{coveringStaff.id}" class="form-control mb-5 col-5">
+                    <option th:each="coveringStaff : ${coveringStaffList}" th:value="${coveringStaff.id}" th:text="${coveringStaff.name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">Is Oversea?</label>
+                <input type="checkbox" th:field="*{isAbroad}"class="form-control mb-5 col-5">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">Contract Details</label>
+                <input type="text" th:field="*{contactNumber}" placeholder="Contact Details" class="form-control mb-5 col-5">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required">Application Status</label>
+                <input readonly type="text" th:field="*{applicationStatus}" placeholder="Application Status" class="form-control mb-5 col-5">
+            </div>
+            <button type="submit" class="btn btn-info col-2">Submit Leave</button>
+        </form>
+
+        <hr>
+
+        <a th:href="@{/LeaveApplication}"> Back to Leave Application</a>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+        var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023","1-5-2023","2-6-2023","29-6-2023","9-8-2023","13-11-2023","25-12-2023"];
+        $('#startDateStr').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            daysOfWeekDisabled: [0, 6],
+            beforeShowDay: function(date){
+                dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                if(disableDates.indexOf(dmy) != -1){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        })
+        $('#endDateStr').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            daysOfWeekDisabled: [0, 6],
+            beforeShowDay: function(date){
+                dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                if(disableDates.indexOf(dmy) != -1){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        })
+    })
+</script>
+</html>

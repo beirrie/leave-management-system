@@ -8,6 +8,7 @@ import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.repository.OverTimeApplicationRepository;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
+import sg.nus.iss.leavesystem.ca.service.StaffService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
 
     @Autowired
     OverTimeApplicationRepository otRepo;
+
+    @Autowired
+    StaffService staffService;
 
     @Override
     public List<OvertimeApplication> getAllOvertimeApplication() {
@@ -58,7 +62,7 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
         app.setApplicationStatus(status);
         app.setManagerRemarks(remarks);
         app.setApprover(approver);
-        // TODO: increase leave according to amount of overtime
+        staffService.modifyCompensationLeaveBalance(app.getEmployee() ,app.getHours_OT());
         otRepo.save(app);
     }
 
@@ -72,16 +76,8 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
     @Override
     public List<OvertimeApplication> getAllPendingByManager(Staff manager) {
 
-        String status1 = "Applied";
-        String status2 = "Updated";
-
-//        List<OvertimeApplication> appliedList =
-//                otRepo.findByStatus(status1);
-//        List<OvertimeApplication> updatedList =
-//                otRepo.findByStatus(status2);
-
         List<OvertimeApplication> appliedList =
-                otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Approved");
+                otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Applied");
         List<OvertimeApplication> updatedList =
                 otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Updated");
 
