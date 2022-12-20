@@ -27,7 +27,6 @@ import sg.nus.iss.leavesystem.ca.repository.RoleRepository;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
 import sg.nus.iss.leavesystem.ca.repository.UserRepository;
 
-
 @SpringBootApplication
 public class CaLeaveSystemTeam7Application {
 
@@ -83,7 +82,6 @@ public class CaLeaveSystemTeam7Application {
 			Staff staff4 = new Staff("Shaun", "Lin", "shaun@gmail.com", ls2, user4);
 			staff4.setManager(staff1);
 			staffRepo.saveAndFlush(staff4);
-
 
 			List<Staff> myStaffs = staffRepo.findAll();
 			myStaffs.forEach(myStaff -> System.out.println(myStaff));
@@ -163,7 +161,7 @@ public class CaLeaveSystemTeam7Application {
 			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave1);
-			
+
 			LeaveApplication appliedAnnualLeave2 = new LeaveApplication();
 			appliedAnnualLeave2.setEmployee(staff2);
 			appliedAnnualLeave2.setTypeOfLeave(annual);
@@ -181,7 +179,7 @@ public class CaLeaveSystemTeam7Application {
 			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave2.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave2);
-			
+
 			LeaveApplication appliedAnnualLeave3 = new LeaveApplication();
 			appliedAnnualLeave3.setEmployee(staff2);
 			appliedAnnualLeave3.setTypeOfLeave(annual);
@@ -331,72 +329,71 @@ public class CaLeaveSystemTeam7Application {
 			otRepo.saveAndFlush(otApp2);
 			otRepo.saveAndFlush(otApp1);
 
-			// PublicHoliday christmasHoliday = new PublicHoliday();
-			// christmasHoliday.setDescription("Christmas Holiday");
-			// christmasHoliday.setPublicHolidayName("Christmas Holiday");
-			// christmasHoliday.setStartDate(LocalDateTime.of(2022, 12, 26, 0, 0, 0));
-			// phRepo.saveAndFlush(christmasHoliday);
+			PublicHoliday christmasHoliday = new PublicHoliday();
+			christmasHoliday.setDescription("Christmas Holiday");
+			christmasHoliday.setPublicHolidayName("Christmas Holiday");
+			christmasHoliday.setStartDate(LocalDateTime.of(2022, 12, 26, 0, 0, 0));
+			phRepo.saveAndFlush(christmasHoliday);
 
-			// PublicHoliday newYearDay = new PublicHoliday();
-			// newYearDay.setDescription("New Year's Day");
-			// newYearDay.setPublicHolidayName("New Year's Day");
-			// newYearDay.setStartDate(LocalDateTime.of(2023, 1, 2, 0, 0, 0));
-			// phRepo.saveAndFlush(newYearDay);
+			PublicHoliday newYearDay = new PublicHoliday();
+			newYearDay.setDescription("New Year's Day");
+			newYearDay.setPublicHolidayName("New Year's Day");
+			newYearDay.setStartDate(LocalDateTime.of(2023, 1, 2, 0, 0, 0));
+			phRepo.saveAndFlush(newYearDay);
 
-			// PublicHoliday chineseNewYearHoliday = new PublicHoliday();
-			// chineseNewYearHoliday.setDescription("Chinese New Year Holiday");
-			// chineseNewYearHoliday.setPublicHolidayName("Chinese New Year Holiday");
-			// chineseNewYearHoliday.setStartDate(LocalDateTime.of(2023, 1, 23, 0, 0, 0));
-			// phRepo.saveAndFlush(chineseNewYearHoliday);
+			PublicHoliday chineseNewYearHoliday = new PublicHoliday();
+			chineseNewYearHoliday.setDescription("Chinese New Year Holiday");
+			chineseNewYearHoliday.setPublicHolidayName("Chinese New Year Holiday");
+			chineseNewYearHoliday.setStartDate(LocalDateTime.of(2023, 1, 23, 0, 0, 0));
+			phRepo.saveAndFlush(chineseNewYearHoliday);
 
-			// PublicHoliday chineseNewYearHoliday2 = new PublicHoliday();
-			// chineseNewYearHoliday2.setDescription("Chinese New Year Holiday");
-			// chineseNewYearHoliday2.setPublicHolidayName("Chinese New Year Holiday");
-			// chineseNewYearHoliday2.setStartDate(LocalDateTime.of(2023, 1, 24, 0, 0, 0));
-			// phRepo.saveAndFlush(chineseNewYearHoliday2);
+			PublicHoliday chineseNewYearHoliday2 = new PublicHoliday();
+			chineseNewYearHoliday2.setDescription("Chinese New Year Holiday");
+			chineseNewYearHoliday2.setPublicHolidayName("Chinese New Year Holiday");
+			chineseNewYearHoliday2.setStartDate(LocalDateTime.of(2023, 1, 24, 0, 0, 0));
+			phRepo.saveAndFlush(chineseNewYearHoliday2);
 
-			// PublicHoliday goodFriday = new PublicHoliday();
-			// goodFriday.setDescription("Good Friday");
-			// goodFriday.setPublicHolidayName("Good Friday");
-			// goodFriday.setStartDate(LocalDateTime.of(2023 ,4, 7, 0, 0, 0));
-			// phRepo.saveAndFlush(goodFriday);
+			PublicHoliday goodFriday = new PublicHoliday();
+			goodFriday.setDescription("Good Friday");
+			goodFriday.setPublicHolidayName("Good Friday");
+			goodFriday.setStartDate(LocalDateTime.of(2023, 4, 7, 0, 0, 0));
+			phRepo.saveAndFlush(goodFriday);
 
-			// PublicHoliday labourDay = new PublicHoliday();
-			// labourDay.setDescription("Labour Day");
-			// labourDay.setPublicHolidayName("Labour Day");
-			// labourDay.setStartDate(LocalDateTime.of(2023 ,5, 1, 0, 0, 0));
-			// phRepo.saveAndFlush(labourDay);
+			PublicHoliday labourDay = new PublicHoliday();
+			labourDay.setDescription("Labour Day");
+			labourDay.setPublicHolidayName("Labour Day");
+			labourDay.setStartDate(LocalDateTime.of(2023, 5, 1, 0, 0, 0));
+			phRepo.saveAndFlush(labourDay);
 
-			// PublicHoliday vesakDay = new PublicHoliday();
-			// vesakDay.setDescription("Vesak Day");
-			// vesakDay.setPublicHolidayName("Vesak Day");
-			// vesakDay.setStartDate(LocalDateTime.of(2023 ,6, 2, 0, 0, 0));
-			// phRepo.saveAndFlush(vesakDay);
+			PublicHoliday vesakDay = new PublicHoliday();
+			vesakDay.setDescription("Vesak Day");
+			vesakDay.setPublicHolidayName("Vesak Day");
+			vesakDay.setStartDate(LocalDateTime.of(2023, 6, 2, 0, 0, 0));
+			phRepo.saveAndFlush(vesakDay);
 
-			// PublicHoliday hariRayaHaji = new PublicHoliday();
-			// hariRayaHaji.setDescription("Hari Raya Haji");
-			// hariRayaHaji.setPublicHolidayName("Hari Raya Haji");
-			// hariRayaHaji.setStartDate(LocalDateTime.of(2023 ,6, 29, 0, 0, 0));
-			// phRepo.saveAndFlush(hariRayaHaji);
+			PublicHoliday hariRayaHaji = new PublicHoliday();
+			hariRayaHaji.setDescription("Hari Raya Haji");
+			hariRayaHaji.setPublicHolidayName("Hari Raya Haji");
+			hariRayaHaji.setStartDate(LocalDateTime.of(2023, 6, 29, 0, 0, 0));
+			phRepo.saveAndFlush(hariRayaHaji);
 
+			PublicHoliday nationalDay = new PublicHoliday();
+			nationalDay.setDescription("National Day");
+			nationalDay.setPublicHolidayName("National Day");
+			nationalDay.setStartDate(LocalDateTime.of(2023, 8, 9, 0, 0, 0));
+			phRepo.saveAndFlush(nationalDay);
 
-			// PublicHoliday nationalDay = new PublicHoliday();
-			// nationalDay.setDescription("National Day");
-			// nationalDay.setPublicHolidayName("National Day");
-			// nationalDay.setStartDate(LocalDateTime.of(2023 ,8, 9, 0, 0, 0));
-			// phRepo.saveAndFlush(nationalDay);
+			PublicHoliday deepavaliHoliday = new PublicHoliday();
+			deepavaliHoliday.setDescription("Deepavali Holiday");
+			deepavaliHoliday.setPublicHolidayName("Deepavali Holiday");
+			deepavaliHoliday.setStartDate(LocalDateTime.of(2023, 11, 13, 0, 0, 0));
+			phRepo.saveAndFlush(deepavaliHoliday);
 
-			// PublicHoliday deepavaliHoliday = new PublicHoliday();
-			// deepavaliHoliday.setDescription("Deepavali Holiday");
-			// deepavaliHoliday.setPublicHolidayName("Deepavali Holiday");
-			// deepavaliHoliday.setStartDate(LocalDateTime.of(2023 ,11, 13, 0, 0, 0));
-			// phRepo.saveAndFlush(deepavaliHoliday);
-
-			// PublicHoliday christmasHoliday1 = new PublicHoliday();
-			// christmasHoliday1.setDescription("Christmas Day");
-			// christmasHoliday1.setPublicHolidayName("Christmas Day");
-			// christmasHoliday1.setStartDate(LocalDateTime.of(2023 ,12, 25, 0, 0, 0));
-			// phRepo.saveAndFlush(christmasHoliday1);
+			PublicHoliday christmasHoliday1 = new PublicHoliday();
+			christmasHoliday1.setDescription("Christmas Day");
+			christmasHoliday1.setPublicHolidayName("Christmas Day");
+			christmasHoliday1.setStartDate(LocalDateTime.of(2023, 12, 25, 0, 0, 0));
+			phRepo.saveAndFlush(christmasHoliday1);
 
 			// List<OvertimeApplication> otps = otRepo.findAll();
 
