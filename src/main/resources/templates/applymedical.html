@@ -6,30 +6,45 @@
 <body>
 	<div th:replace="fragments/layout.html :: menu" />
 	<div class="container">
-		<h1>New Leave Application</h1>
+		<h1>New Medical Leave Application</h1>
 		<hr>
-		<form action="#" th:action="@{/saveLeave}" th:object="${leaveForm}" method="POST">
-
+		<form action="#" th:action="@{/SubmitAnnualLeave}" th:object="${leaveForm}" method="POST">
+			<div>
+				<input type="hidden" th:field="*{leaveType.id}" value=3>
+			</div>
 			<div class="form-group">
 				<label class="control-label required">Leave Type</label>
-				<select name="leaveTypes" th:field="*{leaveType.id}" class="form-control mb-5 col-5">
-					<option th:each="leaveType : ${leaveTypeList}" th:value="${leaveType.id}"
-						th:text="${leaveType.leaveTypeName}"></option>
-				</select>
+				<input type="text" readonly value="Medical Leave"
+					class="form-control mb-5 col-5">
+			</div>
+
+			
+			<div class="form-group">
+				<table>
+					<tr>
+						<td>
+							<label class="control-label required">Start Date (AM/PM)</label>
+							<input id="startDateStr" readonly type="text" th:field="*{startDateStr}"
+								placeholder="DD/MM/YYYY" class="form-control mb-5 col-5" style="width:300px;">
+							<label th:if="${#fields.hasErrors('startDateStr')}" style="color:red;"
+								th:errors="*{startDateStr}" class="control-label mb-4 col-4"></label>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div class="form-group">
-				<label class="control-label required">Start Date</label>
-				<input id="startDateStr" readonly type="text" th:field="*{startDateStr}" placeholder="DD/MM/YYYY"
-					class="form-control mb-5 col-5">
-					<label th:if="${#fields.hasErrors('startDateStr')}" style="color:red;" th:errors="*{startDateStr}" class="control-label mb-4 col-4"></label>
-			</div>
-
-			<div class="form-group">
-				<label class="control-label required">End Date</label>
-				<input id="endDateStr" readonly type="text" th:field="*{endDateStr}" placeholder="DD/MM/YYYY"
-					class="form-control mb-5 col-5">
-					<label th:if="${#fields.hasErrors('endDateStr')}" style="color:red;" th:errors="*{endDateStr}" class="control-label mb-4 col-4"></label>
+				<table>
+					<tr>
+						<td>
+							<label class="control-label required">End Date (AM/PM)</label>
+							<input id="endDateStr" readonly type="text" th:field="*{endDateStr}"
+								placeholder="DD/MM/YYYY" class="form-control mb-5 col-5" style="width:300px;">
+							<label th:if="${#fields.hasErrors('endDateStr')}" style="color:red;"
+								th:errors="*{endDateStr}" class="control-label mb-4 col-4"></label>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div class="form-group">
@@ -55,7 +70,8 @@
 				<label class="control-label required">Contact Details</label>
 				<input type="text" th:field="*{contactNumber}" placeholder="Contact Details"
 					class="form-control mb-5 col-5">
-					<label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}" class="control-label mb-4 col-4"></label>
+				<label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}"
+					class="control-label mb-4 col-4"></label>
 			</div>
 
 			<div class="form-group">
