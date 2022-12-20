@@ -191,7 +191,10 @@ public class StaffServiceImpl implements StaffService {
 			staff.setMedicalLeaveBalance(updatedBalance);
 			staffRepository.saveAndFlush(staff);
 		}
-}
+	}
 
-
+	@Override
+	public void updateStaff(Staff staff) {
+		staffRepository.save(staff);
+	}
 }

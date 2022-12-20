@@ -18,5 +18,10 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
     public List<LeaveType> GetAll() {
         return leaveTypeRepository.findAll();
     }
+
+    @Override
+    public LeaveType findById(long id) {
+        return leaveTypeRepository.findById(id).get();
+    }
     
 }

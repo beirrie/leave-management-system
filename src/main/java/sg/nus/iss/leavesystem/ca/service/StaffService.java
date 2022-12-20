@@ -13,6 +13,8 @@ import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 public interface StaffService {
 	Staff createStaff(Staff staff);
 
+	void updateStaff(Staff staff);
+
 	Staff editStaff(String id, UserStaffForm userStaffForm);
 
 	List<Staff> findAllStaff();
