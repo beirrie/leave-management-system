@@ -8,14 +8,14 @@
 	<div class="container">
 		<h1>New Compensation Leave Application</h1>
 		<hr>
-		<form action="#" th:action="@{/SubmitCompensationLeave}" th:object="${leaveForm}" method="POST">
+		<form action="#" th:action="@{/ApplyCompensationLeave}" th:object="${leaveForm}" method="POST">
 			<div>
 				<input type="hidden" th:field="*{leaveType.id}" value=3>
+				<input type="hidden" th:field="*{staffId}">
 			</div>
 			<div class="form-group">
 				<label class="control-label required">Leave Type</label>
-				<input type="text" readonly value="Compensation Leave"
-					class="form-control mb-5 col-5">
+				<input type="text" readonly value="Compensation Leave" class="form-control mb-5 col-5">
 			</div>
 
 			<div class="form-group">

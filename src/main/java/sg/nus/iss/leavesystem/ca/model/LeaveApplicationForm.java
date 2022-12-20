@@ -5,22 +5,15 @@ import java.time.LocalDateTime;
 import sg.nus.iss.leavesystem.ca.util.Util;
 
 public class LeaveApplicationForm {
-    
-    public LeaveApplicationForm()
-    {
+
+    public LeaveApplicationForm() {
         this.startDateStr = Util.convertDateToString(startDate);
         this.endDateStr = Util.convertDateToString(endDate);
     }
 
-    private long id;
+    private long leaveTypeId;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private long staffId;
 
     private LeaveType leaveType;
 
@@ -34,27 +27,43 @@ public class LeaveApplicationForm {
 
     private Boolean isAbroad;
 
-    private LocalDateTime startDate= LocalDateTime.now();
-    
+    private LocalDateTime startDate = LocalDateTime.now();
+
     private String startAMPM;
-    
+
+    public long getLeaveTypeId() {
+        return leaveTypeId;
+    }
+
+    public void setLeaveTypeId(long id) {
+        this.leaveTypeId = id;
+    }
+
+    public long getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(long staffId) {
+        this.staffId = staffId;
+    }
+
     public String getStartAMPM() {
-		return startAMPM;
-	}
+        return startAMPM;
+    }
 
-	public void setStartAMPM(String startAMPM) {
-		this.startAMPM = startAMPM;
-	}
+    public void setStartAMPM(String startAMPM) {
+        this.startAMPM = startAMPM;
+    }
 
-	public String getEndAMPM() {
-		return endAMPM;
-	}
+    public String getEndAMPM() {
+        return endAMPM;
+    }
 
-	public void setEndAMPM(String endAMPM) {
-		this.endAMPM = endAMPM;
-	}
+    public void setEndAMPM(String endAMPM) {
+        this.endAMPM = endAMPM;
+    }
 
-	private String endAMPM;
+    private String endAMPM;
 
     private String startDateStr;
 
@@ -87,7 +96,7 @@ public class LeaveApplicationForm {
     private LocalDateTime endDate = LocalDateTime.now();
 
     private String endDateStr;
-    
+
     public String getEndDateStr() {
         return endDateStr;
     }

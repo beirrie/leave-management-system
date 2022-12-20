@@ -48,17 +48,17 @@ public class LeaveApplicationController {
         binder.addValidators(leaveFormValidator);
     }
 
-    @GetMapping(value={"/LeaveApplication", "/"})
+    @GetMapping(value = { "/LeaveApplication", "/" })
     public String Main(HttpSession session, Model model) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles);
-        for(String role: roles) {
-        	System.out.println(role);
+        for (String role : roles) {
+            System.out.println(role);
         }
-//		model.addAttribute("userSession", userSession);
-//        if (userSession == null)
-//            return "redirect:/login";
+        // model.addAttribute("userSession", userSession);
+        // if (userSession == null)
+        // return "redirect:/login";
         return "LeaveApplication";
     }
 
@@ -66,9 +66,9 @@ public class LeaveApplicationController {
     public String LeaveBalance(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-//        if (userSession == null)
-//            return "redirect:/login";
+        model.addAttribute("roles", roles);
+        // if (userSession == null)
+        // return "redirect:/login";
 
         Staff staff = staffService.findById(userSession.getStaffId());
 
@@ -81,36 +81,36 @@ public class LeaveApplicationController {
     public String LeaveHistory(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles);     
-//        if (userSession == null)
-//            return "redirect:/login";
+        model.addAttribute("roles", roles);
+        // if (userSession == null)
+        // return "redirect:/login";
         List<LeaveApplication> leaveApplications = this.leaveApplicationService.GetByStaffId(userSession.getStaffId());
         model.addAttribute("leaveList", leaveApplications);
         return "LeaveHistory";
     }
 
-   @GetMapping("/AddLeave")
-   public String AddLeave(Model model, HttpSession session) {
-       UserSession userSession = (UserSession) session.getAttribute("user");
-       var staff = this.staffService.findById(userSession.getStaffId());
-       List<String> roles = userSession.getUserRoles();
-       model.addAttribute("roles", roles); 
-       LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-       model.addAttribute("leaveForm", leaveApplication);
-       model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
-       model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-       return "AddLeave";
-   }
+    @GetMapping("/AddLeave")
+    public String AddLeave(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        var staff = this.staffService.findById(userSession.getStaffId());
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles);
+        LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+        model.addAttribute("leaveForm", leaveApplication);
+        model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
+        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+        return "AddLeave";
+    }
 
     @GetMapping("/editLeave/{id}")
     public String EditLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         var staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+        model.addAttribute("roles", roles);
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
-        leaveApplicationForm.setId(leaveApplication.getId());
+        leaveApplicationForm.setLeaveTypeId(leaveApplication.getId());
         leaveApplicationForm.setLeaveType(leaveApplication.getTypeOfLeave());
         leaveApplicationForm.setAdditionalComments(leaveApplication.getAdditionalComments());
         leaveApplicationForm.setCoveringStaff(leaveApplication.getCoveringStaff());
@@ -131,7 +131,7 @@ public class LeaveApplicationController {
         UserSession userSession = (UserSession) session.getAttribute("user");
         Staff staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+        model.addAttribute("roles", roles);
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         staff.reinstateLeaveBalance(leaveApplication);
         this.leaveApplicationService.DeleteLeave(leaveApplication);
@@ -163,9 +163,8 @@ public class LeaveApplicationController {
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
         leaveApplication.setTypeOfLeave(leaveTypeService.findById(leaveApplication.getTypeOfLeave().getId()));
-        
-        if(!staff.isLeaveBalanceEnough(leaveApplication))
-        {
+
+        if (!staff.isLeaveBalanceEnough(leaveApplication)) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
@@ -180,7 +179,7 @@ public class LeaveApplicationController {
             return "AddLeave";
         }
 
-        this.leaveApplicationService.CreateApplication(leaveApplication);   
+        this.leaveApplicationService.CreateApplication(leaveApplication);
         staff.deductLeave(leaveApplication);
         this.staffService.updateStaff(staff);
 
@@ -202,7 +201,7 @@ public class LeaveApplicationController {
         }
         Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
-        leaveApplication.setId(leaveForm.getId());
+        leaveApplication.setId(leaveForm.getLeaveTypeId());
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
         leaveApplication.setEmployee(staff);
         leaveApplication.setIsAbroad(leaveForm.getIsAbroad());
@@ -220,13 +219,13 @@ public class LeaveApplicationController {
         this.leaveApplicationService.UpdateApplication(leaveApplication);
         return "redirect:/LeaveApplication";
     }
-    
+
     @GetMapping("/cancelLeave/{id}")
     public String CancelLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         Staff staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+        model.addAttribute("roles", roles);
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         leaveApplication.setApplicationStatus("Cancelled");
         this.leaveApplicationService.UpdateApplication(leaveApplication);
@@ -235,16 +234,16 @@ public class LeaveApplicationController {
 
         return "redirect:/LeaveHistory";
     }
-    
+
     @GetMapping("/viewLeave/{id}")
     public String ViewLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         var staff = this.staffService.findById(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+        model.addAttribute("roles", roles);
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
-        leaveApplicationForm.setId(leaveApplication.getId());
+        leaveApplicationForm.setLeaveTypeId(leaveApplication.getId());
         leaveApplicationForm.setLeaveType(leaveApplication.getTypeOfLeave());
         leaveApplicationForm.setAdditionalComments(leaveApplication.getAdditionalComments());
         leaveApplicationForm.setCoveringStaff(leaveApplication.getCoveringStaff());
@@ -259,27 +258,28 @@ public class LeaveApplicationController {
         model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
         return "viewleavedetails";
     }
-    
+
     // @GetMapping("/ApplyMedicalLeave")
     // public String ApplyMedicalLeave(Model model, HttpSession session) {
-    //     UserSession userSession = (UserSession) session.getAttribute("user");
-    //     var staff = this.staffService.findById(userSession.getStaffId());
-    //     List<String> roles = userSession.getUserRoles();
-    //     model.addAttribute("roles", roles); 
-    //     LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-    //     leaveApplication.setLeaveType(leaveTypeService.findById(2));
-    //     model.addAttribute("leaveForm", leaveApplication);
-    //     model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-    //     return "applymedical";
+    // UserSession userSession = (UserSession) session.getAttribute("user");
+    // var staff = this.staffService.findById(userSession.getStaffId());
+    // List<String> roles = userSession.getUserRoles();
+    // model.addAttribute("roles", roles);
+    // LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+    // leaveApplication.setLeaveType(leaveTypeService.findById(2));
+    // model.addAttribute("leaveForm", leaveApplication);
+    // model.addAttribute("coveringStaffList",
+    // staffService.findStaffExcludeSelf(staff.getUser().getId()));
+    // return "applymedical";
     // }
-    
+
     @PostMapping("/SubmitMedicalLeave")
     public String SubmitMedicalLeave(LeaveApplicationForm leaveform, HttpSession session) {
-    	System.out.println(leaveform.getLeaveType().id);
-    	System.out.println(leaveform.getStartAMPM());
+        System.out.println(leaveform.getLeaveType().id);
+        System.out.println(leaveform.getStartAMPM());
         UserSession userSession = (UserSession) session.getAttribute("user");
         var staff = this.staffService.findById(userSession.getStaffId());
-        var manager = staff.getManager(); 
+        var manager = staff.getManager();
         LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().id));
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setTypeOfLeave(_leavetype);
@@ -297,31 +297,31 @@ public class LeaveApplicationController {
         leaveApplication.setEmployeeManager(manager);
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
-         this.leaveApplicationService.CreateApplication(leaveApplication);   
+        this.leaveApplicationService.CreateApplication(leaveApplication);
         return "redirect:/LeaveHistory";
     }
-    
 
     // @GetMapping("/ApplyAnnualLeave")
     // public String ApplyAnnualLeave(Model model, HttpSession session) {
-    //     UserSession userSession = (UserSession) session.getAttribute("user");
-    //     var staff = this.staffService.findById(userSession.getStaffId());
-    //     List<String> roles = userSession.getUserRoles();
-    //     model.addAttribute("roles", roles); 
-    //     LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-    //     leaveApplication.setLeaveType(leaveTypeService.findById(1));
-    //     model.addAttribute("leaveForm", leaveApplication);
-    //     model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-    //     return "applyannual";
+    // UserSession userSession = (UserSession) session.getAttribute("user");
+    // var staff = this.staffService.findById(userSession.getStaffId());
+    // List<String> roles = userSession.getUserRoles();
+    // model.addAttribute("roles", roles);
+    // LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+    // leaveApplication.setLeaveType(leaveTypeService.findById(1));
+    // model.addAttribute("leaveForm", leaveApplication);
+    // model.addAttribute("coveringStaffList",
+    // staffService.findStaffExcludeSelf(staff.getUser().getId()));
+    // return "applyannual";
     // }
-    
+
     @PostMapping("/SubmitAnnualLeave")
     public String SubmitAnnualLeave(LeaveApplicationForm leaveform, HttpSession session) {
-    	System.out.println(leaveform.getLeaveType().id);
-    	System.out.println(leaveform.getStartAMPM());
+        System.out.println(leaveform.getLeaveType().id);
+        System.out.println(leaveform.getStartAMPM());
         UserSession userSession = (UserSession) session.getAttribute("user");
         var staff = this.staffService.findById(userSession.getStaffId());
-        var manager = staff.getManager(); 
+        var manager = staff.getManager();
         LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().id));
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setTypeOfLeave(_leavetype);
@@ -339,32 +339,41 @@ public class LeaveApplicationController {
         leaveApplication.setEmployeeManager(manager);
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
-         this.leaveApplicationService.CreateApplication(leaveApplication);   
+        this.leaveApplicationService.CreateApplication(leaveApplication);
         return "redirect:/LeaveHistory";
     }
-    
-    
+
     @GetMapping("/ApplyCompensationLeave")
     public String ApplyCompensationLeave(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
-        var staff = this.staffService.findById(userSession.getStaffId());
+        Staff staff = staffService.findStaffByID(userSession.getStaffId());
         List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+        model.addAttribute("roles", roles);
         LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+        leaveApplication.setLeaveTypeId(3);
+        leaveApplication.setStaffId(staff.getId());
         leaveApplication.setLeaveType(leaveTypeService.findById(3));
         model.addAttribute("leaveForm", leaveApplication);
         model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
         return "applycompensation";
     }
-    
-    
-    @PostMapping("/SubmitCompensationLeave")
-    public String SubmitCompensationLeave(LeaveApplicationForm leaveform, HttpSession session) {
-    	System.out.println(leaveform.getLeaveType().id);
-    	System.out.println(leaveform.getStartAMPM());
+
+    @PostMapping("/ApplyCompensationLeave")
+    public String SubmitCompensationLeave(@Valid @ModelAttribute("leaveForm") LeaveApplicationForm leaveform, BindingResult result, Model model, HttpSession session) {
+        if (result.hasErrors()) {
+            UserSession userSession = (UserSession) session.getAttribute("user");
+            Staff staff = this.staffService.findById(userSession.getStaffId());
+            List<String> roles = userSession.getUserRoles();
+            model.addAttribute("leaveform", leaveform);
+            model.addAttribute("roles", roles);
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+            return "applycompensation";
+        }
+        // System.out.println(leaveform.getLeaveType().id);
+        // System.out.println(leaveform.getStartAMPM());
         UserSession userSession = (UserSession) session.getAttribute("user");
         var staff = this.staffService.findById(userSession.getStaffId());
-        LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().id));
+        LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().getId()));
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setTypeOfLeave(_leavetype);
         leaveApplication.setEmployee(staff);
@@ -378,10 +387,10 @@ public class LeaveApplicationController {
         leaveApplication.setAdditionalComments(leaveform.getAdditionalComments());
         leaveApplication.setApplicationStatus("Applied");
         leaveApplication.setApplicationDate(LocalDateTime.now());
-        leaveApplication.setEmployeeManager(staff);
+        leaveApplication.setEmployeeManager(staff.getManager());
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
-//        this.leaveApplicationService.CreateApplication(leaveApplication);   
+        this.leaveApplicationService.CreateApplication(leaveApplication);
         return "redirect:/LeaveHistory";
     }
 
