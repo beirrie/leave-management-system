@@ -62,8 +62,10 @@ public class CaLeaveSystemTeam7Application {
 			User user1 = new User("Robert", "password123");
 			user1.addRole(manager);
 			user1.addRole(employee);
-			User user2 = userRepo.saveAndFlush(new User("Albert", "albert123"));
 			userRepo.saveAndFlush(user1);
+			User user2 = userRepo.saveAndFlush(new User("Albert", "albert123"));
+			user2.addRole(employee);
+			userRepo.saveAndFlush(user2);
 			User user3 = new User("userSarah", "pw123");
 			user3.addRole(manager);
 			userRepo.saveAndFlush(user3);
