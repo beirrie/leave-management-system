@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div class="container">
+		<h1>New Medical Leave Application</h1>
+		<hr>
+		<form action="#" th:action="@{/SubmitAnnualLeave}" th:object="${leaveForm}" method="POST">
+			<div>
+				<input type="hidden" th:field="*{leaveType.id}" value=3>
+			</div>
+			<div class="form-group">
+				<label class="control-label required">Leave Type</label>
+				<input type="text" readonly value="Medical Leave"
+					class="form-control mb-5 col-5">
+			</div>
+
+			
+			<div class="form-group">
+				<table>
+					<tr>
+						<td>
+							<label class="control-label required">Start Date (AM/PM)</label>
+							<input id="startDateStr" readonly type="text" th:field="*{startDateStr}"
+								placeholder="DD/MM/YYYY" class="form-control mb-5 col-5" style="width:300px;">
+							<label th:if="${#fields.hasErrors('startDateStr')}" style="color:red;"
+								th:errors="*{startDateStr}" class="control-label mb-4 col-4"></label>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="form-group">
+				<table>
+					<tr>
+						<td>
+							<label class="control-label required">End Date (AM/PM)</label>
+							<input id="endDateStr" readonly type="text" th:field="*{endDateStr}"
+								placeholder="DD/MM/YYYY" class="form-control mb-5 col-5" style="width:300px;">
+							<label th:if="${#fields.hasErrors('endDateStr')}" style="color:red;"
+								th:errors="*{endDateStr}" class="control-label mb-4 col-4"></label>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required">Additional Comments</label>
+				<input type="text" th:field="*{additionalComments}" placeholder="Additional Comments"
+					class="form-control mb-5 col-5">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required">Work Dissemination</label>
+				<select name="coveringStaffs" th:field="*{coveringStaff.id}" class="form-control mb-5 col-5">
+					<option th:each="coveringStaff : ${coveringStaffList}" th:value="${coveringStaff.id}"
+						th:text="${coveringStaff.name}"></option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required">Is Oversea?</label>
+				<input type="checkbox" th:field="*{isAbroad}" class="form-control mb-5 col-5">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required">Contact Details</label>
+				<input type="text" th:field="*{contactNumber}" placeholder="Contact Details"
+					class="form-control mb-5 col-5">
+				<label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}"
+					class="control-label mb-4 col-4"></label>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required">Application Status</label>
+				<input readonly type="text" th:field="*{applicationStatus}" placeholder="Application Status"
+					class="form-control mb-5 col-5">
+			</div>
+			<button type="submit" class="btn btn-info col-2">Submit Leave</button>
+		</form>
+
+		<hr>
+
+		<a th:href="@{/LeaveApplication}"> Back to Leave Application</a>
+	</div>
+	<script>
+		$(document).ready(function () {
+			var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023", "1-5-2023", "2-6-2023", "29-6-2023", "9-8-2023", "13-11-2023", "25-12-2023"];
+			$('#startDateStr').datepicker({
+				format: 'dd/mm/yyyy',
+				todayHighlight: true,
+				autoclose: true,
+				daysOfWeekDisabled: [0, 6],
+				beforeShowDay: function (date) {
+					dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+					if (disableDates.indexOf(dmy) != -1) {
+						return false;
+					}
+					else {
+						return true;
+					}
+				}
+			})
+			$('#endDateStr').datepicker({
+				format: 'dd/mm/yyyy',
+				todayHighlight: true,
+				autoclose: true,
+				daysOfWeekDisabled: [0, 6],
+				beforeShowDay: function (date) {
+					dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+					if (disableDates.indexOf(dmy) != -1) {
+						return false;
+					}
+					else {
+						return true;
+					}
+				}
+			})
+		})
+	</script>
+</body>
+
+
+</html>
