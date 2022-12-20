@@ -47,6 +47,26 @@ public class LeaveApplicationForm {
         this.staffId = staffId;
     }
 
+    private String previousDuration;
+
+    public Long getPreviousLeaveTypeId() {
+        return previousLeaveTypeId;
+    }
+
+    public void setPreviousLeaveTypeId(Long previousLeaveTypeId) {
+        this.previousLeaveTypeId = previousLeaveTypeId;
+    }
+
+    private Long previousLeaveTypeId;
+
+    public String getPreviousDuration() {
+        return previousDuration;
+    }
+
+    public void setPreviousDuration(String previousDuration) {
+        this.previousDuration = previousDuration;
+    }
+
     public String getStartAMPM() {
         return startAMPM;
     }

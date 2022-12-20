@@ -254,6 +254,17 @@ public class Staff {
 		} 
 	}
 
+	public void reinstatePreviousLeaveBalance(LeaveApplication leaveApplication,String durationStr){
+		long duration = Long.parseLong(durationStr);
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			annualLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			medicalLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			compensationLeaveBalence+= duration;
+		} 
+	}
+
 	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication)
 	{
 		long duration = Long.parseLong(leaveApplication.getDuration());
