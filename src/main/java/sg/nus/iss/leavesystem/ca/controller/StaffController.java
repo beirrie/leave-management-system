@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.UserSession;
@@ -51,20 +52,22 @@ public class StaffController {
 
 	@GetMapping("/list")
 	public String staffListPage(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+		UserSession userSession = (UserSession) session.getAttribute("user");
+		List<String> roles = userSession.getUserRoles();
+		model.addAttribute("roles", roles);
 		model.addAttribute("staffList", staffService.getStaffList());
 		return "staff-list";
 	}
 
 	@GetMapping("/create")
 	public String newStaffPage(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+		UserSession userSession = (UserSession) session.getAttribute("user");
+		List<String> roles = userSession.getUserRoles();
+		model.addAttribute("roles", roles);
 		model.addAttribute("userStaffForm", new UserStaffForm());
-		model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
+		List<LeaveScheme> activeLeaveSchemes = leaveSchemeService.getAllLeaveScheme().stream()
+		.filter(x -> x.getIsActive() == true).toList();
+		model.addAttribute("leaveSchemes", activeLeaveSchemes);
 		model.addAttribute("managers", staffService.findAllManagers());
 		return "staff-new";
 	}
@@ -78,7 +81,9 @@ public class StaffController {
 			userDetails.setPassword(staff.getPassword());
 			userDetails.setUserName(staff.getUserName());
 			model.addAttribute("user", userDetails);
-			model.addAttribute("leaveSchemes", leaveSchemeService.getAllLeaveScheme());
+			List<LeaveScheme> activeLeaveSchemes = leaveSchemeService.getAllLeaveScheme().stream()
+					.filter(x -> x.getIsActive() == true).toList();
+			model.addAttribute("leaveSchemes", activeLeaveSchemes);
 			model.addAttribute("managers", staffService.findAllManagers());
 			return "staff-new";
 		}
@@ -97,9 +102,9 @@ public class StaffController {
 
 	@GetMapping("/edit/{id}")
 	public String editStaffPage(@PathVariable("id") String id, Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+		UserSession userSession = (UserSession) session.getAttribute("user");
+		List<String> roles = userSession.getUserRoles();
+		model.addAttribute("roles", roles);
 		Staff staff = staffService.findStaffByID(id);
 		User staffUser = userService.findUserByStaffID(id);
 
