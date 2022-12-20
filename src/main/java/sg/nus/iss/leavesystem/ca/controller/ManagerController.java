@@ -127,9 +127,9 @@ public class ManagerController {
         model.addAttribute("roles", roles);
         String[] approveOrReject = { "Approved", "Rejected" };
         model.addAttribute("overtime", overtimeApplicationService.getById(otId));
-        OvertimeApprovalDTO dto = new OvertimeApprovalDTO();
-        dto.setOtId(otId);
-        model.addAttribute("dto", dto);
+        OvertimeApprovalDTO dtoOT = new OvertimeApprovalDTO();
+        dtoOT.setOtId(otId);
+        model.addAttribute("dtoOT", dtoOT);
         model.addAttribute("ListApproveOrReject", approveOrReject);
         return "managerApproveOrRejectOvertime";
     }
