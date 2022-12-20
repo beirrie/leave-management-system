@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -42,20 +42,21 @@ public class Staff {
 
 	@Transient
 	private String name;
+
 	@Transient
 	public String getName() {
-		return lastName+" "+firstName;
+		return lastName + " " + firstName;
 	}
-	
+
 	@Column(columnDefinition = "nvarchar(255) not null")
 	private String emailAdd;
 
-	@ManyToOne(fetch= FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "manager_Id", referencedColumnName = "id")
 	@JsonBackReference
 	private Staff manager;
 
-	@OneToMany(fetch= FetchType.LAZY,mappedBy = "manager")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager")
 	@JsonManagedReference
 	private Set<Staff> subordinates = new HashSet<>();
 
@@ -157,7 +158,7 @@ public class Staff {
 	public void setLeaveScheme(LeaveScheme leaveScheme) {
 		this.leaveScheme = leaveScheme;
 	}
-	
+
 	@JsonBackReference
 	public List<LeaveApplication> getLeaveApplicationRecords() {
 		return leaveApplicationRecords;
@@ -193,6 +194,22 @@ public class Staff {
 	}
 
 	public double getCompensationLeaveBalence() {
+		double totalOTHours = this.getAccumulated_OT_Hours();
+		List<LeaveApplication> approvedLeaves = this.getLeaveApplicationRecords().stream()
+				.filter(x -> x.getApplicationStatus().toLowerCase().equals("approved")).collect(Collectors.toList());
+		double allApprovedDays = 0;
+		for (LeaveApplication leave : approvedLeaves) {
+			double totalDaysPerApplication = Double.parseDouble(leave.getDuration());
+			double halfDay = 0;
+			if (leave.getStartAM_or_PM() == "PM") {
+				halfDay -= 1;
+			}
+			if (leave.getEndAM_or_PM() == "AM") {
+				halfDay -= 1;
+			}
+			allApprovedDays += totalDaysPerApplication + halfDay;
+		}
+		double compensationLeaveBalence = Math.floor(totalOTHours / 4) * 0.5 - allApprovedDays;
 		return compensationLeaveBalence;
 	}
 
@@ -209,6 +226,9 @@ public class Staff {
 	}
 
 	public double getAccumulated_OT_Hours() {
+		double accumulated_OT_Hours = this.getOvertimeApplicationRecords().stream()
+				.filter(x -> x.getApplicationStatus().toLowerCase().equals("approved"))
+				.mapToDouble(x -> x.getHours_OT()).sum();
 		return accumulated_OT_Hours;
 	}
 
@@ -232,37 +252,39 @@ public class Staff {
 		this.isActive = isActive;
 	}
 
-	public void deductLeave(LeaveApplication leaveApplication){
+	public void deductLeave(LeaveApplication leaveApplication) {
 		long duration = Long.parseLong(leaveApplication.getDuration());
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
-			annualLeaveBalance-= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
-			medicalLeaveBalance-= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
-			compensationLeaveBalence-= duration;
+		if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual") {
+			annualLeaveBalance -= duration;
+		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical") {
+			medicalLeaveBalance -= duration;
+		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation") {
+			compensationLeaveBalence -= duration;
 		}
 	}
 
-	public void reinstateLeaveBalance(LeaveApplication leaveApplication){
+	public void reinstateLeaveBalance(LeaveApplication leaveApplication) {
 		long duration = Long.parseLong(leaveApplication.getDuration());
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
-			annualLeaveBalance+= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
-			medicalLeaveBalance+= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
-			compensationLeaveBalence+= duration;
-		} 
+		if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual") {
+			annualLeaveBalance += duration;
+		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical") {
+			medicalLeaveBalance += duration;
+		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation") {
+			compensationLeaveBalence += duration;
+		}
 	}
 
-	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication)
-	{
+	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication) {
 		long duration = Long.parseLong(leaveApplication.getDuration());
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
-			if(duration > annualLeaveBalance) return false;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
-			if(duration > medicalLeaveBalance) return false;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
-			if(duration > compensationLeaveBalence) return false;
+		if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual") {
+			if (duration > annualLeaveBalance)
+				return false;
+		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical") {
+			if (duration > medicalLeaveBalance)
+				return false;
+		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation") {
+			if (duration > compensationLeaveBalence)
+				return false;
 		}
 		return true;
 	}
