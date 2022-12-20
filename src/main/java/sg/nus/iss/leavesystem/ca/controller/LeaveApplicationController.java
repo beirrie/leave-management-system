@@ -158,7 +158,7 @@ public class LeaveApplicationController {
         leaveApplication.setAdditionalComments(leaveForm.getAdditionalComments());
         leaveApplication.setApplicationStatus("Applied");
         leaveApplication.setApplicationDate(LocalDateTime.now());
-        leaveApplication.setEmployeeManager(staff);
+        leaveApplication.setEmployeeManager(staff.getManager());
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
         leaveApplication.setTypeOfLeave(leaveTypeService.findById(leaveApplication.getTypeOfLeave().getId()));
@@ -212,7 +212,7 @@ public class LeaveApplicationController {
         leaveApplication.setAdditionalComments(leaveForm.getAdditionalComments());
         leaveApplication.setApplicationStatus("Updated");
         leaveApplication.setApplicationDate(LocalDateTime.now());
-        leaveApplication.setEmployeeManager(staff);
+        leaveApplication.setEmployeeManager(staff.getManager());
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
 
