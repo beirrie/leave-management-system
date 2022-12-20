@@ -27,7 +27,6 @@ import sg.nus.iss.leavesystem.ca.repository.RoleRepository;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
 import sg.nus.iss.leavesystem.ca.repository.UserRepository;
 
-
 @SpringBootApplication
 public class CaLeaveSystemTeam7Application {
 
@@ -83,7 +82,6 @@ public class CaLeaveSystemTeam7Application {
 			Staff staff4 = new Staff("Shaun", "Lin", "shaun@gmail.com", ls2, user4);
 			staff4.setManager(staff1);
 			staffRepo.saveAndFlush(staff4);
-
 
 			List<Staff> myStaffs = staffRepo.findAll();
 			myStaffs.forEach(myStaff -> System.out.println(myStaff));
@@ -152,9 +150,9 @@ public class CaLeaveSystemTeam7Application {
 			appliedAnnualLeave1.setIsAbroad(false);
 			appliedAnnualLeave1.setContactNumber("99999999");
 			appliedAnnualLeave1.setCoveringStaff(staff2);
-			appliedAnnualLeave1.setStartDate(LocalDateTime.of(2023, 1, 5, 0, 0));
+			appliedAnnualLeave1.setStartDate(LocalDateTime.of(2023, 1, 3, 0, 0));
 			appliedAnnualLeave1.setStartAM_or_PM("AM");
-			appliedAnnualLeave1.setEndDate(LocalDateTime.of(2023, 1, 6, 0, 0));
+			appliedAnnualLeave1.setEndDate(LocalDateTime.of(2023, 1, 5, 0, 0));
 			appliedAnnualLeave1.setEndAM_or_PM("PM");
 			appliedAnnualLeave1.setAdditionalComments("Moving house");
 			appliedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
@@ -163,6 +161,42 @@ public class CaLeaveSystemTeam7Application {
 			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave1);
+
+			LeaveApplication appliedAnnualLeave2 = new LeaveApplication();
+			appliedAnnualLeave2.setEmployee(staff2);
+			appliedAnnualLeave2.setTypeOfLeave(annual);
+			appliedAnnualLeave2.setIsAbroad(false);
+			appliedAnnualLeave2.setContactNumber("99999999");
+			appliedAnnualLeave2.setCoveringStaff(staff4);
+			appliedAnnualLeave2.setStartDate(LocalDateTime.of(2023, 1, 2, 0, 0));
+			appliedAnnualLeave2.setStartAM_or_PM("AM");
+			appliedAnnualLeave2.setEndDate(LocalDateTime.of(2023, 1, 3, 0, 0));
+			appliedAnnualLeave2.setEndAM_or_PM("PM");
+			appliedAnnualLeave2.setAdditionalComments("Repair Car");
+			appliedAnnualLeave2.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
+			appliedAnnualLeave2.setApplicationStatus("Applied");
+			appliedAnnualLeave2.setEmployeeManager(staff3);
+			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			appliedAnnualLeave2.setMgrRemarks("");
+			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave2);
+
+			LeaveApplication appliedAnnualLeave3 = new LeaveApplication();
+			appliedAnnualLeave3.setEmployee(staff2);
+			appliedAnnualLeave3.setTypeOfLeave(annual);
+			appliedAnnualLeave3.setIsAbroad(false);
+			appliedAnnualLeave3.setContactNumber("99999999");
+			appliedAnnualLeave3.setCoveringStaff(staff4);
+			appliedAnnualLeave3.setStartDate(LocalDateTime.of(2023, 1, 4, 0, 0));
+			appliedAnnualLeave3.setStartAM_or_PM("AM");
+			appliedAnnualLeave3.setEndDate(LocalDateTime.of(2023, 1, 6, 0, 0));
+			appliedAnnualLeave3.setEndAM_or_PM("PM");
+			appliedAnnualLeave3.setAdditionalComments("Repair House");
+			appliedAnnualLeave3.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
+			appliedAnnualLeave3.setApplicationStatus("Applied");
+			appliedAnnualLeave3.setEmployeeManager(staff3);
+			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
+			appliedAnnualLeave3.setMgrRemarks("");
+			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave3);
 
 			LeaveApplication appliedMedicalApplication1 = new LeaveApplication();
 			appliedMedicalApplication1.setEmployee(staff2);
@@ -322,44 +356,43 @@ public class CaLeaveSystemTeam7Application {
 			PublicHoliday goodFriday = new PublicHoliday();
 			goodFriday.setDescription("Good Friday");
 			goodFriday.setPublicHolidayName("Good Friday");
-			goodFriday.setStartDate(LocalDateTime.of(2023 ,4, 7, 0, 0, 0));
+			goodFriday.setStartDate(LocalDateTime.of(2023, 4, 7, 0, 0, 0));
 			phRepo.saveAndFlush(goodFriday);
 
 			PublicHoliday labourDay = new PublicHoliday();
 			labourDay.setDescription("Labour Day");
 			labourDay.setPublicHolidayName("Labour Day");
-			labourDay.setStartDate(LocalDateTime.of(2023 ,5, 1, 0, 0, 0));
+			labourDay.setStartDate(LocalDateTime.of(2023, 5, 1, 0, 0, 0));
 			phRepo.saveAndFlush(labourDay);
 
 			PublicHoliday vesakDay = new PublicHoliday();
 			vesakDay.setDescription("Vesak Day");
 			vesakDay.setPublicHolidayName("Vesak Day");
-			vesakDay.setStartDate(LocalDateTime.of(2023 ,6, 2, 0, 0, 0));
+			vesakDay.setStartDate(LocalDateTime.of(2023, 6, 2, 0, 0, 0));
 			phRepo.saveAndFlush(vesakDay);
 
 			PublicHoliday hariRayaHaji = new PublicHoliday();
 			hariRayaHaji.setDescription("Hari Raya Haji");
 			hariRayaHaji.setPublicHolidayName("Hari Raya Haji");
-			hariRayaHaji.setStartDate(LocalDateTime.of(2023 ,6, 29, 0, 0, 0));
+			hariRayaHaji.setStartDate(LocalDateTime.of(2023, 6, 29, 0, 0, 0));
 			phRepo.saveAndFlush(hariRayaHaji);
-
 
 			PublicHoliday nationalDay = new PublicHoliday();
 			nationalDay.setDescription("National Day");
 			nationalDay.setPublicHolidayName("National Day");
-			nationalDay.setStartDate(LocalDateTime.of(2023 ,8, 9, 0, 0, 0));
+			nationalDay.setStartDate(LocalDateTime.of(2023, 8, 9, 0, 0, 0));
 			phRepo.saveAndFlush(nationalDay);
 
 			PublicHoliday deepavaliHoliday = new PublicHoliday();
 			deepavaliHoliday.setDescription("Deepavali Holiday");
 			deepavaliHoliday.setPublicHolidayName("Deepavali Holiday");
-			deepavaliHoliday.setStartDate(LocalDateTime.of(2023 ,11, 13, 0, 0, 0));
+			deepavaliHoliday.setStartDate(LocalDateTime.of(2023, 11, 13, 0, 0, 0));
 			phRepo.saveAndFlush(deepavaliHoliday);
 
 			PublicHoliday christmasHoliday1 = new PublicHoliday();
 			christmasHoliday1.setDescription("Christmas Day");
 			christmasHoliday1.setPublicHolidayName("Christmas Day");
-			christmasHoliday1.setStartDate(LocalDateTime.of(2023 ,12, 25, 0, 0, 0));
+			christmasHoliday1.setStartDate(LocalDateTime.of(2023, 12, 25, 0, 0, 0));
 			phRepo.saveAndFlush(christmasHoliday1);
 
 			// List<OvertimeApplication> otps = otRepo.findAll();

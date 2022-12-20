@@ -35,6 +35,26 @@ public class LeaveApplicationForm {
     private Boolean isAbroad;
 
     private LocalDateTime startDate= LocalDateTime.now();
+    
+    private String startAMPM;
+    
+    public String getStartAMPM() {
+		return startAMPM;
+	}
+
+	public void setStartAMPM(String startAMPM) {
+		this.startAMPM = startAMPM;
+	}
+
+	public String getEndAMPM() {
+		return endAMPM;
+	}
+
+	public void setEndAMPM(String endAMPM) {
+		this.endAMPM = endAMPM;
+	}
+
+	private String endAMPM;
 
     private String startDateStr;
 
