@@ -15,6 +15,7 @@ import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
 import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
+import sg.nus.iss.leavesystem.ca.util.StringToDateTimeYYYYMMDD;
 
 @Service
 @Transactional
@@ -153,7 +154,24 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 		return leaveAppsOverLap;
 	}
 
+    @Override
+    public List<LeaveApplication> getListForReport(Long managerId,Long staffId, String leaveTypeName,
+                                                   String startPeriod,
+                                                   String endPeriod) {
+
+        LocalDateTime start = StringToDateTimeYYYYMMDD.convertYYYYMMDD_DT(startPeriod);
+        LocalDateTime end = StringToDateTimeYYYYMMDD.convertYYYYMMDD_DT(endPeriod);
+
+        if(leaveTypeName.equalsIgnoreCase("All") && !(staffId ==0L)){
+            return leaveAppRepo.findForReportByStaffId(managerId, staffId, start, end);
+        } else if (staffId == 0L && !leaveTypeName.equalsIgnoreCase("All")) {
+            return leaveAppRepo.findForReportByLeaveType(managerId, leaveTypeName, start, end);
+        } else if (staffId == 0L && leaveTypeName.equalsIgnoreCase("All")) {
+            return leaveAppRepo.findForReportByDate(managerId, start, end);
+        } else {
+            return leaveAppRepo.findByFilter(managerId, staffId, leaveTypeName, start, end);
+        }
+    }
 
 
-    
 }
