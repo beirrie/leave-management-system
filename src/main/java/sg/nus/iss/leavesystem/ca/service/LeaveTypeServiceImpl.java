@@ -1,6 +1,7 @@
 package sg.nus.iss.leavesystem.ca.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,16 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
     LeaveTypeRepository leaveTypeRepository;
 
     @Override
-    public List<LeaveType> GetAll() {
+    public List<LeaveType> GetAllWithoutCompensation() {
+        return leaveTypeRepository.findAll().stream().filter(x->x.getLeaveTypeName() != "compensation")
+        .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LeaveType> GetAll(){
+
         return leaveTypeRepository.findAll();
+
     }
 
     @Override

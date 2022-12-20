@@ -89,18 +89,18 @@ public class LeaveApplicationController {
         return "LeaveHistory";
     }
 
-//    @GetMapping("/AddLeave")
-//    public String AddLeave(Model model, HttpSession session) {
-//        UserSession userSession = (UserSession) session.getAttribute("user");
-//        var staff = this.staffService.findById(userSession.getStaffId());
-//        List<String> roles = userSession.getUserRoles();
-//        model.addAttribute("roles", roles); 
-//        LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-//        model.addAttribute("leaveForm", leaveApplication);
-//        model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-//        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-//        return "AddLeave";
-//    }
+   @GetMapping("/AddLeave")
+   public String AddLeave(Model model, HttpSession session) {
+       UserSession userSession = (UserSession) session.getAttribute("user");
+       var staff = this.staffService.findById(userSession.getStaffId());
+       List<String> roles = userSession.getUserRoles();
+       model.addAttribute("roles", roles); 
+       LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+       model.addAttribute("leaveForm", leaveApplication);
+       model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
+       model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+       return "AddLeave";
+   }
 
     @GetMapping("/editLeave/{id}")
     public String EditLeave(Model model, HttpSession session, @PathVariable(value = "id") long id) {
@@ -260,18 +260,18 @@ public class LeaveApplicationController {
         return "viewleavedetails";
     }
     
-    @GetMapping("/ApplyMedicalLeave")
-    public String ApplyMedicalLeave(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        var staff = this.staffService.findById(userSession.getStaffId());
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-        LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-        leaveApplication.setLeaveType(leaveTypeService.findById(2));
-        model.addAttribute("leaveForm", leaveApplication);
-        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-        return "applymedical";
-    }
+    // @GetMapping("/ApplyMedicalLeave")
+    // public String ApplyMedicalLeave(Model model, HttpSession session) {
+    //     UserSession userSession = (UserSession) session.getAttribute("user");
+    //     var staff = this.staffService.findById(userSession.getStaffId());
+    //     List<String> roles = userSession.getUserRoles();
+    //     model.addAttribute("roles", roles); 
+    //     LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+    //     leaveApplication.setLeaveType(leaveTypeService.findById(2));
+    //     model.addAttribute("leaveForm", leaveApplication);
+    //     model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+    //     return "applymedical";
+    // }
     
     @PostMapping("/SubmitMedicalLeave")
     public String SubmitMedicalLeave(LeaveApplicationForm leaveform, HttpSession session) {
@@ -302,18 +302,18 @@ public class LeaveApplicationController {
     }
     
 
-    @GetMapping("/ApplyAnnualLeave")
-    public String ApplyAnnualLeave(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        var staff = this.staffService.findById(userSession.getStaffId());
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
-        LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-        leaveApplication.setLeaveType(leaveTypeService.findById(1));
-        model.addAttribute("leaveForm", leaveApplication);
-        model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-        return "applyannual";
-    }
+    // @GetMapping("/ApplyAnnualLeave")
+    // public String ApplyAnnualLeave(Model model, HttpSession session) {
+    //     UserSession userSession = (UserSession) session.getAttribute("user");
+    //     var staff = this.staffService.findById(userSession.getStaffId());
+    //     List<String> roles = userSession.getUserRoles();
+    //     model.addAttribute("roles", roles); 
+    //     LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
+    //     leaveApplication.setLeaveType(leaveTypeService.findById(1));
+    //     model.addAttribute("leaveForm", leaveApplication);
+    //     model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+    //     return "applyannual";
+    // }
     
     @PostMapping("/SubmitAnnualLeave")
     public String SubmitAnnualLeave(LeaveApplicationForm leaveform, HttpSession session) {
