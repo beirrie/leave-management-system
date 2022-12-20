@@ -170,7 +170,5 @@ public class ManagerController {
         Staff manager = staffService.findStaffByID(userSession.getStaffId());
         return manager;
     }
-    
-    
 
 }
