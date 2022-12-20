@@ -39,6 +39,8 @@ public interface StaffService {
 
 	Staff findById(long id);
 
+	List<Staff> findByManager(Staff manager);
+
 	void modifyCompensationLeaveBalance(Staff staff, double hours);
 
 	void modifyOtherLeaveBalance(Staff staff, LeaveApplication app);

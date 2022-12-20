@@ -1,7 +1,12 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,24 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
-import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
-import sg.nus.iss.leavesystem.ca.model.Staff;
-import sg.nus.iss.leavesystem.ca.model.UserSession;
+import sg.nus.iss.leavesystem.ca.model.*;
 import sg.nus.iss.leavesystem.ca.model.dto.LeaveApprovalDTO;
+import sg.nus.iss.leavesystem.ca.model.dto.LeaveReportDTO;
 import sg.nus.iss.leavesystem.ca.model.dto.OvertimeApprovalDTO;
-import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
-import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
-import sg.nus.iss.leavesystem.ca.service.StaffService;
+import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
+import sg.nus.iss.leavesystem.ca.service.*;
 import sg.nus.iss.leavesystem.ca.validator.ManagerRejectLeaveValidator;
 
 @Controller
@@ -39,6 +36,9 @@ public class ManagerController {
     private LeaveApplicationService leaveAppService;
 
     @Autowired
+    private LeaveTypeService leaveTypeService;
+
+    @Autowired
     private OvertimeApplicationService overtimeApplicationService;
 
     @Autowired
@@ -46,6 +46,11 @@ public class ManagerController {
 
     @Autowired
     private ManagerRejectLeaveValidator managerRejectLeaveValidator;
+    @Autowired
+    private StaffRepository staffRepository;
+
+    @Autowired
+    private CsvExportService csvExportService;
 
     @InitBinder("dto")
     private void initBinder(WebDataBinder binder) {
@@ -163,12 +168,119 @@ public class ManagerController {
         return "managerAllStaffOvertimeHistory";
     }
 
+//    @GetMapping("/leave_report")
+//    public String leaveReportsView(@ModelAttribute LeaveReportDTO leaveReportDTO, Model model, HttpSession session) {
+//        Staff manager = getStaff(model, session);
+//        model.addAttribute("leaves" ,leaveAppService.getStaffLeavesByManager(manager));
+//
+//        List<Staff> staffList = staffService.findByManager(manager);
+//        Map<Long, String> id_Name = new HashMap<>();
+//        id_Name.put(0L, "All");
+//        for (var staff : staffList)
+//        {
+//            id_Name.put(staff.getId(), staff.getName());
+//        }
+//
+//        List<LeaveType> typeList = leaveTypeService.GetAll();
+//        List<String> leaveTypeName = new ArrayList<>();
+//        leaveTypeName.add("All");
+//        for (var leaveType : typeList)
+//        {
+//            leaveTypeName.add(leaveType.getLeaveTypeName());
+//        }
+//
+//        List<LeaveApplication> listLeave = new ArrayList<>();
+//
+//        if (leaveReportDTO.getStaffId() == null && leaveReportDTO.getLeaveTypeName() == null
+//                && leaveReportDTO.getStartPeriod() == null && leaveReportDTO.getEndPeriod() == null) {
+//            listLeave.addAll(leaveAppService.getStaffLeavesByManager(manager));
+//        } else {
+//            listLeave.addAll(leaveAppService.getListForReport(manager.getId(), leaveReportDTO.getStaffId(),
+//                    leaveReportDTO.getLeaveTypeName(), leaveReportDTO.getStartPeriod(), leaveReportDTO.getEndPeriod()));
+//        }
+//
+//        model.addAttribute("dtoLeave", leaveReportDTO);
+//        model.addAttribute("leaves" ,listLeave);
+//        model.addAttribute("staffName", id_Name);
+//        model.addAttribute("leaveTypeName", leaveTypeName);
+//        return "leaveReport";
+//    }
+
+    @GetMapping("/leave_report")
+    public String leaveReportsView(@RequestParam Map<String, String> params,
+                                   @ModelAttribute LeaveReportDTO leaveReportDTO, Model model, HttpSession session) {
+        Staff manager = getStaff(model, session);
+        model.addAttribute("leaves" ,leaveAppService.getStaffLeavesByManager(manager));
+
+        List<Staff> staffList = staffService.findByManager(manager);
+        Map<Long, String> id_Name = new HashMap<>();
+        id_Name.put(0L, "All");
+        for (var staff : staffList)
+        {
+            id_Name.put(staff.getId(), staff.getName());
+        }
+
+        List<LeaveType> typeList = leaveTypeService.GetAll();
+        List<String> leaveTypeNameList = new ArrayList<>();
+        leaveTypeNameList.add("All");
+        for (var leaveType : typeList)
+        {
+            leaveTypeNameList.add(leaveType.getLeaveTypeName());
+        }
+
+        List<LeaveApplication> listLeave =new ArrayList<>();
+
+        if(!params.isEmpty()) {
+            Long staffId = Long.valueOf(params.get("staffId"));
+            String leaveTypeName = params.get("leaveTypeName");
+            String startPeriod = params.get("startPeriod");
+            String endPeriod = params.get("endPeriod");
+
+
+            listLeave.addAll(leaveAppService.getListForReport(manager.getId(), staffId,
+                   leaveTypeName, startPeriod, endPeriod));
+        } else {
+            listLeave.addAll(leaveAppService.getStaffLeavesByManager(manager));
+        }
+
+
+        model.addAttribute("dtoLeave", leaveReportDTO);
+        model.addAttribute("leaves" ,listLeave);
+        model.addAttribute("staffName", id_Name);
+        model.addAttribute("leaveTypeName", leaveTypeNameList);
+        return "leaveReport";
+    }
+
+
+//    @GetMapping("/leave_report/export")
+//    public void leaveReportsExport(@ModelAttribute LeaveReportDTO leaveReportDTO, Model model, HttpSession session) {
+//        Staff manager = getStaff(model, session);
+//        model.addAttribute("leaves" ,leaveAppService.getStaffLeavesByManager(manager));
+//
+//
+//            List<LeaveApplication> listLeave = new ArrayList<>(leaveAppService.getListForReport(manager.getId(),
+//                leaveReportDTO.getStaffId(),
+//                    leaveReportDTO.getLeaveTypeName(), leaveReportDTO.getStartPeriod(), leaveReportDTO.getEndPeriod()));
+//        }
+//    }
+
+    @GetMapping("leave_report/export")
+    public void leaveReportsExport(@ModelAttribute LeaveReportDTO leaveReportDTO,
+                                   HttpServletResponse servletResponse, HttpSession session) throws IOException {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        Staff manager = staffService.findStaffByID(userSession.getStaffId());
+
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition","attachment; filename=\"employees.csv\"");
+        csvExportService.leaveReportToCsv(servletResponse.getWriter(), manager, leaveReportDTO.getStaffId(), leaveReportDTO.getLeaveTypeName(),
+                leaveReportDTO.getStartPeriod(), leaveReportDTO.getEndPeriod());
+    }
+
     private Staff getStaff(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles);
-        Staff manager = staffService.findStaffByID(userSession.getStaffId());
-        return manager;
+        return staffService.findStaffByID(userSession.getStaffId());
     }
 
 }
