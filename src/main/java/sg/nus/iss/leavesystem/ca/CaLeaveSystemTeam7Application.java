@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
 import sg.nus.iss.leavesystem.ca.model.APIKey;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
@@ -32,7 +31,7 @@ public class CaLeaveSystemTeam7Application {
 	public static void main(String[] args) {
 		SpringApplication.run(CaLeaveSystemTeam7Application.class, args);
 	}
-
+	
 	@Bean
 	public CommandLineRunner commandLineRun(
 			UserRepository userRepo,

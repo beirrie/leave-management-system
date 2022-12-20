@@ -15,6 +15,6 @@ public class WebAppConfig implements WebMvcConfigurer{
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(_sessionInterceptor);
+		registry.addInterceptor(_sessionInterceptor).excludePathPatterns("/api/*");
 	}
 }

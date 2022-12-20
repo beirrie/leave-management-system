@@ -292,6 +292,7 @@ public class LeaveApplicationController {
         leaveApplication.setEmployeeManager(staff);
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
+        //Need to check balance and also validate staff entry in applyCompensationLeave page.
 //        this.leaveApplicationService.CreateApplication(leaveApplication);   
         return "redirect:/LeaveHistory";
     }

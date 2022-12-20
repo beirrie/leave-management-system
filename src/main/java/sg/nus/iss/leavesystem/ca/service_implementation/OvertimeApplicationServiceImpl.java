@@ -1,7 +1,6 @@
 package sg.nus.iss.leavesystem.ca.service_implementation;
 
 import jakarta.transaction.Transactional;
-import org.hibernate.sql.ast.tree.expression.Over;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
@@ -13,7 +12,6 @@ import sg.nus.iss.leavesystem.ca.service.StaffService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -67,10 +65,11 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
     }
 
     @Override
-    public void newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment) {
+    public OvertimeApplication newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment) {
 
         OvertimeApplication newOT = new OvertimeApplication(employee, OT_Date, hours, employeeComment);
         otRepo.saveAndFlush(newOT);
+        return newOT;
     }
 
     @Override
