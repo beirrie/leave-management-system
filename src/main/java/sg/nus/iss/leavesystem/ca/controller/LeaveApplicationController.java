@@ -110,7 +110,7 @@ public class LeaveApplicationController {
         model.addAttribute("roles", roles);
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
-        leaveApplicationForm.setLeaveTypeId(leaveApplication.getId());
+        leaveApplicationForm.setId(leaveApplication.getId());
         leaveApplicationForm.setLeaveType(leaveApplication.getTypeOfLeave());
         leaveApplicationForm.setAdditionalComments(leaveApplication.getAdditionalComments());
         leaveApplicationForm.setCoveringStaff(leaveApplication.getCoveringStaff());
@@ -200,7 +200,7 @@ public class LeaveApplicationController {
        
         Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
-        leaveApplication.setId(leaveForm.getLeaveTypeId());
+        leaveApplication.setId(leaveForm.getId());
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
         leaveApplication.setEmployee(staff);
         leaveApplication.setIsAbroad(leaveForm.getIsAbroad());
@@ -265,7 +265,7 @@ public class LeaveApplicationController {
         model.addAttribute("roles", roles);
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
-        leaveApplicationForm.setLeaveTypeId(leaveApplication.getId());
+        leaveApplicationForm.setId(leaveApplication.getId());
         leaveApplicationForm.setLeaveType(leaveApplication.getTypeOfLeave());
         leaveApplicationForm.setAdditionalComments(leaveApplication.getAdditionalComments());
         leaveApplicationForm.setCoveringStaff(leaveApplication.getCoveringStaff());
@@ -372,7 +372,7 @@ public class LeaveApplicationController {
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles);
         LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
-        leaveApplication.setLeaveTypeId(3);
+        leaveApplication.setId(3);
         leaveApplication.setStaffId(staff.getId());
         leaveApplication.setLeaveType(leaveTypeService.findById(3));
         model.addAttribute("leaveForm", leaveApplication);

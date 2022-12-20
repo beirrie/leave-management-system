@@ -11,7 +11,7 @@ public class LeaveApplicationForm {
         this.endDateStr = Util.convertDateToString(endDate);
     }
 
-    private long leaveTypeId;
+    private long id;
 
     private long staffId;
 
@@ -31,12 +31,12 @@ public class LeaveApplicationForm {
 
     private String startAMPM;
 
-    public long getLeaveTypeId() {
-        return leaveTypeId;
+    public long getId() {
+        return id;
     }
 
-    public void setLeaveTypeId(long id) {
-        this.leaveTypeId = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getStaffId() {
