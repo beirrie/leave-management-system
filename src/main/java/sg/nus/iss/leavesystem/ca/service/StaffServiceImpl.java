@@ -148,7 +148,12 @@ public class StaffServiceImpl implements StaffService {
 		return this.staffRepository.findById(id).get();
 	}
 
-    @Override
+	@Override
+	public List<Staff> findByManager(Staff manager) {
+		return staffRepository.findByManager_Id(manager.getId());
+	}
+
+	@Override
     public void modifyCompensationLeaveBalance(Staff staff, double hours) {
         double balance = staff.getCompensationLeaveBalence();
 		double totalBalanceHours = staff.getAccumulated_OT_Hours() + hours;

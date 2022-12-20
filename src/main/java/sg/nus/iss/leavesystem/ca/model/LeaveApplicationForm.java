@@ -5,22 +5,15 @@ import java.time.LocalDateTime;
 import sg.nus.iss.leavesystem.ca.util.Util;
 
 public class LeaveApplicationForm {
-    
-    public LeaveApplicationForm()
-    {
+
+    public LeaveApplicationForm() {
         this.startDateStr = Util.convertDateToString(startDate);
         this.endDateStr = Util.convertDateToString(endDate);
     }
 
     private long id;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private long staffId;
 
     private LeaveType leaveType;
 
@@ -34,29 +27,69 @@ public class LeaveApplicationForm {
 
     private Boolean isAbroad;
 
-    private LocalDateTime startDate= LocalDateTime.now();
-    
-    private String startAMPM;
-    
-    public String getStartAMPM() {
-		return startAMPM;
-	}
+    private LocalDateTime startDate = LocalDateTime.now();
 
-	public void setStartAMPM(String startAMPM) {
-		this.startAMPM = startAMPM;
-	}
+    private String startAMPM = "";
 
-	public String getEndAMPM() {
-		return endAMPM;
-	}
-
-	public void setEndAMPM(String endAMPM) {
-		this.endAMPM = endAMPM;
-	}
-
-	private String endAMPM;
+    private String endAMPM = "";
 
     private String startDateStr;
+
+    private LocalDateTime endDate = LocalDateTime.now();
+
+    private String endDateStr;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(long staffId) {
+        this.staffId = staffId;
+    }
+
+    private String previousDuration;
+
+    public Long getPreviousLeaveTypeId() {
+        return previousLeaveTypeId;
+    }
+
+    public void setPreviousLeaveTypeId(Long previousLeaveTypeId) {
+        this.previousLeaveTypeId = previousLeaveTypeId;
+    }
+
+    private Long previousLeaveTypeId;
+
+    public String getPreviousDuration() {
+        return previousDuration;
+    }
+
+    public void setPreviousDuration(String previousDuration) {
+        this.previousDuration = previousDuration;
+    }
+
+    public String getStartAMPM() {
+        return startAMPM;
+    }
+
+    public void setStartAMPM(String startAMPM) {
+        this.startAMPM = startAMPM;
+    }
+
+    public String getEndAMPM() {
+        return endAMPM;
+    }
+
+    public void setEndAMPM(String endAMPM) {
+        this.endAMPM = endAMPM;
+    }
 
     public String getStartDateStr() {
         return startDateStr;
@@ -84,10 +117,6 @@ public class LeaveApplicationForm {
         this.endDateStr = Util.convertDateToString(endDate);
     }
 
-    private LocalDateTime endDate = LocalDateTime.now();
-
-    private String endDateStr;
-    
     public String getEndDateStr() {
         return endDateStr;
     }
