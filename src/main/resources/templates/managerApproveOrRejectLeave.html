@@ -11,6 +11,26 @@
 <body>
   <div th:replace="fragments/layout.html :: menu" />
   <div class="container">
+  
+  
+    <div class="row">
+	  <table class = "thead-dark" th:if="${not #lists.isEmpty(overlapLeaves)}">
+	    	<tr>
+	  		<th>Employee </th>
+	  		<th>Start Date</th>
+	  		<th>End Date</th>
+	  		<th>Leave Type</th>
+	  		<th>Levae Status</th>
+	  	</tr>
+	  	<tr th:each= "leave:${overlapLeaves}">
+	  		<td th:text="${leave.employee.firstName} +' '+${leave.employee.lastName}"></td>
+	  		<td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}"></td>
+	  		<td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"></td>
+	  		<td th:text="${leave.typeOfLeave.leaveTypeName}"></td>
+	  		<td th:text="${leave.applicationStatus}"></td>
+	  	</tr>
+	  </table>
+  </div>
     <div class="row">
 
       <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
@@ -75,10 +95,12 @@
 
           <div class="form-group">
             <label>Approver Remark</label>
+            <textarea class="form-control mb-2 col-5" th:field="*{approverRemark}" rows="3"></textarea>
+               <p class="large text-danger" th:if="${#fields.hasErrors('approverRemark')}" th:errors="*{approverRemark}">
+              ERROR!</p>
             <!-- <fieldset> -->
-            <textarea class="form-control mb-5 col-5" th:field="*{approverRemark}" rows="3" required></textarea>
-            <!-- </fieldset>	 -->
 
+            <!-- </fieldset>	 -->
           </div>
           <br />
           <button class="btn btn-primary" type="submit">Save</button>
@@ -93,6 +115,8 @@
       </main>
     </div>
   </div>
+  
+
 </body>
 
 </html>

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 
-public interface LeaveApplicationRepository extends JpaRepository<LeaveApplication, Long>{
-	
+public interface LeaveApplicationRepository extends JpaRepository<LeaveApplication, Long> {
     @Query("SELECT l FROM LeaveApplication l WHERE l.employee.id = ?1")
     List<LeaveApplication> FindByUserId(long userId);
 
