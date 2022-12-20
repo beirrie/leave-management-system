@@ -119,9 +119,12 @@ public class LeaveApplicationController {
         leaveApplicationForm.setIsAbroad(leaveApplication.getIsAbroad());
         leaveApplicationForm.setStartDate(leaveApplication.getStartDate());
         leaveApplicationForm.setEndDate(leaveApplication.getEndDate());
+        // Set Previous Leave Data
+        leaveApplicationForm.setPreviousDuration(leaveApplication.getDuration());
+        leaveApplicationForm.setPreviousLeaveTypeId(leaveApplication.getTypeOfLeave().getId());
 
         model.addAttribute("leaveForm", leaveApplicationForm);
-        model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
+        model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
         model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
         return "EditLeave";
     }
@@ -167,7 +170,7 @@ public class LeaveApplicationController {
         if(!staff.isLeaveBalanceEnough(leaveApplication))
         {
             model.addAttribute("leaveForm", leaveForm);
-            model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
+            model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             result.rejectValue("endDateStr", null, "Balance exceeded!");
             return "AddLeave";
@@ -175,7 +178,7 @@ public class LeaveApplicationController {
 
         if (result.hasErrors()) {
             model.addAttribute("leaveForm", leaveForm);
-            model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
+            model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             return "AddLeave";
         }
@@ -194,12 +197,8 @@ public class LeaveApplicationController {
         var staff = this.staffService.findById(userSession.getStaffId());
         if (userSession == null)
             return "redirect:/login";
-        if (result.hasErrors()) {
-            model.addAttribute("leaveForm", leaveForm);
-            model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
-            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-            return "EditLeave";
-        }
+
+       
         Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setId(leaveForm.getId());
@@ -216,9 +215,32 @@ public class LeaveApplicationController {
         leaveApplication.setEmployeeManager(staff.getManager());
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
+        leaveApplication.setTypeOfLeave(leaveTypeService.findById(leaveApplication.getTypeOfLeave().getId()));
+
+        // Reinstate previous leave balance
+        LeaveApplication previousLeave = new LeaveApplication();
+        previousLeave.setTypeOfLeave(leaveTypeService.findById(leaveForm.getPreviousLeaveTypeId()));
+        staff.reinstatePreviousLeaveBalance(previousLeave,leaveForm.getPreviousDuration());        
+
+        if(!staff.isLeaveBalanceEnough(leaveApplication))
+        {
+            model.addAttribute("leaveForm", leaveForm);
+            model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+            result.rejectValue("endDateStr", null, "Balance exceeded!");
+            return "AddLeave";
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("leaveForm", leaveForm);
+            model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+            return "EditLeave";
+        }
 
         this.leaveApplicationService.UpdateApplication(leaveApplication);
-        return "redirect:/LeaveApplication";
+        staff.deductLeave(leaveApplication);
+        this.staffService.updateStaff(staff);
+        return "redirect:/LeaveApplication";    
     }
     
     @GetMapping("/cancelLeave/{id}")
