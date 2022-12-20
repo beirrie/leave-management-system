@@ -29,7 +29,15 @@ public class LeaveApplicationForm {
 
     private LocalDateTime startDate = LocalDateTime.now();
 
-    private String startAMPM;
+    private String startAMPM = "";
+
+    private String endAMPM = "";
+
+    private String startDateStr;
+
+    private LocalDateTime endDate = LocalDateTime.now();
+
+    private String endDateStr;
 
     public long getId() {
         return id;
@@ -83,10 +91,6 @@ public class LeaveApplicationForm {
         this.endAMPM = endAMPM;
     }
 
-    private String endAMPM;
-
-    private String startDateStr;
-
     public String getStartDateStr() {
         return startDateStr;
     }
@@ -112,10 +116,6 @@ public class LeaveApplicationForm {
         this.endDate = endDate;
         this.endDateStr = Util.convertDateToString(endDate);
     }
-
-    private LocalDateTime endDate = LocalDateTime.now();
-
-    private String endDateStr;
 
     public String getEndDateStr() {
         return endDateStr;
