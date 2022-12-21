@@ -22,12 +22,12 @@
 
 			<div class="form-group">
 				<label class="control-label required">Start Date</label>
-				<input readonly type="text" th:value="*{startDateStr}" class="form-control mb-5 col-5">
+				<input readonly type="text" th:value="*{startDateStr} + ' ' + *{startAMPM}" class="form-control mb-5 col-5">
 			</div>
 
 			<div class="form-group">
 				<label class="control-label required">End Date</label>
-				<input readonly type="text" th:value="*{endDateStr}" class="form-control mb-5 col-5">
+				<input readonly type="text" th:value="*{endDateStr} + ' ' + *{endAMPM}" class="form-control mb-5 col-5">
 			</div>
 
 			<div class="form-group">
