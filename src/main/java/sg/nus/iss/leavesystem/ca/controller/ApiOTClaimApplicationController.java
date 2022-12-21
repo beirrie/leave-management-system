@@ -43,7 +43,7 @@ public class ApiOTClaimApplicationController {
 		LocalDateTime inputDate = StringToDateTime.convertStringDT(OT_Date);
 		Staff targetStaff = _StaffService.findStaffByID(staffID);
 		try {
-			if(authcheck == false) {
+			if(!authcheck) {
 				System.out.println("Authentication unsuccessful!");
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
@@ -82,4 +82,4 @@ public class ApiOTClaimApplicationController {
 //		private LocalDateTime appliedDateTime; 
 
 	}
-};
+}

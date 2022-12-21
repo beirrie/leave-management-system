@@ -57,11 +57,6 @@ public class ManagerController {
         binder.addValidators(managerRejectLeaveValidator);
     }
 
-    @GetMapping("/home")
-    public String managerHomePg(Model model) {
-        return "managerHome";
-    }
-
     @GetMapping("/pending_leave_applications")
     public String ViewPendingLeavesApp(HttpSession session, Model model) {
         Staff manager1 = getStaff(model, session);

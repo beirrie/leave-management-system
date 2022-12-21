@@ -28,6 +28,11 @@
                     <td>Compensation Leave</td>
                     <td th:text="${staff.compensationLeaveBalence}"></td>
                 </tr>
+                <tr>
+                    <td>Unconverted OT Hours</td>
+                    <td th:text="${staff.getAccumulated_OT_Hours()}"></td>
+                </tr>
+
             </tbody>
         </table>
 

@@ -43,7 +43,7 @@ public class PublicHolidayServiceImpl implements PublicHolidayService {
 	}
 	
 	@Override
-	public void pullPublicHolidaysData() throws JsonMappingException, JsonProcessingException{
+	public void pullPublicHolidaysData() throws JsonProcessingException{
 		int year = LocalDateTime.now().getYear();
 		String url = "https://calendarific.com/api/v2/holidays?&"
 				+ "api_key=73725c50c9a569f34dd03b3639cf962c35846e02&country=SG&year=" + year;

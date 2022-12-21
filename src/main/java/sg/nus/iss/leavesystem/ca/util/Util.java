@@ -31,10 +31,7 @@ public class Util {
     }
 
     public static Boolean isWeekend(LocalDateTime date) {
-        if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
-            return true;
-        else
-            return false;
+        return date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY;
     }
 
     // public static List<LocalDateTime> prepareHoliday() {

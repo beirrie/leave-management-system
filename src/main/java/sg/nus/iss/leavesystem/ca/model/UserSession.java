@@ -9,7 +9,7 @@ public class UserSession {
 
     private String userName;
     
-    private List<String> userRoles = new ArrayList<>();
+    private final List<String> userRoles = new ArrayList<>();
 
     public List<String> getUserRoles() {
 		return userRoles;

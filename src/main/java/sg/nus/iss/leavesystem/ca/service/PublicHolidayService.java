@@ -18,7 +18,7 @@ public interface PublicHolidayService {
 
     PublicHoliday getPublicHolidayByID(Long publicHolidayID);
 
-    void pullPublicHolidaysData() throws JsonMappingException, JsonProcessingException;
+    void pullPublicHolidaysData() throws JsonProcessingException;
 
     PublicHoliday createPublicHoliday(String publicHolidayName,
             String dateOfHoliday, String description);
