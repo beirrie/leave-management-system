@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import sg.nus.iss.leavesystem.ca.interceptor.SessionInterceptor;
 
 @Component
-public class WebAppConfig implements WebMvcConfigurer{
-	
+public class WebAppConfig implements WebMvcConfigurer {
+
 	@Autowired
 	SessionInterceptor _sessionInterceptor;
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(_sessionInterceptor).excludePathPatterns("/api/*");
+		registry.addInterceptor(_sessionInterceptor).excludePathPatterns("/api/**");
 	}
 }
