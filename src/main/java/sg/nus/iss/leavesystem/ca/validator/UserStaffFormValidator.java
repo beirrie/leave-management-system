@@ -37,7 +37,7 @@ public class UserStaffFormValidator implements Validator {
 
 		String userName = userStaffForm.getUserName();
 		boolean doesUserNameExist = userService.findAllUsers().stream().anyMatch(x -> x.getUserName().equals(userName));
-		if (doesUserNameExist) {
+		if (doesUserNameExist && userStaffForm.getUserId() == null) {
 			errors.rejectValue("userName", "error.userName",
 					"Username exists.");
 		}
