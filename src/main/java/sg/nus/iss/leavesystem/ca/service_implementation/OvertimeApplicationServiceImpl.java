@@ -62,24 +62,26 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
         app.setApplicationStatus(status);
         app.setManagerRemarks(remarks);
         app.setApprover(approver);
-        staffService.modifyCompensationLeaveBalance(app.getEmployee() ,app.getHours_OT());
+        staffService.modifyCompensationLeaveBalance(app.getEmployee(), app.getHours_OT());
         otRepo.save(app);
     }
 
     @Override
-    public void newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment) {
+    public OvertimeApplication newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours,
+            String employeeComment) {
 
         OvertimeApplication newOT = new OvertimeApplication(employee, OT_Date, hours, employeeComment);
         otRepo.saveAndFlush(newOT);
+        return newOT;
     }
 
     @Override
     public List<OvertimeApplication> getAllPendingByManager(Staff manager) {
 
-        List<OvertimeApplication> appliedList =
-                otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Applied");
-        List<OvertimeApplication> updatedList =
-                otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(), "Updated");
+        List<OvertimeApplication> appliedList = otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(),
+                "Applied");
+        List<OvertimeApplication> updatedList = otRepo.findByEmployee_Manager_IdAndApplicationStatus(manager.getId(),
+                "Updated");
 
         List<OvertimeApplication> combinedList = new ArrayList<>();
 
