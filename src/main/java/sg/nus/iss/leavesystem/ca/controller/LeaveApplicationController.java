@@ -274,7 +274,8 @@ public class LeaveApplicationController {
         leaveApplicationForm.setIsAbroad(leaveApplication.getIsAbroad());
         leaveApplicationForm.setStartDate(leaveApplication.getStartDate());
         leaveApplicationForm.setEndDate(leaveApplication.getEndDate());
-
+        leaveApplicationForm.setStartAMPM(leaveApplication.getStartAM_or_PM());
+        leaveApplicationForm.setEndAMPM(leaveApplication.getEndAM_or_PM());
         model.addAttribute("leaveForm", leaveApplicationForm);
         model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
         model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));

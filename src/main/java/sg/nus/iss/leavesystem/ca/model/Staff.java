@@ -42,21 +42,20 @@ public class Staff {
 
 	@Transient
 	private String name;
-
 	@Transient
 	public String getName() {
-		return lastName + " " + firstName;
+		return lastName+" "+firstName;
 	}
-
+	
 	@Column(columnDefinition = "nvarchar(255) not null")
 	private String emailAdd;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name = "manager_Id", referencedColumnName = "id")
 	@JsonBackReference
 	private Staff manager;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager")
+	@OneToMany(fetch= FetchType.LAZY,mappedBy = "manager")
 	@JsonManagedReference
 	private Set<Staff> subordinates = new HashSet<>();
 
@@ -158,7 +157,7 @@ public class Staff {
 	public void setLeaveScheme(LeaveScheme leaveScheme) {
 		this.leaveScheme = leaveScheme;
 	}
-
+	
 	@JsonBackReference
 	public List<LeaveApplication> getLeaveApplicationRecords() {
 		return leaveApplicationRecords;
@@ -233,30 +232,30 @@ public class Staff {
 		this.isActive = isActive;
 	}
 
-	public void deductLeave(LeaveApplication leaveApplication) {
-		long duration = Long.parseLong(leaveApplication.getDuration());
-		if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual") {
-			annualLeaveBalance -= duration;
-		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical") {
-			medicalLeaveBalance -= duration;
-		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation") {
-			compensationLeaveBalence -= duration;
+	public void deductLeave(LeaveApplication leaveApplication){
+		double duration = Double.parseDouble(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			annualLeaveBalance-= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			medicalLeaveBalance-= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			compensationLeaveBalence-= duration;
 		}
 	}
 
-	public void reinstateLeaveBalance(LeaveApplication leaveApplication) {
-		long duration = Long.parseLong(leaveApplication.getDuration());
-		if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual") {
-			annualLeaveBalance += duration;
-		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical") {
-			medicalLeaveBalance += duration;
-		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation") {
-			compensationLeaveBalence += duration;
-		}
+	public void reinstateLeaveBalance(LeaveApplication leaveApplication){
+		double duration = Double.parseDouble(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			annualLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			medicalLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			compensationLeaveBalence+= duration;
+		} 
 	}
 
 	public void reinstatePreviousLeaveBalance(LeaveApplication leaveApplication,String durationStr){
-		long duration = Long.parseLong(durationStr);
+		double duration = Double.parseDouble(durationStr);
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
 			annualLeaveBalance+= duration;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
@@ -268,16 +267,13 @@ public class Staff {
 
 	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication)
 	{
-		long duration = Long.parseLong(leaveApplication.getDuration());
-		if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual") {
-			if (duration > annualLeaveBalance)
-				return false;
-		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical") {
-			if (duration > medicalLeaveBalance)
-				return false;
-		} else if (leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation") {
-			if (duration > compensationLeaveBalence)
-				return false;
+		double duration = Double.parseDouble(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			if(duration > annualLeaveBalance) return false;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			if(duration > medicalLeaveBalance) return false;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			if(duration > compensationLeaveBalence) return false;
 		}
 		return true;
 	}
