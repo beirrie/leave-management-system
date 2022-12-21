@@ -12,6 +12,7 @@ import sg.nus.iss.leavesystem.ca.service.StaffService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -87,5 +88,16 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
         combinedList.addAll(updatedList);
 
         return combinedList;
+    }
+
+    @Override
+    public List<OvertimeApplication> getListForReport(Long id, Long staffId) {
+
+        if(staffId==0L){
+            return otRepo.findByManager(id);
+        } else {
+            Staff staff = staffService.findStaffByID(staffId);
+            return getAllByStaff(staff);
+        }
     }
 }

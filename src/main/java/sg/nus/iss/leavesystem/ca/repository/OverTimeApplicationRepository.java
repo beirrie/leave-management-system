@@ -21,5 +21,4 @@ public interface OverTimeApplicationRepository extends JpaRepository<OvertimeApp
     List<OvertimeApplication> findByStaff(Long id);
 
     List<OvertimeApplication> findByEmployee_Manager_IdAndEmployee_OvertimeApplicationRecords_ApplicationStatus(Long id, String applicationStatus);
-        
 }
