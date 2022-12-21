@@ -69,12 +69,12 @@
               <div class="form-group">
                 <label class="control-label required">Leave Start</label>
                 <input type="text" class="form-control mb-5"
-                  th:value="${#temporals.format(leave.startDate,'dd-MM-yyyy')}" disabled />
+                  th:value="${#temporals.format(leave.startDate,'dd-MM-yyyy')} + ' ' + ${leave.startAM_or_PM}" disabled />
               </div>
 
               <div class="form-group">
                 <label class="control-label required">Leave End</label>
-                <input type="text" class="form-control mb-5" th:value="${#temporals.format(leave.endDate,'dd-MM-yyyy')}"
+                <input type="text" class="form-control mb-5" th:value="${#temporals.format(leave.endDate,'dd-MM-yyyy')} + ' ' + ${leave.endAM_or_PM}"
                   disabled />
               </div>
 
