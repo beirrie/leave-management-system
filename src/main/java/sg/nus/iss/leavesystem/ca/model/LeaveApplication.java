@@ -85,10 +85,10 @@ public class LeaveApplication {
 	}
 
 	public LeaveApplication() {
-	};
+	}
 
 
-	// Methods
+    // Methods
 
 	public Long getId() {
 		return id;

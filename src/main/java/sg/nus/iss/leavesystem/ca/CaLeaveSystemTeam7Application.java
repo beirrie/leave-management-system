@@ -108,7 +108,7 @@ public class CaLeaveSystemTeam7Application {
 
 			APIKey newAPIKey = new APIKey("Shaun", "Lin", "shanfu87@yahoo.com");
 			APIKeyRepo.saveAndFlush(newAPIKey);
-			System.out.println(newAPIKey.toString());
+			System.out.println(newAPIKey);
 
 			LeaveApplication approvedAnnualLeave1 = new LeaveApplication();
 			approvedAnnualLeave1.setEmployee(staff1);

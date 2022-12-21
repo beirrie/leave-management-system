@@ -8,5 +8,5 @@ import java.io.Writer;
 @Service
 public interface CsvExportService {
 
-    public void leaveReportToCsv(Writer writer, Staff manager, Long staffId, String leaveTypeName, String startPeriod, String endPeriod);
+    void leaveReportToCsv(Writer writer, Staff manager, Long staffId, String leaveTypeName, String startPeriod, String endPeriod);
 }

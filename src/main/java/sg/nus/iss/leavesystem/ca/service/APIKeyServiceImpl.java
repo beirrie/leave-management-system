@@ -13,12 +13,7 @@ public class APIKeyServiceImpl implements APIKeyService {
 	
 	@Override
 	public Boolean getAPIKeyByID(String authKey) {
-		if(APIKeyRepo.findById(authKey).isEmpty()) {
-			return false;
-		}
-		else {
-			return true;
-		}
+        return APIKeyRepo.findById(authKey).isPresent();
 	}
 
 }

@@ -60,7 +60,7 @@ public class UserController {
 	public String newStaffPage(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> allroles = userSession.getUserRoles();
-        model.addAttribute("roles", allroles); 
+        model.addAttribute("roles", allroles);
 		model.addAttribute("userForm", new UserStaffForm());
 		List<Role> roles = roleService.findAllRoles();
 		model.addAttribute("roles", roles);

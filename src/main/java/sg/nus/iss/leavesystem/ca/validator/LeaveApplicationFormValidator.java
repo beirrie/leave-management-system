@@ -32,11 +32,11 @@ public class LeaveApplicationFormValidator implements Validator {
         LocalDateTime endDate = Util.convertStringToDate(leaveForm.getEndDateStr());
         LocalDateTime startDate = Util.convertStringToDate(leaveForm.getStartDateStr());
 
-        if (leaveForm.getLeaveType().getId().equals(3l) && leaveForm.getStartAMPM().isEmpty()) {
+        if (leaveForm.getLeaveType().getId().equals(3L) && leaveForm.getStartAMPM().isEmpty()) {
             errors.rejectValue("startAMPM", null, "Start AM/PM is required");
         }
 
-        if (leaveForm.getLeaveType().getId().equals(3l) && leaveForm.getEndAMPM().isEmpty()) {
+        if (leaveForm.getLeaveType().getId().equals(3L) && leaveForm.getEndAMPM().isEmpty()) {
             errors.rejectValue("endAMPM", null, "End AM/PM is required");
         }
 
@@ -96,7 +96,7 @@ public class LeaveApplicationFormValidator implements Validator {
         if (leaveForm.getEndAMPM().equals("AM")) {
             selectedDuration -= 0.5;
         }
-        if (leaveForm.getLeaveType().getId().equals(3l) && selectedDuration > staff.getCompensationLeaveBalence()) {
+        if (leaveForm.getLeaveType().getId().equals(3L) && selectedDuration > staff.getCompensationLeaveBalence()) {
             errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
         }
 

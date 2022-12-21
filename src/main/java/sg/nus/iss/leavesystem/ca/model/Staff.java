@@ -269,11 +269,11 @@ public class Staff {
 	{
 		long duration = Long.parseLong(leaveApplication.getDuration());
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
-			if(duration > annualLeaveBalance) return false;
+			return !(duration > annualLeaveBalance);
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
-			if(duration > medicalLeaveBalance) return false;
+			return !(duration > medicalLeaveBalance);
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
-			if(duration > compensationLeaveBalence) return false;
+			return !(duration > compensationLeaveBalence);
 		}
 		return true;
 	}

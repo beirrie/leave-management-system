@@ -49,10 +49,10 @@ public class LeaveSchemeServiceImpl implements LeaveSchemeService{
 		Long _lsID = Long.parseLong(id);
 		LeaveScheme lsEdited = getLeaveSchemeByID(_lsID);
 		System.out.println(lsEdited.getIsActive());
-		if(lsEdited.getIsActive() == true) {
+		if(lsEdited.getIsActive()) {
 			lsEdited.setActive(false);
 		}
-		else if (lsEdited.getIsActive() == false){
+		else if (!lsEdited.getIsActive()){
 			lsEdited.setActive(true);
 		}
 		_leaveSchemeRepo.saveAndFlush(lsEdited);
