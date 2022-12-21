@@ -60,7 +60,6 @@ public class ApiOTClaimApplicationController {
 			}
 			OvertimeApplication submittedOT = _OTService.newAPIApplication(targetStaff, inputDate, ot, remarks);
 			OTClaimJSON newOTClaim = new OTClaimJSON();
-
 			newOTClaim.setEmployee_id(submittedOT.getEmployee().getId());
 			newOTClaim.setEmployee_name(submittedOT.getEmployee().getName());
 			newOTClaim.setAppliedDateTime(submittedOT.getAppliedDateTime().toString());
@@ -68,7 +67,6 @@ public class ApiOTClaimApplicationController {
 			newOTClaim.setHours_OT(submittedOT.getHours_OT());
 			newOTClaim.setEmployeeComment(submittedOT.getEmployeeComment());
 			System.out.println("Successfully created");
-
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Access-Control-Allow-Origin", "*");
 			headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
@@ -78,9 +76,6 @@ public class ApiOTClaimApplicationController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		// private Staff employee;
-		//
 		// private LocalDateTime date_OT;
 		//
 		// private double hours_OT;

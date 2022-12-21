@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -245,6 +245,17 @@ public class Staff {
 
 	public void reinstateLeaveBalance(LeaveApplication leaveApplication){
 		long duration = Long.parseLong(leaveApplication.getDuration());
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+			annualLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+			medicalLeaveBalance+= duration;
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+			compensationLeaveBalence+= duration;
+		} 
+	}
+
+	public void reinstatePreviousLeaveBalance(LeaveApplication leaveApplication,String durationStr){
+		long duration = Long.parseLong(durationStr);
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
 			annualLeaveBalance+= duration;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){

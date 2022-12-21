@@ -1,7 +1,6 @@
 package sg.nus.iss.leavesystem.ca.service_implementation;
 
 import jakarta.transaction.Transactional;
-import org.hibernate.sql.ast.tree.expression.Over;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
@@ -13,7 +12,6 @@ import sg.nus.iss.leavesystem.ca.service.StaffService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional

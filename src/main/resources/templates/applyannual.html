@@ -6,35 +6,28 @@
 <body>
 	<div th:replace="fragments/layout.html :: menu" />
 	<div class="container">
-		<h1>New Compensation Leave Application</h1>
+		<h1>New Annual Leave Application</h1>
 		<hr>
-		<form action="#" th:action="@{/ApplyCompensationLeave}" th:object="${leaveForm}" method="POST">
+		<form action="#" th:action="@{/SubmitAnnualLeave}" th:object="${leaveForm}" method="POST">
 			<div>
 				<input type="hidden" th:field="*{leaveType.id}" value=3>
-				<input type="hidden" th:field="*{staffId}">
 			</div>
 			<div class="form-group">
 				<label class="control-label required">Leave Type</label>
-				<input type="text" readonly value="Compensation Leave" class="form-control mb-5 col-5">
+				<input type="text" readonly value="Anuual Leave"
+					class="form-control mb-5 col-5">
 			</div>
 
+			
 			<div class="form-group">
 				<table>
 					<tr>
 						<td>
 							<label class="control-label required">Start Date (AM/PM)</label>
-							<p class="small text-danger" th:if="${#fields.hasErrors('startAMPM')}" style="color:red;"
-								th:errors="*{startAMPM}"></p>
-							<p class="small text-danger" th:if="${#fields.hasErrors('startDateStr')}" style="color:red;"
-								th:errors="*{startDateStr}"></p>
 							<input id="startDateStr" readonly type="text" th:field="*{startDateStr}"
 								placeholder="DD/MM/YYYY" class="form-control mb-5 col-5" style="width:300px;">
-						</td>
-						<td>
-							  <input type="radio" id="html" th:field="*{startAMPM}" value="AM">
-							  <label for="html">AM</label><br>
-							  <input type="radio" id="css" th:field="*{startAMPM}" value="PM">
-							  <label for="css">PM</label><br>
+							<label th:if="${#fields.hasErrors('startDateStr')}" style="color:red;"
+								th:errors="*{startDateStr}" class="control-label mb-4 col-4"></label>
 						</td>
 					</tr>
 				</table>
@@ -45,19 +38,10 @@
 					<tr>
 						<td>
 							<label class="control-label required">End Date (AM/PM)</label>
-							<p class="small text-danger" th:if="${#fields.hasErrors('endAMPM')}" style="color:red;"
-								th:errors="*{endAMPM}"></p>
-							<p class="small text-danger" th:if="${#fields.hasErrors('endDateStr')}" style="color:red;"
-								th:errors="*{endDateStr}"></p>
 							<input id="endDateStr" readonly type="text" th:field="*{endDateStr}"
 								placeholder="DD/MM/YYYY" class="form-control mb-5 col-5" style="width:300px;">
-
-						</td>
-						<td>
-							  <input type="radio" id="html" th:field="*{endAMPM}" value="AM">
-							  <label for="html">AM</label><br>
-							  <input type="radio" id="css" th:field="*{endAMPM}" value="PM">
-							  <label for="css">PM</label><br>
+							<label th:if="${#fields.hasErrors('endDateStr')}" style="color:red;"
+								th:errors="*{endDateStr}" class="control-label mb-4 col-4"></label>
 						</td>
 					</tr>
 				</table>
@@ -84,10 +68,10 @@
 
 			<div class="form-group">
 				<label class="control-label required">Contact Details</label>
-				<p class="small text-danger" th:if="${#fields.hasErrors('contactNumber')}" style="color:red;"
-					th:errors="*{contactNumber}"></p>
 				<input type="text" th:field="*{contactNumber}" placeholder="Contact Details"
 					class="form-control mb-5 col-5">
+				<label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}"
+					class="control-label mb-4 col-4"></label>
 			</div>
 
 			<div class="form-group">
@@ -104,35 +88,35 @@
 	</div>
 	<script>
 		$(document).ready(function () {
-			var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023", "1-5-2023", "2-6-2023", "29-6-2023", "9-8-2023", "13-11-2023", "25-12-2023"];
+			//var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023", "1-5-2023", "2-6-2023", "29-6-2023", "9-8-2023", "13-11-2023", "25-12-2023"];
 			$('#startDateStr').datepicker({
 				format: 'dd/mm/yyyy',
 				todayHighlight: true,
 				autoclose: true,
-				daysOfWeekDisabled: [0, 6],
+				//daysOfWeekDisabled: [0, 6],
 				beforeShowDay: function (date) {
-					dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-					if (disableDates.indexOf(dmy) != -1) {
-						return false;
-					}
-					else {
-						return true;
-					}
+					// dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+					// if (disableDates.indexOf(dmy) != -1) {
+					// 	return false;
+					// }
+					// else {
+					// 	return true;
+					// }
 				}
 			})
 			$('#endDateStr').datepicker({
 				format: 'dd/mm/yyyy',
 				todayHighlight: true,
 				autoclose: true,
-				daysOfWeekDisabled: [0, 6],
+				//daysOfWeekDisabled: [0, 6],
 				beforeShowDay: function (date) {
 					dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-					if (disableDates.indexOf(dmy) != -1) {
-						return false;
-					}
-					else {
-						return true;
-					}
+					// if (disableDates.indexOf(dmy) != -1) {
+					// 	return false;
+					// }
+					// else {
+					// 	return true;
+					// }
 				}
 			})
 		})
