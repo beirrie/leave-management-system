@@ -88,6 +88,12 @@ public class LeaveApplicationFormValidator implements Validator {
         leaveApp.setStartAM_or_PM(leaveForm.getStartAMPM());
         leaveApp.setEndAM_or_PM(leaveForm.getEndAMPM());
         double selectedDuration = Double.parseDouble(leaveApp.getDuration());
+
+        boolean isStartEndDateSame = leaveForm.getStartDateStr().equals(leaveForm.getEndDateStr());
+        if (isStartEndDateSame && leaveForm.getStartAMPM().equals("PM") && leaveForm.getEndAMPM().equals("AM")) {
+            errors.rejectValue("endDateStr", null, "End date must not be less than Start Date!");
+        }
+
         if (leaveForm.getLeaveType().getId().equals(3l) && selectedDuration > staff.getCompensationLeaveBalence()) {
             errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
         }
