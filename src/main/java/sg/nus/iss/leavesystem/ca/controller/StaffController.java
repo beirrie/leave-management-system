@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
@@ -27,6 +30,7 @@ import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.service.UserService;
 import sg.nus.iss.leavesystem.ca.validator.UserStaffFormValidator;
 
+@JsonAutoDetect(fieldVisibility=Visibility.ANY)
 @Controller
 @RequestMapping("/admin/staff")
 public class StaffController {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import sg.nus.iss.leavesystem.ca.model.OTClaimJSON;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.service.APIKeyService;
@@ -34,7 +35,7 @@ public class ApiOTClaimApplicationController {
 	OvertimeApplicationService _OTService;
 	
 	@GetMapping("/SubmitOTClaim")
-	public ResponseEntity<OvertimeApplication> SubmitOTClaim(@RequestParam String authKey, 
+	public ResponseEntity<OTClaimJSON> SubmitOTClaim(@RequestParam String authKey, 
 			@RequestParam String staffID, String OT_Date, String OT_hours, String remarks) {
 		Boolean authcheck = _APIKeyService.getAPIKeyByID(authKey);
 		System.out.println(authcheck);
@@ -54,9 +55,17 @@ public class ApiOTClaimApplicationController {
 				System.out.println("Invalid OT hours must be bigger than 0 and in multiple of 0.5");
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-			_OTService.newAPIApplication(targetStaff, inputDate, ot, remarks);
+			OvertimeApplication submittedOT = _OTService.newAPIApplication(targetStaff, inputDate, ot, remarks);
+			OTClaimJSON newOTClaim = new OTClaimJSON();
+			
+			newOTClaim.setEmployee_id(submittedOT.getEmployee().getId());
+			newOTClaim.setEmployee_name(submittedOT.getEmployee().getName());
+			newOTClaim.setAppliedDateTime(submittedOT.getAppliedDateTime().toString());
+			newOTClaim.setDate_OT(submittedOT.getDate_OT().toString());
+			newOTClaim.setHours_OT(submittedOT.getHours_OT());
+			newOTClaim.setEmployeeComment(submittedOT.getEmployeeComment());
 			System.out.println("Successfully created");
-			return new ResponseEntity<>(HttpStatus.CREATED);	
+			return new ResponseEntity<>(newOTClaim ,HttpStatus.CREATED);	
 		}
 		catch(Exception e){
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);	
