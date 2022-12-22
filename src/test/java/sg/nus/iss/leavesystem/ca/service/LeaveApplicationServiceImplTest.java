@@ -20,7 +20,6 @@ import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
-import sg.nus.iss.leavesystem.ca.service_implementation.LeaveApplicationServiceImpl;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ExtendWith(MockitoExtension.class)

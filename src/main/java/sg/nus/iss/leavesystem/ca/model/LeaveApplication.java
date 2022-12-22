@@ -41,11 +41,11 @@ public class LeaveApplication {
 
 	private LocalDateTime startDate;
 
-	private String startAM_or_PM = "";
+	private String startAM_or_PM = "AM";
 
 	private LocalDateTime endDate;
 
-	private String endAM_or_PM = "";
+	private String endAM_or_PM = "PM";
 
 	private String additionalComments;
 

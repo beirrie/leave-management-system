@@ -12,7 +12,7 @@
   <div th:replace="fragments/layout.html :: menu" />
   <div class="container">
 
-
+<!--
     <div class="row">
 
       <table class="thead-dark" th:if="${not #lists.isEmpty(overlapLeaves)}">
@@ -33,12 +33,14 @@
       </table>
     </div>
     <div class="row">
+ 
+ -->
 
 
       <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Modify Leave Application</h1>
+          <h1 class="h2">Leave Application Approval</h1>
         </div>
         <div class="row">
           <div class="col-md-9 ms-sm-auto col-lg-6 px-md-4">
@@ -71,11 +73,21 @@
                 <input type="text" class="form-control mb-5"
                   th:value="${#temporals.format(leave.startDate,'dd-MM-yyyy')} + ' ' + ${leave.startAM_or_PM}" disabled />
               </div>
+              
+              <div class="form-group">
+                <label class="control-label required">Leave Start(AM/PM)</label>
+                <input type="text" class="form-control mb-5" th:value="${leave.startAM_or_PM}" disabled>
+              </div>
 
               <div class="form-group">
                 <label class="control-label required">Leave End</label>
                 <input type="text" class="form-control mb-5" th:value="${#temporals.format(leave.endDate,'dd-MM-yyyy')} + ' ' + ${leave.endAM_or_PM}"
                   disabled />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required">Leave End(AM/PM)</label>
+                <input type="text" class="form-control mb-5" th:value="${leave.endAM_or_PM}" disabled>
               </div>
 
               <div class="form-group">

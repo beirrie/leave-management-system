@@ -1,4 +1,4 @@
-package sg.nus.iss.leavesystem.ca.service_implementation;
+package sg.nus.iss.leavesystem.ca.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.repository.OverTimeApplicationRepository;
 import sg.nus.iss.leavesystem.ca.model.Staff;
-import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
-import sg.nus.iss.leavesystem.ca.service.StaffService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

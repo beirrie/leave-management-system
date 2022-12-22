@@ -47,12 +47,12 @@
 			</div>
 
 			<div class="form-group">
-				<label class="control-label required">Is Oversea?</label>
+				<label class="control-label required">Is Overseas?</label>
 				<input type="checkbox" th:field="*{isAbroad}" class="form-control mb-5 col-5">
 			</div>
 
 			<div class="form-group">
-				<label class="control-label required">Contact Details</label>
+				<label class="control-label required">Contact Details (Compulsory Field for Overseas Holiday)</label>
 				<input type="text" th:field="*{contactNumber}" placeholder="Contact Details"
 					class="form-control mb-5 col-5">
 					<label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}" class="control-label mb-4 col-4"></label>
@@ -68,7 +68,7 @@
 
 		<hr>
 
-		<a th:href="@{/LeaveApplication}"> Back to Leave Application</a>
+		<a th:href="@{/LeaveApplication}"> Back to Home Page</a>
 	</div>
 	<script>
 		$(document).ready(function () {

@@ -1,4 +1,4 @@
-package sg.nus.iss.leavesystem.ca.service_implementation;
+package sg.nus.iss.leavesystem.ca.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
-import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
-import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.util.StringToDateTimeYYYYMMDD;
 
 @Service

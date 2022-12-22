@@ -59,13 +59,13 @@ public class CaLeaveSystemTeam7Application {
 			Role manager = roleRepo.saveAndFlush(new Role("manager", "insert description of manager"));
 
 			User user1 = new User("Robert", "password123");
-			user1.addRole(manager);
 			user1.addRole(employee);
 			userRepo.saveAndFlush(user1);
 			User user2 = userRepo.saveAndFlush(new User("Albert", "albert123"));
 			user2.addRole(employee);
 			userRepo.saveAndFlush(user2);
 			User user3 = new User("userSarah", "pw123");
+			user3.addRole(employee);
 			user3.addRole(manager);
 			userRepo.saveAndFlush(user3);
 			User user4 = new User("admin", "password123");
@@ -95,9 +95,9 @@ public class CaLeaveSystemTeam7Application {
 			leaveAppl.setContactNumber("99999999");
 			leaveAppl.setCoveringStaff(staff1);
 			leaveAppl.setStartDate(LocalDateTime.of(2022, 12, 27, 0, 0));
-			leaveAppl.setStartAM_or_PM("");
+			leaveAppl.setStartAM_or_PM("AM");
 			leaveAppl.setEndDate(LocalDateTime.of(2022, 12, 27, 0, 0));
-			leaveAppl.setEndAM_or_PM("");
+			leaveAppl.setEndAM_or_PM("PM");
 			leaveAppl.setAdditionalComments("additional comments");
 			leaveAppl.setApplicationDate(LocalDateTime.of(2022, 12, 12, 0, 0));
 			leaveAppl.setApplicationStatus("approved");
@@ -397,12 +397,12 @@ public class CaLeaveSystemTeam7Application {
 			christmasHoliday1.setStartDate(LocalDateTime.of(2023, 12, 25, 0, 0, 0));
 			phRepo.saveAndFlush(christmasHoliday1);
 
-			// List<OvertimeApplication> otps = otRepo.findAll();
-
-			// System.out.println("hihihihihihihihihihihihihihihihihihihihihih");
-			// OvertimeApplicationService otservice = new OvertimeApplicationServiceImpl();
-			// List<OvertimeApplication> ot = otservice.getAllOvertimeApplication();
-			// otps.forEach(myot -> System.out.println(myot));
+//			// List<OvertimeApplication> otps = otRepo.findAll();
+//
+//			// System.out.println("hihihihihihihihihihihihihihihihihihihihihih");
+//			// OvertimeApplicationService otservice = new OvertimeApplicationServiceImpl();
+//			// List<OvertimeApplication> ot = otservice.getAllOvertimeApplication();
+//			// otps.forEach(myot -> System.out.println(myot));
 		};
 	}
 }
