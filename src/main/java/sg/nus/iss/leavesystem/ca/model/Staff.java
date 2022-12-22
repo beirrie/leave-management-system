@@ -233,7 +233,7 @@ public class Staff {
 	}
 
 	public void deductLeave(LeaveApplication leaveApplication){
-		long duration = Long.parseLong(leaveApplication.getDuration());
+		double duration = Double.parseDouble(leaveApplication.getDuration());
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
 			annualLeaveBalance-= duration;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
@@ -244,7 +244,7 @@ public class Staff {
 	}
 
 	public void reinstateLeaveBalance(LeaveApplication leaveApplication){
-		long duration = Long.parseLong(leaveApplication.getDuration());
+		double duration = Double.parseDouble(leaveApplication.getDuration());
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
 			annualLeaveBalance+= duration;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
@@ -255,7 +255,7 @@ public class Staff {
 	}
 
 	public void reinstatePreviousLeaveBalance(LeaveApplication leaveApplication,String durationStr){
-		long duration = Long.parseLong(durationStr);
+		double duration = Double.parseDouble(durationStr);
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
 			annualLeaveBalance+= duration;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
@@ -267,13 +267,13 @@ public class Staff {
 
 	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication)
 	{
-		long duration = Long.parseLong(leaveApplication.getDuration());
+		double duration = Double.parseDouble(leaveApplication.getDuration());
 		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
-			return !(duration > annualLeaveBalance);
+			if(duration > annualLeaveBalance) return false;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
-			return !(duration > medicalLeaveBalance);
+			if(duration > medicalLeaveBalance) return false;
 		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
-			return !(duration > compensationLeaveBalence);
+			if(duration > compensationLeaveBalence) return false;
 		}
 		return true;
 	}

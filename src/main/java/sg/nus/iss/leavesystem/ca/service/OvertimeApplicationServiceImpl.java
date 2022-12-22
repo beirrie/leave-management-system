@@ -1,4 +1,4 @@
-package sg.nus.iss.leavesystem.ca.service_implementation;
+package sg.nus.iss.leavesystem.ca.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +87,16 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
         combinedList.addAll(updatedList);
 
         return combinedList;
+    }
+
+    @Override
+    public List<OvertimeApplication> getListForReport(Long id, Long staffId) {
+
+        if (staffId == 0L) {
+            return otRepo.findByManager(id);
+        } else {
+            Staff staff = staffService.findStaffByID(staffId);
+            return getAllByStaff(staff);
+        }
     }
 }

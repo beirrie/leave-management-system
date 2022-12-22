@@ -12,9 +12,13 @@ import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
+import sg.nus.iss.leavesystem.ca.service.UserService;
 
 @Component
 public class UserStaffFormValidator implements Validator {
+
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	private StaffService staffService;
@@ -30,6 +34,13 @@ public class UserStaffFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		UserStaffForm userStaffForm = (UserStaffForm) target;
+
+		String userName = userStaffForm.getUserName();
+		boolean doesUserNameExist = userService.findAllUsers().stream().anyMatch(x -> x.getUserName().equals(userName));
+		if (doesUserNameExist && userStaffForm.getUserId() == null) {
+			errors.rejectValue("userName", "error.userName",
+					"Username exists.");
+		}
 
 		double medicalLeaveBalance = userStaffForm.getMedicalLeaveBalance();
 		if (!userStaffForm.getLeaveSchemeId().isEmpty()) {

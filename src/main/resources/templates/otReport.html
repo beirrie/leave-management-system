@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <head th:replace="fragments/layout.html :: html_head"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+
+</head>
+
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+<div class="container-fluid">
+    <div class="row">
+
+        <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+            <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Generate Compensation Claims Report</h1>
+            </div>
+            <div>
+                <form th:action="@{/manager/compensation_report}" method="get" th:object="${dtoComp}">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Employee:</td>
+                            <td>
+                                <select th:field="*{staffId}">
+                                    <option th:each="name :${staffName}" th:value=${name.key}
+                                            th:text=${name.value}></option>
+                                </select>
+                            <td>
+                                <button type="submit">Update Table</button>
+                            </td>
+                            <td>
+                                <button type="submit" th:formaction="@{/manager/compensation_report/export}">Generate
+                                    CSV
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <hr>
+            <div class="table-responsive">
+                <table id="dynamic_table" class="display">
+                    <thead>
+                    <tr>
+                        <th>OT ID</th>
+                        <th>StaffName</th>
+                        <th>OT Date</th>
+                        <th>OT Hour</th>
+                        <th>Employee Comment</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th>Reviewed Date</th>
+                        <th>Manager Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each=" ot : ${overtimes}">
+                        <td th:text="${ot.id}"></td>
+                        <td th:text="${ot.getEmployee.getFirstName + ' ' + ot.getEmployee.getLastName }">
+                        </td>
+                        <td th:text="${#temporals.format(ot.date_OT,'dd-MM-yyyy')}"></td>
+                        <td th:text="${ot.hours_OT}"></td>
+                        <td th:text="${ot.employeeComment}">
+                        </td>
+                        <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
+                        <td th:text="${ot.applicationStatus}"></td>
+                        <td th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
+                        <td th:text="${ot.managerRemarks}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dynamic_table').DataTable();
+    });
+
+</script>
+</body>
+
+</html>

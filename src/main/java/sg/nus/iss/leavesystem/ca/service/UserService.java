@@ -5,6 +5,7 @@ import java.util.List;
 import sg.nus.iss.leavesystem.ca.model.User;
 
 public interface UserService {
+	User findById(long id);
 	List<User> findAllUsers();
 	User findUser(Long userId);
 	User createUser(User user);	

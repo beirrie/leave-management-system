@@ -32,11 +32,11 @@ public class LeaveApplicationFormValidator implements Validator {
         LocalDateTime endDate = Util.convertStringToDate(leaveForm.getEndDateStr());
         LocalDateTime startDate = Util.convertStringToDate(leaveForm.getStartDateStr());
 
-        if (leaveForm.getLeaveType().getId().equals(3L) && leaveForm.getStartAMPM().isEmpty()) {
+        if (leaveForm.getLeaveType().getId().equals(3l) && leaveForm.getStartAMPM().isEmpty()) {
             errors.rejectValue("startAMPM", null, "Start AM/PM is required");
         }
 
-        if (leaveForm.getLeaveType().getId().equals(3L) && leaveForm.getEndAMPM().isEmpty()) {
+        if (leaveForm.getLeaveType().getId().equals(3l) && leaveForm.getEndAMPM().isEmpty()) {
             errors.rejectValue("endAMPM", null, "End AM/PM is required");
         }
 
@@ -85,20 +85,17 @@ public class LeaveApplicationFormValidator implements Validator {
         LeaveApplication leaveApp = new LeaveApplication();
         leaveApp.setStartDate(startDate);
         leaveApp.setEndDate(endDate);
+        leaveApp.setStartAM_or_PM(leaveForm.getStartAMPM());
+        leaveApp.setEndAM_or_PM(leaveForm.getEndAMPM());
         double selectedDuration = Double.parseDouble(leaveApp.getDuration());
-        boolean sameStartEndDate = leaveForm.getStartDateStr().equals(leaveForm.getEndDateStr());
-        if (sameStartEndDate) {
-            selectedDuration += 1;
-        }
-        if (leaveForm.getStartAMPM().equals("PM")) {
-            selectedDuration -= 0.5;
-        }
-        if (leaveForm.getEndAMPM().equals("AM")) {
-            selectedDuration -= 0.5;
-        }
-        if (leaveForm.getLeaveType().getId().equals(3L) && selectedDuration > staff.getCompensationLeaveBalence()) {
-            errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
+
+        boolean isStartEndDateSame = leaveForm.getStartDateStr().equals(leaveForm.getEndDateStr());
+        if (isStartEndDateSame && leaveForm.getStartAMPM().equals("PM") && leaveForm.getEndAMPM().equals("AM")) {
+            errors.rejectValue("endDateStr", null, "End date must not be less than Start Date!");
         }
 
+        if (leaveForm.getLeaveType().getId().equals(3l) && selectedDuration > staff.getCompensationLeaveBalence()) {
+            errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
+        }
     }
 }

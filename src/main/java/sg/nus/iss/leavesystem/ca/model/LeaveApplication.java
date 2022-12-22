@@ -41,11 +41,11 @@ public class LeaveApplication {
 
 	private LocalDateTime startDate;
 
-	private String startAM_or_PM;
+	private String startAM_or_PM = "AM";
 
 	private LocalDateTime endDate;
 
-	private String endAM_or_PM;
+	private String endAM_or_PM = "PM";
 
 	private String additionalComments;
 
@@ -87,8 +87,7 @@ public class LeaveApplication {
 	public LeaveApplication() {
 	}
 
-
-    // Methods
+	// Methods
 
 	public Long getId() {
 		return id;
@@ -237,7 +236,7 @@ public class LeaveApplication {
 		if (beforeDurationInDay > 14) {
 			return String.valueOf(beforeDurationInDay);
 		}
-		long durationInDay = 0;
+		double durationInDay = 0;
 		LocalDateTime tempDate = startDate;
 		while (!tempDate.isAfter(endDate)) {
 			if (!Util.isWeekend(tempDate) && !Util.isPublicHoliday(tempDate)) {
@@ -246,7 +245,12 @@ public class LeaveApplication {
 
 			tempDate = tempDate.plusDays(1);
 		}
-
+		if (startAM_or_PM.equals("PM")) {
+			durationInDay -= 0.5;
+		}
+		if (endAM_or_PM.equals("AM")) {
+			durationInDay -= 0.5;
+		}
 		return String.valueOf(durationInDay);
 	}
 }

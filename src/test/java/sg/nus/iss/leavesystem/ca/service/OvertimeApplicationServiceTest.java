@@ -12,7 +12,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.OverTimeApplicationRepository;
-import sg.nus.iss.leavesystem.ca.service_implementation.OvertimeApplicationServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
