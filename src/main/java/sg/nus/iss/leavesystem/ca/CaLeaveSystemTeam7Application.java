@@ -70,6 +70,7 @@ public class CaLeaveSystemTeam7Application {
 			userRepo.saveAndFlush(user3);
 			User user4 = new User("admin", "password123");
 			user4.addRole(admin);
+			user4.addRole(employee);
 			userRepo.saveAndFlush(user4);
 
 			Staff staff1 = staffRepo.saveAndFlush(new Staff("Robert", "Lin", "robert@email.com", ls1, user1));
