@@ -108,8 +108,11 @@ public class LeaveApplicationController {
         LeaveApplication leaveApplication = this.leaveApplicationService.GetById(id).get();
         LeaveApplicationForm leaveApplicationForm = new LeaveApplicationForm();
         leaveApplicationForm.setId(leaveApplication.getId());
+        leaveApplicationForm.setStaffId(staff.getId());
         leaveApplicationForm.setLeaveType(leaveApplication.getTypeOfLeave());
         leaveApplicationForm.setAdditionalComments(leaveApplication.getAdditionalComments());
+        leaveApplicationForm.setStartAMPM(leaveApplication.getStartAM_or_PM());
+        leaveApplicationForm.setEndAMPM(leaveApplication.getEndAM_or_PM());
         leaveApplicationForm.setCoveringStaff(leaveApplication.getCoveringStaff());
         leaveApplicationForm.setContactNumber(leaveApplication.getContactNumber());
         leaveApplicationForm.setApplicationStatus(leaveApplication.getApplicationStatus());
@@ -195,14 +198,15 @@ public class LeaveApplicationController {
             return "redirect:/login";
 
         Util.phs = this.publicHolidayService.getAllPublicHolidays();
-        LeaveApplication leaveApplication = new LeaveApplication();
-        leaveApplication.setId(leaveForm.getId());
+        LeaveApplication leaveApplication = leaveApplicationService.getLeaveById(leaveForm.getId());
         leaveApplication.setTypeOfLeave(leaveForm.getLeaveType());
         leaveApplication.setEmployee(staff);
         leaveApplication.setIsAbroad(leaveForm.getIsAbroad());
         leaveApplication.setContactNumber(leaveForm.getContactNumber());
         leaveApplication.setCoveringStaff(leaveForm.getCoveringStaff());
         leaveApplication.setStartDate(Util.convertStringToDate(leaveForm.getStartDateStr()));
+        leaveApplication.setStartAM_or_PM(leaveForm.getStartAMPM());
+        leaveApplication.setEndAM_or_PM(leaveForm.getEndAMPM());
         leaveApplication.setEndDate(Util.convertStringToDate(leaveForm.getEndDateStr()));
         leaveApplication.setAdditionalComments(leaveForm.getAdditionalComments());
         leaveApplication.setApplicationStatus("Updated");
@@ -222,7 +226,7 @@ public class LeaveApplicationController {
             model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
             result.rejectValue("endDateStr", null, "Balance exceeded!");
-            return "AddLeave";
+            return "EditLeave";
         }
         if (result.hasErrors()) {
             model.addAttribute("leaveForm", leaveForm);
