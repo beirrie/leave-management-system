@@ -86,4 +86,15 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
 
         return combinedList;
     }
+    
+    @Override
+    public List<OvertimeApplication> getListForReport(Long id, Long staffId) {
+
+        if(staffId==0L){
+            return otRepo.findByManager(id);
+        } else {
+            Staff staff = staffService.findStaffByID(staffId);
+            return getAllByStaff(staff);
+        }
+    }
 }

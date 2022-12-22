@@ -25,4 +25,6 @@ public interface OvertimeApplicationService {
     OvertimeApplication newAPIApplication(Staff employee, LocalDateTime OT_Date, double hours, String employeeComment);
 
     List<OvertimeApplication> getAllPendingByManager(Staff manager1);
+    
+    List<OvertimeApplication>getListForReport(Long id, Long staffId);
 }
