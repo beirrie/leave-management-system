@@ -9,6 +9,7 @@ import org.springframework.validation.Validator;
 
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.Staff;
+import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
@@ -35,13 +36,20 @@ public class UserStaffFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		UserStaffForm userStaffForm = (UserStaffForm) target;
 
-		String userName = userStaffForm.getUserName();
-		boolean doesUserNameExist = userService.findAllUsers().stream().anyMatch(x -> x.getUserName().equals(userName));
-		if (doesUserNameExist && userStaffForm.getUserId() == null) {
+		String newUserName = userStaffForm.getUserName().toLowerCase();
+		boolean userNameExist = userService.findAllUsers().stream().anyMatch(x -> x.getUserName().toLowerCase().equals(newUserName));
+		if (userNameExist && userStaffForm.getUserId() == null) {
 			errors.rejectValue("userName", "error.userName",
 					"Username exists.");
 		}
-
+		if (userNameExist && userStaffForm.getUserId() != null) {
+			User user = userService.findById(userStaffForm.getUserId());
+			userNameExist = userService.findAllUsers().stream().filter(x -> x.getId() != user.getId()).anyMatch(x -> x.getUserName().toLowerCase().equals(newUserName));
+		}
+		if (userNameExist && userStaffForm.getUserId() != null && !userStaffForm.getStaffId().isEmpty()) {
+			errors.rejectValue("userName", "error.userName",
+					"Username exists.");
+		}
 		double medicalLeaveBalance = userStaffForm.getMedicalLeaveBalance();
 		if (!userStaffForm.getLeaveSchemeId().isEmpty()) {
 			LeaveScheme leaveScheme = leaveSchemeService
