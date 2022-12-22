@@ -11,6 +11,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"
         crossorigin="anonymous">
 
+    <style>
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
+
 <body>
     <div th:replace="fragments/layout.html :: menu" />
     <div class="container-fluid">
@@ -26,8 +34,8 @@
                 <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
                 <!-- <h2>Section title</h2> -->
-                <div class="table-responsive">
-                    <table id="table_id" class="display">
+                <!-- <div class="table-responsive">
+                    <table id="example" class="display">
                         <thead>
                             <tr>
                                 <th>LeaveID</th>
@@ -57,15 +65,88 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
+
+                <table id="example" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>LeaveID</th>
+                            <th>StaffName</th>
+                            <th>Leave Type</th>
+                            <th>Manager</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Applied Date</th>
+                            <th>Application Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each=" leave : ${leaves}">
+                            <td th:text="${leave.id}"></td>
+                            <td th:text="${leave.employee.firstName + ' ' + leave.employee.lastName }">Full Name
+                            </td>
+                            <td th:text="${leave.typeOfLeave.leaveTypeName }">Leave Type</td>
+                            <td th:text="${leave.coveringStaff.firstName + ' ' + leave.coveringStaff.lastName}">
+                                Manager
+                            </td>
+                            <td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}">startDate</td>
+                            <td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}">endDate</td>
+                            <td th:text="${#temporals.format(leave.applicationDate,'dd-MM-yyyy')}">
+                            </td>
+                            <td th:text="${leave.applicationStatus}"></td>
+
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>LeaveID</th>
+                            <th>StaffName</th>
+                            <th>Leave Type</th>
+                            <th>Manager</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Applied Date</th>
+                            <th>Application Status</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
             </main>
         </div>
     </div>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"
         crossorigin="anonymous"></script>
     <script>
+        // $(document).ready(function () {
+        //     $('#table_id').DataTable();
+        // });
+
         $(document).ready(function () {
-            $('#table_id').DataTable();
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#example').DataTable({
+                initComplete: function () {
+                    // Apply the search
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            var that = this;
+
+                            $('input', this.footer()).on('keyup change clear', function () {
+                                if (that.search() !== this.value) {
+                                    that.search(this.value).draw();
+                                }
+                            });
+                        });
+                },
+            });
         });
 
     </script>

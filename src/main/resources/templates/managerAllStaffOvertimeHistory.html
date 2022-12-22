@@ -9,7 +9,13 @@
 
     <head th:replace="fragments/layout.html :: html_head" />
     <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}"> -->
-
+    <style>
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,39 +29,60 @@
                 </div>
 
                 <!-- <h2>Section title</h2> -->
-                <div class="table-responsive">
-                    <table id="table_id" class="display">
-                        <thead>
-                            <tr>
-                                <th>OT ID</th>
-                                <th>StaffName</th>
-                                <th>OT Date</th>
-                                <th>OT Hour</th>
-                                <th>Employee Comment</th>
-                                <th>Applied Date</th>
-                                <th>Status</th>
-                                <th>Reviewed Date</th>
-                                <th>Manager Comment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each=" ot : ${overtimes}">
-                                <td th:text="${ot.id}"></td>
-                                <td th:text="${ot.getEmployee.getFirstName + ' ' + ot.getEmployee.getLastName }">
-                                </td>
-                                <td th:text="${#temporals.format(ot.date_OT,'dd-MM-yyyy')}"></td>
-                                <td th:text="${ot.hours_OT}"></td>
-                                <td th:text="${ot.employeeComment}">
-                                </td>
-                                <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
-                                <td th:text="${ot.applicationStatus}"></td>
-                                <td th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
-                                <td th:text="${ot.managerRemarks}"></td>
-                            </tr>
 
-                        </tbody>
-                    </table>
-                </div>
+
+
+                <table id="example" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>OT ID</th>
+                            <th>StaffName</th>
+                            <th>OT Date</th>
+                            <th>OT Hour</th>
+                            <th>Employee Comment</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Reviewed Date</th>
+                            <th>Approver</th>
+                            <th>Manager Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each=" ot : ${overtimes}">
+                            <td th:text="${ot.id}"></td>
+                            <td th:text="${ot.getEmployee.getFirstName + ' ' + ot.getEmployee.getLastName }">
+                            </td>
+                            <td th:text="${#temporals.format(ot.date_OT,'dd-MM-yyyy')}"></td>
+                            <td th:text="${ot.hours_OT}"></td>
+                            <td th:text="${ot.employeeComment}">
+                            </td>
+                            <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
+                            <td th:text="${ot.applicationStatus}"></td>
+                            <td th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
+                            <td th:if="${ot.getApprover != null}"
+                                th:text="${ot.getApprover.getFirstName + ' ' + ot.getApprover.getLastName}"></td>
+                            <td th:if="${ot.getApprover == null}" th:text="null"></td>
+                            <td th:text="${ot.managerRemarks}"></td>
+
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>OT ID</th>
+                            <th>StaffName</th>
+                            <th>OT Date</th>
+                            <th>OT Hour</th>
+                            <th>Employee Comment</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Reviewed Date</th>
+                            <th>Approver</th>
+                            <th>Manager Comment</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
             </main>
         </div>
     </div>
@@ -63,7 +90,29 @@
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
-            $('#table_id').DataTable();
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+            // DataTable
+            var table = $('#example').DataTable({
+                initComplete: function () {
+                    // Apply the search
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            var that = this;
+
+                            $('input', this.footer()).on('keyup change clear', function () {
+                                if (that.search() !== this.value) {
+                                    that.search(this.value).draw();
+                                }
+                            });
+                        });
+                },
+            });
         });
 
     </script>
