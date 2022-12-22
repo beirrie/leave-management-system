@@ -27,13 +27,11 @@ public class LeaveSchemeServiceImpl implements LeaveSchemeService{
 
 	@Override
 	public LeaveScheme getLeaveSchemeByID(Long leaveSchemeID) {
-		// TODO Auto-generated method stub
 		return _leaveSchemeRepo.findById(leaveSchemeID).orElse(null);
 	}
 
 	@Override
 	public LeaveScheme updateLeaveScheme(String id, String schemeName, String annualLeave, String medicalLeave) {
-		// TODO Auto-generated method stub
 		Long _lsID = Long.parseLong(id);
 		LeaveScheme lsEdited = getLeaveSchemeByID(_lsID);
 		lsEdited.setEmploymentScheme(schemeName);

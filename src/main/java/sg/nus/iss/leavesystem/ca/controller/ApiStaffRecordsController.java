@@ -40,19 +40,4 @@ public class ApiStaffRecordsController {
 		}
 
 	}
-	
-//    @GetMapping("/announcements")
-//    public ResponseEntity<List<Announcement>> getAllAnnouncements() {
-//        try {
-//            List<Announcement> announcements = new ArrayList<Announcement>();
-//            announcements = announcementService.getAnnouncementList();
-//
-//            if (announcements.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(announcements, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 }

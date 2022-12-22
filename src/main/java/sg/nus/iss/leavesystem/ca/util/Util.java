@@ -34,30 +34,8 @@ public class Util {
         return date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY;
     }
 
-    // public static List<LocalDateTime> prepareHoliday() {
-    //     holidays = new ArrayList<>();
-    //     holidays.add(convertStringToDate("26/12/2022"));
-    //     holidays.add(convertStringToDate("02/01/2023"));
-    //     holidays.add(convertStringToDate("23/01/2023"));
-    //     holidays.add(convertStringToDate("24/01/2023"));
-    //     holidays.add(convertStringToDate("07/04/2023"));
-    //     holidays.add(convertStringToDate("01/05/2023"));
-    //     holidays.add(convertStringToDate("02/06/2023"));
-    //     holidays.add(convertStringToDate("29/06/2023"));
-    //     holidays.add(convertStringToDate("09/08/2023"));
-    //     holidays.add(convertStringToDate("13/11/2023"));
-    //     holidays.add(convertStringToDate("25/12/2023"));
-    //     return holidays;
-    // }
-
     public static Boolean isPublicHoliday(LocalDateTime date) {
-        // if (holidays.size() == 0)
-        //     holidays = prepareHoliday();
 
-        // for (LocalDateTime localDateTime : holidays) {
-        //     if (localDateTime.isEqual(date))
-        //         return true;
-        // }
         for(PublicHoliday ph : phs)
         {
             if(ph.getDateOfHoliday().isEqual(date))

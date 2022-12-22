@@ -28,8 +28,6 @@ import java.util.Map;
 @RequestMapping("/manager")
 public class ManagerController {
 
-    //private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
-
     @Autowired
     private LeaveApplicationService leaveAppService;
 

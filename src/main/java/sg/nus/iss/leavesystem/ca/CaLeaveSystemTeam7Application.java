@@ -290,17 +290,6 @@ public class CaLeaveSystemTeam7Application {
 			cancelledLeaveApplication1.setMgrRemarks("ok");
 			leaveApplicationRepo.saveAndFlush(cancelledLeaveApplication1);
 
-			// OvertimeApplication ot1 = new OvertimeApplication();
-			// ot1.setEmployee(staff1);
-			// ot1.setAppliedDateTime(LocalDateTime.of(2022, 12, 25, 0, 0));
-			// ot1.setApprover(manager1);
-			// ot1.setDateApplicationReviewed(LocalDateTime.of(2022, 12, 26, 0, 0));
-			// ot1.setApplicationStatus("Applied");
-			// ot1.setDate_OT(LocalDateTime.of(2022, 12, 27, 0, 0, 0));
-			// ot1.setEmployeeComment("I need to work");
-			// ot1.setHours_OT(1);
-			// ot1.setManagerRemarks("I allowed");
-
 			OvertimeApplication otApp2 = new OvertimeApplication();
 			otApp2.setEmployee(staff2);
 			otApp2.setAppliedDateTime(LocalDateTime.now());
@@ -396,13 +385,6 @@ public class CaLeaveSystemTeam7Application {
 			christmasHoliday1.setPublicHolidayName("Christmas Day");
 			christmasHoliday1.setStartDate(LocalDateTime.of(2023, 12, 25, 0, 0, 0));
 			phRepo.saveAndFlush(christmasHoliday1);
-
-//			// List<OvertimeApplication> otps = otRepo.findAll();
-//
-//			// System.out.println("hihihihihihihihihihihihihihihihihihihihihih");
-//			// OvertimeApplicationService otservice = new OvertimeApplicationServiceImpl();
-//			// List<OvertimeApplication> ot = otservice.getAllOvertimeApplication();
-//			// otps.forEach(myot -> System.out.println(myot));
 		};
 	}
 }

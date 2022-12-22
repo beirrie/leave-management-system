@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,19 +23,16 @@ public class PublicHolidayServiceImpl implements PublicHolidayService {
 	
 	@Override
 	public PublicHoliday getPublicHoliday(Long id) {
-		// TODO Auto-generated method stub
 		return publicHolidayRepo.findById(id).orElse(null);
 	}
 	
 	@Override
 	public List<PublicHoliday> getAllPublicHolidays() {
-		// TODO Auto-generated method stub
 		return publicHolidayRepo.findAll();
 	}
 
 	@Override
 	public PublicHoliday getPublicHolidayByID(Long publicHolidayID) {
-		// TODO Auto-generated method stub
 		return publicHolidayRepo.findById(publicHolidayID).orElse(null);
 	}
 	
@@ -69,7 +64,6 @@ public class PublicHolidayServiceImpl implements PublicHolidayService {
 
 	@Override
 	public PublicHoliday createPublicHoliday(String publicHolidayName, String dateOfHoliday, String description) {
-		// TODO Auto-generated method stub
 		int year = Integer.parseInt(dateOfHoliday.substring(0, 4));
 		int month = Integer.parseInt(dateOfHoliday.substring(5, 7));
 		int day = Integer.parseInt(dateOfHoliday.substring(8, 10));
@@ -81,8 +75,6 @@ public class PublicHolidayServiceImpl implements PublicHolidayService {
 	@Override
 	public void deleteAllPublicHolidaysData() {
 		publicHolidayRepo.deleteAll();
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

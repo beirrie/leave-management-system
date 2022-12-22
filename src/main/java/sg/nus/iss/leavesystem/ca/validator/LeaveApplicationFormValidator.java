@@ -62,26 +62,6 @@ public class LeaveApplicationFormValidator implements Validator {
 
         LeaveType leaveType = leaveTypeService.findById(leaveForm.getLeaveType().getId());
 
-        // if(leaveType.getLeaveTypeName().equals("annual")){
-        // {
-        // if(duration.toDays()>staff.getAnnualLeaveBalance()){
-        // errors.rejectValue("endDateStr", null, "The number of days exceeds your
-        // balance");
-        // }
-        // }
-        // if(leaveType.getLeaveTypeName().equals("medical")){
-        // if(duration.toDays()>staff.getMedicalLeaveBalance()){
-        // errors.rejectValue("endDateStr", null, "The number of days exceeds your
-        // balance");
-        // }
-        // }
-        // if(leaveType.getLeaveTypeName().equals("compensation")){
-        // if(duration.toDays()>staff.getCompensationLeaveBalence()){
-        // errors.rejectValue("endDateStr", null, "The number of days exceeds your
-        // balance");
-        // }
-        // }
-        // }
         LeaveApplication leaveApp = new LeaveApplication();
         leaveApp.setStartDate(startDate);
         leaveApp.setEndDate(endDate);
