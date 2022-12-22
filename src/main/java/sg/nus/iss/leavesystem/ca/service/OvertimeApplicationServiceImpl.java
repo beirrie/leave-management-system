@@ -12,7 +12,6 @@ import sg.nus.iss.leavesystem.ca.service.StaffService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
