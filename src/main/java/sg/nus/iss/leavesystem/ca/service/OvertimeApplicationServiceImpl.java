@@ -60,7 +60,9 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
         app.setApplicationStatus(status);
         app.setManagerRemarks(remarks);
         app.setApprover(approver);
-        staffService.modifyCompensationLeaveBalance(app.getEmployee(), app.getHours_OT());
+        if(status.equalsIgnoreCase("Approved")) {
+            staffService.modifyCompensationLeaveBalance(app.getEmployee(), app.getHours_OT());
+        }
         otRepo.save(app);
     }
 
