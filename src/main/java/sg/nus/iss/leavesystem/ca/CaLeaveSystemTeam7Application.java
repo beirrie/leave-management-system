@@ -32,7 +32,7 @@ public class CaLeaveSystemTeam7Application {
 	public static void main(String[] args) {
 		SpringApplication.run(CaLeaveSystemTeam7Application.class, args);
 	}
-	
+
 	@Bean
 	public CommandLineRunner commandLineRun(
 			UserRepository userRepo,

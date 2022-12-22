@@ -43,20 +43,26 @@
                     </thead>
                     <tbody>
                         <tr th:each=" ot : ${overtimes}">
-                            <td th:text="${ot.id}"></td>
-                            <td th:text="${ot.getEmployee.getFirstName + ' ' + ot.getEmployee.getLastName }">
+                            <td th:if="${ot.applicationStatus != 'Rejected'}" th:text="${ot.id}"></td>
+                            <td th:if="${ot.applicationStatus != 'Rejected'}"
+                                th:text="${ot.getEmployee.getFirstName + ' ' + ot.getEmployee.getLastName }">
                             </td>
-                            <td th:text="${#temporals.format(ot.date_OT,'dd-MM-yyyy')}"></td>
-                            <td th:text="${ot.hours_OT}"></td>
-                            <td th:text="${ot.employeeComment}">
+                            <td th:if="${ot.applicationStatus != 'Rejected'}"
+                                th:text="${#temporals.format(ot.date_OT,'dd-MM-yyyy')}"></td>
+                            <td th:if="${ot.applicationStatus != 'Rejected'}" th:text="${ot.hours_OT}"></td>
+                            <td th:if="${ot.applicationStatus != 'Rejected'}" th:text="${ot.employeeComment}">
                             </td>
-                            <td th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
-                            <td th:text="${ot.applicationStatus}"></td>
-                            <td th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
-                            <td th:if="${ot.getApprover != null}"
+                            <td th:if="${ot.applicationStatus != 'Rejected'}"
+                                th:text="${#temporals.format(ot.appliedDateTime,'dd-MM-yyyy')}"></td>
+                            <td th:if="${ot.applicationStatus != 'Rejected'}" th:text="${ot.applicationStatus}"></td>
+                            <td th:if="${ot.applicationStatus != 'Rejected'}"
+                                th:text="${#temporals.format(ot.dateApplicationReviewed,'dd-MM-yyyy')}"></td>
+                            <td th:if="${ot.getApprover != null && ot.applicationStatus != 'Rejected'}"
                                 th:text="${ot.getApprover.getFirstName + ' ' + ot.getApprover.getLastName}"></td>
-                            <td th:if="${ot.getApprover == null}" th:text="null"></td>
-                            <td th:text="${ot.managerRemarks}"></td>
+                            <td th:if="${ot.getApprover == null && ot.applicationStatus != 'Rejected'}" th:text="null">
+                            </td>
+                            </td>
+                            <td th:if="${ot.applicationStatus != 'Rejected'}" th:text="${ot.managerRemarks}"></td>
 
                         </tr>
 
