@@ -288,7 +288,7 @@ public class CaLeaveSystemTeam7Application {
 			otApp2.setEmployee(staff2);
 			otApp2.setAppliedDateTime(LocalDateTime.now());
 			otApp2.setDate_OT(LocalDateTime.of(2022, 12, 26, 0, 0));
-			otApp2.setHours_OT(1.0);
+			otApp2.setHours_OT(5.0);
 			otApp2.setApplicationStatus("Applied");
 			otApp2.setEmployeeComment("Employee comment2");
 
@@ -296,7 +296,7 @@ public class CaLeaveSystemTeam7Application {
 			otApp3.setEmployee(staff1);
 			otApp3.setAppliedDateTime(LocalDateTime.now());
 			otApp3.setDate_OT(LocalDateTime.of(2022, 12, 27, 0, 0));
-			otApp3.setHours_OT(1.0);
+			otApp3.setHours_OT(7.0);
 			otApp3.setApplicationStatus("Applied");
 			otApp3.setEmployeeComment("Employee comment3");
 
@@ -304,8 +304,8 @@ public class CaLeaveSystemTeam7Application {
 			otApp1.setEmployee(staff1);
 			otApp1.setAppliedDateTime(LocalDateTime.now());
 			otApp1.setDate_OT(LocalDateTime.of(2022, 12, 15, 0, 0));
-			otApp1.setHours_OT(1.0);
-			otApp1.setApplicationStatus("Approved");
+			otApp1.setHours_OT(8.0);
+			otApp1.setApplicationStatus("Applied");
 			otApp1.setEmployeeComment("Employee comment");
 			otApp1.setApprover(staff3);
 			otApp1.setDateApplicationReviewed(LocalDateTime.of(2022, 12, 10, 0, 0, 0));
