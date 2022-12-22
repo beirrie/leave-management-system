@@ -221,13 +221,6 @@ public class LeaveApplicationController {
         previousLeave.setTypeOfLeave(leaveTypeService.findById(leaveForm.getPreviousLeaveTypeId()));
         staff.reinstatePreviousLeaveBalance(previousLeave, leaveForm.getPreviousDuration());
 
-        if (!staff.isLeaveBalanceEnough(leaveApplication)) {
-            model.addAttribute("leaveForm", leaveForm);
-            model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
-            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-            result.rejectValue("endDateStr", null, "Balance exceeded!");
-            return "EditLeave";
-        }
         if (result.hasErrors()) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
