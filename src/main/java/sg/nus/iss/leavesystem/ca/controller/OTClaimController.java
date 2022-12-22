@@ -15,7 +15,6 @@ import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
-import sg.nus.iss.leavesystem.ca.util.StringToDateTime;
 import sg.nus.iss.leavesystem.ca.util.StringToDateTimeYYYYMMDD;
 
 @Controller

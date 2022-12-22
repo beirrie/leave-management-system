@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.DirtiesContext;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
@@ -15,15 +14,15 @@ import sg.nus.iss.leavesystem.ca.repository.OverTimeApplicationRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ExtendWith(MockitoExtension.class)
 class OvertimeApplicationServiceTest {
 
     @InjectMocks
-    sg.nus.iss.leavesystem.ca.service_implementation.OvertimeApplicationServiceImpl overtimeApplicationService;
+    OvertimeApplicationServiceImpl overtimeApplicationService;
 
     @Mock
     OvertimeApplication otApp1, otApp2, otApp3;

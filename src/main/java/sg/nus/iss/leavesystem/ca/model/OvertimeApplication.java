@@ -1,6 +1,5 @@
 package sg.nus.iss.leavesystem.ca.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;

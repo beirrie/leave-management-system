@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface OverTimeApplicationRepository extends JpaRepository<OvertimeApplication, Long> {

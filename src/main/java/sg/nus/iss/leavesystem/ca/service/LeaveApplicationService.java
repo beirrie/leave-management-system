@@ -5,7 +5,6 @@ import java.util.Optional;
 
 
 import org.springframework.stereotype.Service;
-import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;

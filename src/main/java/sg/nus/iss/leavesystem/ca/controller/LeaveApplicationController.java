@@ -1,6 +1,5 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
