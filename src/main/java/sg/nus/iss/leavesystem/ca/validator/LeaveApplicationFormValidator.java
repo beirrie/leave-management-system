@@ -10,6 +10,7 @@ import org.springframework.validation.Validator;
 import sg.nus.iss.leavesystem.ca.util.Util;
 import sg.nus.iss.leavesystem.ca.model.*;
 import sg.nus.iss.leavesystem.ca.service.LeaveTypeService;
+import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 
 @Component
@@ -17,7 +18,8 @@ public class LeaveApplicationFormValidator implements Validator {
 
     @Autowired
     private LeaveTypeService leaveTypeService;
-
+    @Autowired
+    private PublicHolidayService publicHolidayService;
     @Autowired
     private StaffService staffService;
 
@@ -61,7 +63,7 @@ public class LeaveApplicationFormValidator implements Validator {
         java.time.Duration duration = java.time.Duration.between(startDate, endDate);
 
         LeaveType leaveType = leaveTypeService.findById(leaveForm.getLeaveType().getId());
-
+        Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApp = new LeaveApplication();
         leaveApp.setStartDate(startDate);
         leaveApp.setEndDate(endDate);

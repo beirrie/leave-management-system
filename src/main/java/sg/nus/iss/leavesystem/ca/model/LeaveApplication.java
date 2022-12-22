@@ -221,8 +221,8 @@ public class LeaveApplication {
 		return Util.convertDateToString(startDate) + " - " + Util.convertDateToString(endDate);
 	}
 
-	public long getBeforeDuration() {
-		long durationInDay = 0;
+	public double getBeforeDuration() {
+		double durationInDay = 0;
 		LocalDateTime tempDate = startDate;
 		while (!tempDate.isAfter(endDate)) {
 			durationInDay++;
@@ -232,7 +232,7 @@ public class LeaveApplication {
 	}
 
 	public String getDuration() {
-		long beforeDurationInDay = getBeforeDuration();
+		double beforeDurationInDay = getBeforeDuration();
 		if (beforeDurationInDay > 14) {
 			return String.valueOf(beforeDurationInDay);
 		}

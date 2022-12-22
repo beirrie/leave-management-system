@@ -121,7 +121,7 @@ public class LeaveApplicationController {
         leaveApplicationForm.setPreviousLeaveTypeId(leaveApplication.getTypeOfLeave().getId());
 
         model.addAttribute("leaveForm", leaveApplicationForm);
-        model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
+        model.addAttribute("leaveTypeList", leaveTypeService.GetAll());
         model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
         return "EditLeave";
     }
@@ -194,7 +194,6 @@ public class LeaveApplicationController {
         if (userSession == null)
             return "redirect:/login";
 
-       
         Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
         leaveApplication.setId(leaveForm.getId());
@@ -216,10 +215,9 @@ public class LeaveApplicationController {
         // Reinstate previous leave balance
         LeaveApplication previousLeave = new LeaveApplication();
         previousLeave.setTypeOfLeave(leaveTypeService.findById(leaveForm.getPreviousLeaveTypeId()));
-        staff.reinstatePreviousLeaveBalance(previousLeave,leaveForm.getPreviousDuration());        
+        staff.reinstatePreviousLeaveBalance(previousLeave, leaveForm.getPreviousDuration());
 
-        if(!staff.isLeaveBalanceEnough(leaveApplication))
-        {
+        if (!staff.isLeaveBalanceEnough(leaveApplication)) {
             model.addAttribute("leaveForm", leaveForm);
             model.addAttribute("leaveTypeList", leaveTypeService.GetAllWithoutCompensation());
             model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
@@ -236,7 +234,7 @@ public class LeaveApplicationController {
         this.leaveApplicationService.UpdateApplication(leaveApplication);
         staff.deductLeave(leaveApplication);
         this.staffService.updateStaff(staff);
-        return "redirect:/LeaveApplication";    
+        return "redirect:/LeaveApplication";
     }
 
     @GetMapping("/cancelLeave/{id}")
@@ -279,62 +277,6 @@ public class LeaveApplicationController {
         return "viewleavedetails";
     }
 
-    @PostMapping("/SubmitMedicalLeave")
-    public String SubmitMedicalLeave(LeaveApplicationForm leaveform, HttpSession session) {
-        System.out.println(leaveform.getLeaveType().id);
-        System.out.println(leaveform.getStartAMPM());
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        var staff = this.staffService.findById(userSession.getStaffId());
-        var manager = staff.getManager();
-        LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().id));
-        LeaveApplication leaveApplication = new LeaveApplication();
-        leaveApplication.setTypeOfLeave(_leavetype);
-        leaveApplication.setEmployee(staff);
-        leaveApplication.setIsAbroad(leaveform.getIsAbroad());
-        leaveApplication.setContactNumber(leaveform.getContactNumber());
-        leaveApplication.setCoveringStaff(leaveform.getCoveringStaff());
-        leaveApplication.setStartDate(Util.convertStringToDate(leaveform.getStartDateStr()));
-        leaveApplication.setStartAM_or_PM(leaveform.getStartAMPM());
-        leaveApplication.setEndAM_or_PM(leaveform.getEndAMPM());
-        leaveApplication.setEndDate(Util.convertStringToDate(leaveform.getEndDateStr()));
-        leaveApplication.setAdditionalComments(leaveform.getAdditionalComments());
-        leaveApplication.setApplicationStatus("Applied");
-        leaveApplication.setApplicationDate(LocalDateTime.now());
-        leaveApplication.setEmployeeManager(manager);
-        leaveApplication.setDateReviewed(LocalDateTime.now());
-        leaveApplication.setMgrRemarks("");
-        this.leaveApplicationService.CreateApplication(leaveApplication);
-        return "redirect:/LeaveHistory";
-    }
-
-    @PostMapping("/SubmitAnnualLeave")
-    public String SubmitAnnualLeave(LeaveApplicationForm leaveform, HttpSession session) {
-        System.out.println(leaveform.getLeaveType().id);
-        System.out.println(leaveform.getStartAMPM());
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        var staff = this.staffService.findById(userSession.getStaffId());
-        var manager = staff.getManager();
-        LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().id));
-        LeaveApplication leaveApplication = new LeaveApplication();
-        leaveApplication.setTypeOfLeave(_leavetype);
-        leaveApplication.setEmployee(staff);
-        leaveApplication.setIsAbroad(leaveform.getIsAbroad());
-        leaveApplication.setContactNumber(leaveform.getContactNumber());
-        leaveApplication.setCoveringStaff(leaveform.getCoveringStaff());
-        leaveApplication.setStartDate(Util.convertStringToDate(leaveform.getStartDateStr()));
-        leaveApplication.setStartAM_or_PM(leaveform.getStartAMPM());
-        leaveApplication.setEndAM_or_PM(leaveform.getEndAMPM());
-        leaveApplication.setEndDate(Util.convertStringToDate(leaveform.getEndDateStr()));
-        leaveApplication.setAdditionalComments(leaveform.getAdditionalComments());
-        leaveApplication.setApplicationStatus("Applied");
-        leaveApplication.setApplicationDate(LocalDateTime.now());
-        leaveApplication.setEmployeeManager(manager);
-        leaveApplication.setDateReviewed(LocalDateTime.now());
-        leaveApplication.setMgrRemarks("");
-        this.leaveApplicationService.CreateApplication(leaveApplication);
-        return "redirect:/LeaveHistory";
-    }
-
     @GetMapping("/ApplyCompensationLeave")
     public String ApplyCompensationLeave(Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
@@ -351,20 +293,15 @@ public class LeaveApplicationController {
     }
 
     @PostMapping("/ApplyCompensationLeave")
-    public String SubmitCompensationLeave(@Valid @ModelAttribute("leaveForm") LeaveApplicationForm leaveform, BindingResult result, Model model, HttpSession session) {
-        if (result.hasErrors()) {
-            UserSession userSession = (UserSession) session.getAttribute("user");
-            Staff staff = this.staffService.findById(userSession.getStaffId());
-            List<String> roles = userSession.getUserRoles();
-            model.addAttribute("leaveform", leaveform);
-            model.addAttribute("roles", roles);
-            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
-            return "applycompensation";
-        }
+    public String SubmitCompensationLeave(@Valid @ModelAttribute("leaveForm") LeaveApplicationForm leaveform,
+            BindingResult result, Model model, HttpSession session) {
         UserSession userSession = (UserSession) session.getAttribute("user");
         var staff = this.staffService.findById(userSession.getStaffId());
+
         LeaveType _leavetype = leaveTypeService.findById((leaveform.getLeaveType().getId()));
+        Util.phs = this.publicHolidayService.getAllPublicHolidays();
         LeaveApplication leaveApplication = new LeaveApplication();
+        leaveform.setStaffId(staff.getId());
         leaveApplication.setTypeOfLeave(_leavetype);
         leaveApplication.setEmployee(staff);
         leaveApplication.setIsAbroad(leaveform.getIsAbroad());
@@ -380,7 +317,16 @@ public class LeaveApplicationController {
         leaveApplication.setEmployeeManager(staff.getManager());
         leaveApplication.setDateReviewed(LocalDateTime.now());
         leaveApplication.setMgrRemarks("");
+        if (result.hasErrors()) {
+            List<String> roles = userSession.getUserRoles();
+            model.addAttribute("leaveform", leaveform);
+            model.addAttribute("roles", roles);
+            model.addAttribute("coveringStaffList", staffService.findStaffExcludeSelf(staff.getUser().getId()));
+            return "applycompensation";
+        }
         this.leaveApplicationService.CreateApplication(leaveApplication);
+        staff.deductLeave(leaveApplication);
+        this.staffService.updateStaff(staff);
         return "redirect:/LeaveHistory";
     }
 

@@ -29,9 +29,9 @@ public class LeaveApplicationForm {
 
     private LocalDateTime startDate = LocalDateTime.now();
 
-    private String startAMPM = "";
+    private String startAMPM = "AM";
 
-    private String endAMPM = "";
+    private String endAMPM = "PM";
 
     private String startDateStr;
 
