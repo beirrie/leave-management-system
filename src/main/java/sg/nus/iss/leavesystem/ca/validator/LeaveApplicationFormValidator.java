@@ -7,18 +7,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import sg.nus.iss.leavesystem.ca.util.Util;
-import sg.nus.iss.leavesystem.ca.model.*;
-import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
-import sg.nus.iss.leavesystem.ca.service.LeaveTypeService;
+import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
+import sg.nus.iss.leavesystem.ca.model.LeaveApplicationForm;
+import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
+import sg.nus.iss.leavesystem.ca.util.Util;
 
 @Component
 public class LeaveApplicationFormValidator implements Validator {
 
-    @Autowired
-    private LeaveTypeService leaveTypeService;
     @Autowired
     private PublicHolidayService publicHolidayService;
     @Autowired
@@ -34,6 +32,13 @@ public class LeaveApplicationFormValidator implements Validator {
         LeaveApplicationForm leaveForm = (LeaveApplicationForm) target;
         LocalDateTime endDate = Util.convertStringToDate(leaveForm.getEndDateStr());
         LocalDateTime startDate = Util.convertStringToDate(leaveForm.getStartDateStr());
+        Staff staff = staffService.findStaffByID(leaveForm.getStaffId());
+        LeaveApplication leaveApp = new LeaveApplication();
+        leaveApp.setStartDate(startDate);
+        leaveApp.setEndDate(endDate);
+        leaveApp.setStartAM_or_PM(leaveForm.getStartAMPM());
+        leaveApp.setEndAM_or_PM(leaveForm.getEndAMPM());
+        double selectedDuration = Double.parseDouble(leaveApp.getDuration());
         Util.phs = this.publicHolidayService.getAllPublicHolidays();
 
         if (leaveForm.getLeaveType().getId().equals(3l) && leaveForm.getStartAMPM().isEmpty()) {
@@ -69,18 +74,6 @@ public class LeaveApplicationFormValidator implements Validator {
                 errors.rejectValue("contactNumber", null, "Contact Details is mandatory!");
             }
         }
-        Staff staff = staffService.findStaffByID(leaveForm.getStaffId());
-        java.time.Duration duration = java.time.Duration.between(startDate, endDate);
-
-        LeaveType leaveType = leaveTypeService.findById(leaveForm.getLeaveType().getId());
-        LeaveApplication leaveApp = new LeaveApplication();
-        leaveApp.setStartDate(startDate);
-        leaveApp.setEndDate(endDate);
-        leaveApp.setStartAM_or_PM(leaveForm.getStartAMPM());
-        leaveApp.setEndAM_or_PM(leaveForm.getEndAMPM());
-        double selectedDuration = Double.parseDouble(leaveApp.getDuration());
-
-
 
         boolean isStartEndDateSame = leaveForm.getStartDateStr().equals(leaveForm.getEndDateStr());
         if (isStartEndDateSame && leaveForm.getStartAMPM().equals("PM") && leaveForm.getEndAMPM().equals("AM")) {
