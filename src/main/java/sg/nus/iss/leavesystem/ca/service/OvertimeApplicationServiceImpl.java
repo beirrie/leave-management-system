@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import sg.nus.iss.leavesystem.ca.model.OvertimeApplication;
 import sg.nus.iss.leavesystem.ca.repository.OverTimeApplicationRepository;
 import sg.nus.iss.leavesystem.ca.model.Staff;
+import sg.nus.iss.leavesystem.ca.service.OvertimeApplicationService;
+import sg.nus.iss.leavesystem.ca.service.StaffService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,7 +60,9 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
         app.setApplicationStatus(status);
         app.setManagerRemarks(remarks);
         app.setApprover(approver);
-        staffService.modifyCompensationLeaveBalance(app.getEmployee(), app.getHours_OT());
+        if(status.equalsIgnoreCase("Approved")) {
+            staffService.modifyCompensationLeaveBalance(app.getEmployee(), app.getHours_OT());
+        }
         otRepo.save(app);
     }
 
@@ -86,11 +90,11 @@ public class OvertimeApplicationServiceImpl implements OvertimeApplicationServic
 
         return combinedList;
     }
-    
+
     @Override
     public List<OvertimeApplication> getListForReport(Long id, Long staffId) {
 
-        if(staffId==0L){
+        if (staffId == 0L) {
             return otRepo.findByManager(id);
         } else {
             Staff staff = staffService.findStaffByID(staffId);

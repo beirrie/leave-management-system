@@ -3,7 +3,6 @@ package sg.nus.iss.leavesystem.ca.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import sg.nus.iss.leavesystem.ca.model.dto.LeaveApprovalDTO;

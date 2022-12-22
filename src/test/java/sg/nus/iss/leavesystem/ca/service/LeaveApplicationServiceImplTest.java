@@ -3,11 +3,8 @@ package sg.nus.iss.leavesystem.ca.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.Arrays;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import sg.nus.iss.leavesystem.ca.model.LeaveApplication;
 import sg.nus.iss.leavesystem.ca.model.Staff;
 import sg.nus.iss.leavesystem.ca.repository.LeaveApplicationRepository;
-import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ExtendWith(MockitoExtension.class)

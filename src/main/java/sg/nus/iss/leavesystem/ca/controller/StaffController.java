@@ -30,7 +30,7 @@ import sg.nus.iss.leavesystem.ca.service.StaffService;
 import sg.nus.iss.leavesystem.ca.service.UserService;
 import sg.nus.iss.leavesystem.ca.validator.UserStaffFormValidator;
 
-@JsonAutoDetect(fieldVisibility=Visibility.ANY)
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Controller
 @RequestMapping("/admin/staff")
 public class StaffController {
@@ -66,42 +66,51 @@ public class StaffController {
 	@GetMapping("/create")
 	public String newStaffPage(Model model, HttpSession session) {
 		UserSession userSession = (UserSession) session.getAttribute("user");
-		List<String> roles = userSession.getUserRoles();
-		model.addAttribute("roles", roles);
-		model.addAttribute("userStaffForm", new UserStaffForm());
-		List<LeaveScheme> activeLeaveSchemes = leaveSchemeService.getAllLeaveScheme().stream()
-		.filter(x -> x.getIsActive() == true).toList();
-		model.addAttribute("leaveSchemes", activeLeaveSchemes);
-		model.addAttribute("managers", staffService.findAllManagers());
-		return "staff-new";
-	}
-
-	@PostMapping("/create")
-	public String newStaffPage(@Valid @ModelAttribute("userStaffForm") UserStaffForm staff, BindingResult result,
-			Model model) {
-		if (result.hasErrors()) {
-			User userDetails = new User();
-			userDetails.setId(staff.getUserId());
-			userDetails.setPassword(staff.getPassword());
-			userDetails.setUserName(staff.getUserName());
-			model.addAttribute("user", userDetails);
+		User user = (User) model.getAttribute("user");
+		if (user != null) {
+			List<String> roles = userSession.getUserRoles();
+			model.addAttribute("roles", roles);
+			UserStaffForm userStaffForm = new UserStaffForm();
+			userStaffForm.setUserId(user.getId());
+			model.addAttribute("userStaffForm", new UserStaffForm());
 			List<LeaveScheme> activeLeaveSchemes = leaveSchemeService.getAllLeaveScheme().stream()
 					.filter(x -> x.getIsActive() == true).toList();
 			model.addAttribute("leaveSchemes", activeLeaveSchemes);
 			model.addAttribute("managers", staffService.findAllManagers());
 			return "staff-new";
 		}
-		Staff newStaff = new Staff();
-		newStaff.setUser(userService.findUser(staff.getUserId()));
-		newStaff.setFirstName(staff.getFirstName());
-		newStaff.setLastName(staff.getLastName());
-		newStaff.setEmailAdd(staff.getEmailAdd());
-		newStaff.setManager(staffService.findStaffByID(staff.getManagerId()));
-		newStaff.setLeaveScheme(leaveSchemeService.getLeaveSchemeByID(Long.parseLong(staff.getLeaveSchemeId())));
-		newStaff.setAnnualLeaveBalance(staff.getAnnualLeaveBalance());
-		newStaff.setMedicalLeaveBalance(staff.getMedicalLeaveBalance());
-		staffService.createStaff(newStaff);
-		return "redirect:/admin/staff/list";
+		return "redirect:/admin/user/create";
+	}
+
+	@PostMapping("/create")
+	public String newStaffPage(@Valid @ModelAttribute("userStaffForm") UserStaffForm createStaffForm,
+			BindingResult result,
+			Model model) {
+		if (createStaffForm.getUserId() != null) {
+			User user = userService.findUser(createStaffForm.getUserId());
+			if (result.hasErrors()) {
+				user.setUserName(createStaffForm.getUserName());
+				model.addAttribute("user", user);
+				List<LeaveScheme> activeLeaveSchemes = leaveSchemeService.getAllLeaveScheme().stream()
+						.filter(x -> x.getIsActive() == true).toList();
+				model.addAttribute("leaveSchemes", activeLeaveSchemes);
+				model.addAttribute("managers", staffService.findAllManagers());
+				return "staff-new";
+			}
+			Staff newStaff = new Staff();
+			newStaff.setUser(user);
+			newStaff.setFirstName(createStaffForm.getFirstName());
+			newStaff.setLastName(createStaffForm.getLastName());
+			newStaff.setEmailAdd(createStaffForm.getEmailAdd());
+			newStaff.setManager(staffService.findStaffByID(createStaffForm.getManagerId()));
+			newStaff.setLeaveScheme(
+					leaveSchemeService.getLeaveSchemeByID(Long.parseLong(createStaffForm.getLeaveSchemeId())));
+			newStaff.setAnnualLeaveBalance(createStaffForm.getAnnualLeaveBalance());
+			newStaff.setMedicalLeaveBalance(createStaffForm.getMedicalLeaveBalance());
+			staffService.createStaff(newStaff);
+			return "redirect:/admin/staff/list";
+		}
+		return "redirect:/admin/user-new";
 	}
 
 	@GetMapping("/edit/{id}")

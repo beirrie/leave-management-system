@@ -22,10 +22,6 @@
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">Pending Leaves applications</h1>
 				</div>
-
-				<!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
-
-				<!-- <h2>Section title</h2> -->
 				<div class="table-responsive">
 					<table id="dyanmic_table" class="display">
 						<thead>
@@ -33,7 +29,7 @@
 								<th>LeaveID</th>
 								<th>StaffName</th>
 								<th>Leave Type</th>
-								<th>Manager</th>
+								<th>Covering Staff</th>
 								<th>Start Date</th>
 								<th>End Date</th>
 								<th>Applied Date</th>
@@ -49,7 +45,7 @@
 								</td>
 								<td th:text="${leave.typeOfLeave.leaveTypeName }">Leave Type</td>
 								<td th:text="${leave.coveringStaff.firstName + ' ' + leave.coveringStaff.lastName}">
-									Manager
+									Covering Staff
 								</td>
 								<td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}">startDate</td>
 								<td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}">endDate</td>
@@ -57,11 +53,9 @@
 								<td th:text="${leave.applicationStatus}"></td>
 								<td th:text="${leave.additionalComments}"></td>
 								<td>
-									<!-- <button type="button"> -->
 									<a class="btn btn-info"
 										th:href="@{/manager/leave_application/{id}(id = ${leave.getId}) }">View
 									</a>
-									<!-- </button> -->
 								</td>
 							</tr>
 						</tbody>

@@ -14,12 +14,14 @@ import sg.nus.iss.leavesystem.ca.model.User;
 import sg.nus.iss.leavesystem.ca.model.dto.StaffForm;
 import sg.nus.iss.leavesystem.ca.model.dto.UserStaffForm;
 import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
+import sg.nus.iss.leavesystem.ca.repository.UserRepository;
 
 @Service
 public class StaffServiceImpl implements StaffService {
 	@Autowired
 	private StaffRepository staffRepository;
-
+	@Autowired
+	private UserRepository userRepository;
 	@Autowired
 	private LeaveSchemeService leaveSchemeService;
 
@@ -58,7 +60,8 @@ public class StaffServiceImpl implements StaffService {
 	public Staff editStaff(String id, UserStaffForm userStaffForm) {
 		Staff staff = findStaffByID(id);
 		User user = staff.getUser();
-
+		user.setUserName(userStaffForm.getUserName());
+		user.setPassword(userStaffForm.getPassword());
 		staff.setFirstName(userStaffForm.getFirstName());
 		staff.setLastName(userStaffForm.getLastName());
 		staff.setEmailAdd(userStaffForm.getEmailAdd());
@@ -70,9 +73,8 @@ public class StaffServiceImpl implements StaffService {
 		staff.setLeaveScheme(leaveScheme);
 		Staff manager = findStaffByID(userStaffForm.getManagerId());
 		staff.setManager(manager);
-
 		user.setRoleSet(userStaffForm.getRoles());
-
+		userRepository.saveAndFlush(user);
 		return staffRepository.saveAndFlush(staff);
 	}
 
@@ -154,8 +156,8 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-    public void modifyCompensationLeaveBalance(Staff staff, double hours) {
-        double balance = staff.getCompensationLeaveBalence();
+	public void modifyCompensationLeaveBalance(Staff staff, double hours) {
+		double balance = staff.getCompensationLeaveBalence();
 		double totalBalanceHours = staff.getAccumulated_OT_Hours() + hours;
 		double addToBalanceLeave;
 		double updatedTotalBalanceHours = totalBalanceHours;
@@ -171,7 +173,7 @@ public class StaffServiceImpl implements StaffService {
 		staff.setCompensationLeaveBalence(totalLeaveToSet);
 		staff.setAccumulated_OT_Hours(updatedTotalBalanceHours);
 		staffRepository.saveAndFlush(staff);
-    }
+	}
 
 	@Override
 	public List<Staff> findStaffExcludeSelf(long userId) {
@@ -182,14 +184,16 @@ public class StaffServiceImpl implements StaffService {
 	public void modifyOtherLeaveBalance(Staff staff, LeaveApplication app) {
 		double duration = Double.parseDouble(app.getDuration());
 
-		if (app.getTypeOfLeave().getLeaveTypeName().equalsIgnoreCase("annual") && app.getApplicationStatus().equalsIgnoreCase("Rejected")) {
+		if (app.getTypeOfLeave().getLeaveTypeName().equalsIgnoreCase("annual")
+				&& app.getApplicationStatus().equalsIgnoreCase("Rejected")) {
 
 			double balance = staff.getAnnualLeaveBalance();
 			double updatedBalance = balance + duration;
 			staff.setAnnualLeaveBalance(updatedBalance);
 			staffRepository.saveAndFlush(staff);
 
-		} else if (app.getTypeOfLeave().getLeaveTypeName().equalsIgnoreCase("medical") && app.getApplicationStatus().equalsIgnoreCase("Rejected")) {
+		} else if (app.getTypeOfLeave().getLeaveTypeName().equalsIgnoreCase("medical")
+				&& app.getApplicationStatus().equalsIgnoreCase("Rejected")) {
 
 			double balance = staff.getMedicalLeaveBalance();
 			double updatedBalance = balance + duration;

@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +35,6 @@ public class ApiOTClaimApplicationController {
 	@Autowired
 	OvertimeApplicationService _OTService;
 
-	// @CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping("/SubmitOTClaim")
 	public ResponseEntity<OTClaimJSON> SubmitOTClaim(@RequestParam String authKey,
 			@RequestParam String staffID, String OT_Date, String OT_hours, String remarks) {
@@ -76,13 +74,5 @@ public class ApiOTClaimApplicationController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		// private LocalDateTime date_OT;
-		//
-		// private double hours_OT;
-		//
-		// private String employeeComment;
-		//
-		// private LocalDateTime appliedDateTime;
-
 	}
 }

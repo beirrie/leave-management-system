@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -234,33 +233,33 @@ public class Staff {
 
 	public void deductLeave(LeaveApplication leaveApplication){
 		double duration = Double.parseDouble(leaveApplication.getDuration());
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("annual")){
 			annualLeaveBalance-= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("medical")){
 			medicalLeaveBalance-= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("compensation")){
 			compensationLeaveBalence-= duration;
 		}
 	}
 
 	public void reinstateLeaveBalance(LeaveApplication leaveApplication){
 		double duration = Double.parseDouble(leaveApplication.getDuration());
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("annual")){
 			annualLeaveBalance+= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("medical")){
 			medicalLeaveBalance+= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("compensation")){
 			compensationLeaveBalence+= duration;
 		} 
 	}
 
 	public void reinstatePreviousLeaveBalance(LeaveApplication leaveApplication,String durationStr){
 		double duration = Double.parseDouble(durationStr);
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("annual")){
 			annualLeaveBalance+= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("medical")){
 			medicalLeaveBalance+= duration;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("compensation")){
 			compensationLeaveBalence+= duration;
 		} 
 	}
@@ -268,11 +267,11 @@ public class Staff {
 	public Boolean isLeaveBalanceEnough(LeaveApplication leaveApplication)
 	{
 		double duration = Double.parseDouble(leaveApplication.getDuration());
-		if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "annual"){
+		if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("annual")){
 			if(duration > annualLeaveBalance) return false;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "medical"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("medical")){
 			if(duration > medicalLeaveBalance) return false;
-		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName() == "compensation"){
+		}else if(leaveApplication.getTypeOfLeave().getLeaveTypeName().toLowerCase().equals("compensation")){
 			if(duration > compensationLeaveBalence) return false;
 		}
 		return true;

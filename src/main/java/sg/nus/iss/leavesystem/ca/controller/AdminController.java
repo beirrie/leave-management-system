@@ -1,8 +1,6 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 import sg.nus.iss.leavesystem.ca.model.LeaveScheme;
 import sg.nus.iss.leavesystem.ca.model.PublicHoliday;
 import sg.nus.iss.leavesystem.ca.model.UserSession;
 import sg.nus.iss.leavesystem.ca.service.LeaveSchemeService;
-import sg.nus.iss.leavesystem.ca.service.LeaveTypeService;
 import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
 import sg.nus.iss.leavesystem.ca.util.DateTimeToString;
 
@@ -35,9 +26,6 @@ public class AdminController {
 
     @Autowired
     public LeaveSchemeService _leaveSchemeService;
-//	
-//	@Autowired
-//	public LeaveTypeService _leaveTypeService;
 
     @Autowired
     public PublicHolidayService _publicHolidayService;

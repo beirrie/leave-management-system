@@ -1,24 +1,16 @@
 package sg.nus.iss.leavesystem.ca.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import sg.nus.iss.leavesystem.ca.model.*;
+import sg.nus.iss.leavesystem.ca.model.dto.CompensationReportDTO;
 import sg.nus.iss.leavesystem.ca.model.dto.LeaveApprovalDTO;
 import sg.nus.iss.leavesystem.ca.model.dto.LeaveReportDTO;
 import sg.nus.iss.leavesystem.ca.model.dto.OvertimeApprovalDTO;
@@ -26,11 +18,15 @@ import sg.nus.iss.leavesystem.ca.repository.StaffRepository;
 import sg.nus.iss.leavesystem.ca.service.*;
 import sg.nus.iss.leavesystem.ca.validator.ManagerRejectLeaveValidator;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
-
-    //private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
     @Autowired
     private LeaveApplicationService leaveAppService;
@@ -46,11 +42,11 @@ public class ManagerController {
 
     @Autowired
     private ManagerRejectLeaveValidator managerRejectLeaveValidator;
-    @Autowired
-    private StaffRepository staffRepository;
 
     @Autowired
     private CsvExportService csvExportService;
+    @Autowired
+    private StaffRepository staffRepository;
 
     @InitBinder("dto")
     private void initBinder(WebDataBinder binder) {
@@ -191,7 +187,6 @@ public class ManagerController {
             String startPeriod = params.get("startPeriod");
             String endPeriod = params.get("endPeriod");
 
-
             listLeave.addAll(leaveAppService.getListForReport(manager.getId(), staffId,
                     leaveTypeName, startPeriod, endPeriod));
         } else {
@@ -213,9 +208,54 @@ public class ManagerController {
         Staff manager = staffService.findStaffByID(userSession.getStaffId());
 
         servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"employees.csv\"");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"leave_report.csv\"");
         csvExportService.leaveReportToCsv(servletResponse.getWriter(), manager, leaveReportDTO.getStaffId(), leaveReportDTO.getLeaveTypeName(),
                 leaveReportDTO.getStartPeriod(), leaveReportDTO.getEndPeriod());
+    }
+
+    @GetMapping("/compensation_report")
+    public String compensationReportsView(@RequestParam Map<String, String> params,
+                                          @ModelAttribute CompensationReportDTO compensationReportDTO, Model model,
+                                          HttpSession session) {
+        Staff manager = getStaff(model, session);
+        model.addAttribute("overtimes", overtimeApplicationService.getAllByManager(manager));
+
+        List<Staff> staffList = staffService.findByManager(manager);
+        Map<Long, String> id_Name = new HashMap<>();
+        id_Name.put(0L, "All");
+        for (var staff : staffList) {
+            id_Name.put(staff.getId(), staff.getName());
+        }
+
+        List<OvertimeApplication> overtimeList = new ArrayList<>();
+
+        if (!params.isEmpty()) {
+            Long staffId = Long.parseLong(params.get("staffId"));
+            if(staffId!=0L) {
+                Staff staff = staffService.findById(staffId);
+
+                overtimeList.addAll(overtimeApplicationService.getAllByStaff(staff));
+            } else {
+                overtimeList.addAll(overtimeApplicationService.getAllByManager(manager));
+            }
+            model.addAttribute("overtimes", overtimeList);
+        }
+
+        model.addAttribute("dtoComp", compensationReportDTO);
+        model.addAttribute("staffName", id_Name);
+        return "otReport";
+    }
+
+    @GetMapping("compensation_report/export")
+    public void compensationReportsExport(@ModelAttribute CompensationReportDTO compensationReportDTO,
+                                          HttpServletResponse servletResponse, HttpSession session) throws IOException {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        Staff manager = staffService.findStaffByID(userSession.getStaffId());
+
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=\"compensation_report.csv\"");
+        csvExportService.compensationReportToCsv(servletResponse.getWriter(), manager,
+                compensationReportDTO.getStaffId());
     }
 
     private Staff getStaff(Model model, HttpSession session) {

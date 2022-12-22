@@ -1,11 +1,5 @@
 package sg.nus.iss.leavesystem.ca.model.dto;
 
-import net.bytebuddy.asm.Advice;
-import sg.nus.iss.leavesystem.ca.model.LeaveType;
-import sg.nus.iss.leavesystem.ca.model.Staff;
-
-import java.time.LocalDateTime;
-
 public class LeaveReportDTO {
 
     private String leaveTypeName;

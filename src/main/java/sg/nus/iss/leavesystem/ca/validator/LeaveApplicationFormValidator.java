@@ -9,7 +9,9 @@ import org.springframework.validation.Validator;
 
 import sg.nus.iss.leavesystem.ca.util.Util;
 import sg.nus.iss.leavesystem.ca.model.*;
+import sg.nus.iss.leavesystem.ca.service.LeaveApplicationService;
 import sg.nus.iss.leavesystem.ca.service.LeaveTypeService;
+import sg.nus.iss.leavesystem.ca.service.PublicHolidayService;
 import sg.nus.iss.leavesystem.ca.service.StaffService;
 
 @Component
@@ -17,7 +19,8 @@ public class LeaveApplicationFormValidator implements Validator {
 
     @Autowired
     private LeaveTypeService leaveTypeService;
-
+    @Autowired
+    private PublicHolidayService publicHolidayService;
     @Autowired
     private StaffService staffService;
 
@@ -31,6 +34,7 @@ public class LeaveApplicationFormValidator implements Validator {
         LeaveApplicationForm leaveForm = (LeaveApplicationForm) target;
         LocalDateTime endDate = Util.convertStringToDate(leaveForm.getEndDateStr());
         LocalDateTime startDate = Util.convertStringToDate(leaveForm.getStartDateStr());
+        Util.phs = this.publicHolidayService.getAllPublicHolidays();
 
         if (leaveForm.getLeaveType().getId().equals(3l) && leaveForm.getStartAMPM().isEmpty()) {
             errors.rejectValue("startAMPM", null, "Start AM/PM is required");
@@ -52,6 +56,14 @@ public class LeaveApplicationFormValidator implements Validator {
             errors.rejectValue("endDateStr", null, "End date must not be on weekend!");
         }
 
+        if (Util.isPublicHoliday(startDate)) {
+            errors.rejectValue("startDateStr", null, "Start date must not be on a holiday!");
+        }
+
+        if (Util.isPublicHoliday(endDate)) {
+            errors.rejectValue("endDateStr", null, "End date must not be on a holiday!");
+        }
+
         if (leaveForm.getIsAbroad()) {
             if (leaveForm.getContactNumber() == "" || leaveForm.getContactNumber() == null) {
                 errors.rejectValue("contactNumber", null, "Contact Details is mandatory!");
@@ -61,27 +73,6 @@ public class LeaveApplicationFormValidator implements Validator {
         java.time.Duration duration = java.time.Duration.between(startDate, endDate);
 
         LeaveType leaveType = leaveTypeService.findById(leaveForm.getLeaveType().getId());
-
-        // if(leaveType.getLeaveTypeName().equals("annual")){
-        // {
-        // if(duration.toDays()>staff.getAnnualLeaveBalance()){
-        // errors.rejectValue("endDateStr", null, "The number of days exceeds your
-        // balance");
-        // }
-        // }
-        // if(leaveType.getLeaveTypeName().equals("medical")){
-        // if(duration.toDays()>staff.getMedicalLeaveBalance()){
-        // errors.rejectValue("endDateStr", null, "The number of days exceeds your
-        // balance");
-        // }
-        // }
-        // if(leaveType.getLeaveTypeName().equals("compensation")){
-        // if(duration.toDays()>staff.getCompensationLeaveBalence()){
-        // errors.rejectValue("endDateStr", null, "The number of days exceeds your
-        // balance");
-        // }
-        // }
-        // }
         LeaveApplication leaveApp = new LeaveApplication();
         leaveApp.setStartDate(startDate);
         leaveApp.setEndDate(endDate);
@@ -89,13 +80,22 @@ public class LeaveApplicationFormValidator implements Validator {
         leaveApp.setEndAM_or_PM(leaveForm.getEndAMPM());
         double selectedDuration = Double.parseDouble(leaveApp.getDuration());
 
+
+
         boolean isStartEndDateSame = leaveForm.getStartDateStr().equals(leaveForm.getEndDateStr());
         if (isStartEndDateSame && leaveForm.getStartAMPM().equals("PM") && leaveForm.getEndAMPM().equals("AM")) {
             errors.rejectValue("endDateStr", null, "End date must not be less than Start Date!");
         }
 
-        if (leaveForm.getLeaveType().getId().equals(3l) && selectedDuration > staff.getCompensationLeaveBalence()) {
-            errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
+        if (leaveForm.getPreviousDuration() != null) {
+            if (leaveForm.getLeaveType().getId().equals(3l) && selectedDuration > staff.getCompensationLeaveBalence()
+                    + Double.parseDouble(leaveForm.getPreviousDuration())) {
+                errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
+            }
+        } else {
+            if (leaveForm.getLeaveType().getId().equals(3l) && selectedDuration > staff.getCompensationLeaveBalence()) {
+                errors.rejectValue("endDateStr", null, "The number of days exceeds your balance");
+            }
         }
     }
 }

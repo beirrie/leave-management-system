@@ -10,53 +10,85 @@
         <hr>
         <form action="#" th:action="@{/updateLeave}" th:object="${leaveForm}" method="POST">
             <input type="hidden" th:field="*{id}" />
-            <input type="hidden" th:field="*{previousDuration}"/>
-            <input type="hidden" th:field="*{previousLeaveTypeId}"/>
+            <input type="hidden" th:field="*{previousDuration}" />
+            <input type="hidden" th:field="*{previousLeaveTypeId}" />
+            <input type="hidden" th:field="*{leaveType.id}" />
+            <input type="hidden" th:field="*{staffId}" />
             <div class="form-group">
                 <label class="control-label required">Leave Type</label>
-                <select name="leaveTypes" th:field="*{leaveType.id}" class="form-control mb-5 col-5">
-                    <option th:each="leaveType : ${leaveTypeList}" th:value="${leaveType.id}" th:text="${leaveType.leaveTypeName}"></option>
-                </select>
+                <input name="leaveTypes" th:field="*{leaveType.leaveTypeName}" class="form-control mb-5 col-5"
+                    readonly />
             </div>
 
             <div class="form-group">
-                <label class="control-label required">Start Date</label>
-                <input id="startDateStr" readonly type="text" th:field="*{startDateStr}" placeholder="DD/MM/YYYY" class="form-control mb-5 col-5">
-                <label th:if="${#fields.hasErrors('startDateStr')}" style="color:red;" th:errors="*{startDateStr}" class="control-label mb-4 col-4"></label>
+                <div class="row">
+                    <div class="col-4">
+                        <label class="control-label required">Start Date</label>
+                        <p class="small text-danger" th:if="${#fields.hasErrors('startDateStr')}" style="color:red;"
+                            th:errors="*{startDateStr}"></p>
+                        <input id="startDateStr" readonly type="text" th:field="*{startDateStr}"
+                            placeholder="DD/MM/YYYY" class="form-control mb-4" style="width:100%;">
+                    </div>
+
+                    <div th:if="${leaveForm.leaveType.id == 3}" class="col mt-4">
+                        <input type="radio" id="startAM" th:field="*{startAMPM}" value="AM">
+                        <label for="startAM">AM</label><br>
+                        <input type="radio" id="startPM" th:field="*{startAMPM}" value="PM">
+                        <label for="startPM">PM</label><br>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label required">End Date</label>
-                <input id="endDateStr" readonly type="text" th:field="*{endDateStr}" placeholder="DD/MM/YYYY" class="form-control mb-5 col-5">
-                <label th:if="${#fields.hasErrors('endDateStr')}" style="color:red;" th:errors="*{endDateStr}" class="control-label mb-4 col-4"></label>
-            </div>
+                <div class="row">
+                    <div class="col-4">
+                        <label class="control-label required">End Date</label>
+                        <p class="small text-danger" th:if="${#fields.hasErrors('endDateStr')}" style="color:red;"
+                            th:errors="*{endDateStr}"></p>
+                        <input id="endDateStr" readonly type="text" th:field="*{endDateStr}" placeholder="DD/MM/YYYY"
+                            class="form-control mb-5">
+                    </div>
 
+                    <div th:if="${leaveForm.getLeaveType().getLeaveTypeName() == 'compensation' || leaveForm.getLeaveType().getLeaveTypeName() == 'Compensation' }"
+                        class="col mt-4">
+                        <input type="radio" id="endAM" th:field="*{endAMPM}" value="AM">
+                        <label for="endAM">AM</label><br>
+                        <input type="radio" id="endPM" th:field="*{endAMPM}" value="PM">
+                        <label for="endPM">PM</label><br>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="control-label required">Additional Comments</label>
-                <input type="text" th:field="*{additionalComments}" placeholder="Additional Comments" class="form-control mb-5 col-5">
+                <input type="text" th:field="*{additionalComments}" placeholder="Additional Comments"
+                    class="form-control mb-5 col-5">
             </div>
 
             <div class="form-group">
                 <label class="control-label required">Work Dissemination</label>
                 <select name="coveringStaffs" th:field="*{coveringStaff.id}" class="form-control mb-5 col-5">
-                    <option th:each="coveringStaff : ${coveringStaffList}" th:value="${coveringStaff.id}" th:text="${coveringStaff.name}"></option>
+                    <option th:each="coveringStaff : ${coveringStaffList}" th:value="${coveringStaff.id}"
+                        th:text="${coveringStaff.name}"></option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label class="control-label required">Is Oversea?</label>
-                <input type="checkbox" th:field="*{isAbroad}"class="form-control mb-5 col-5">
+                <input type="checkbox" th:field="*{isAbroad}" class="form-control mb-5 col-5">
             </div>
 
             <div class="form-group">
                 <label class="control-label required">Contract Details</label>
-                <input type="text" th:field="*{contactNumber}" placeholder="Contact Details" class="form-control mb-5 col-5">
-                <label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}" class="control-label mb-4 col-4"></label>
+                <input type="text" th:field="*{contactNumber}" placeholder="Contact Details"
+                    class="form-control mb-5 col-5">
+                <label th:if="${#fields.hasErrors('contactNumber')}" style="color:red;" th:errors="*{contactNumber}"
+                    class="control-label mb-4 col-4"></label>
             </div>
 
             <div class="form-group">
                 <label class="control-label required">Application Status</label>
-                <input readonly type="text" th:field="*{applicationStatus}" placeholder="Application Status" class="form-control mb-5 col-5">
+                <input readonly type="text" th:field="*{applicationStatus}" placeholder="Application Status"
+                    class="form-control mb-5 col-5">
             </div>
             <button type="submit" class="btn btn-info col-2">Submit Leave</button>
         </form>
@@ -67,38 +99,19 @@
     </div>
 </body>
 <script>
-    $(document).ready(function(){
-        var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023","1-5-2023","2-6-2023","29-6-2023","9-8-2023","13-11-2023","25-12-2023"];
+    $(document).ready(function () {
+        var disableDates = ["26-12-2022", "2-1-2023", "23-1-2023", "24-1-2023", "7-4-2023", "1-5-2023", "2-6-2023", "29-6-2023", "9-8-2023", "13-11-2023", "25-12-2023"];
         $('#startDateStr').datepicker({
             format: 'dd/mm/yyyy',
             todayHighlight: true,
             autoclose: true,
-            // daysOfWeekDisabled: [0, 6],
-            // beforeShowDay: function(date){
-            //     dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-            //     if(disableDates.indexOf(dmy) != -1){
-            //         return false;
-            //     }
-            //     else{
-            //         return true;
-            //     }
-            // }
         })
         $('#endDateStr').datepicker({
             format: 'dd/mm/yyyy',
             todayHighlight: true,
             autoclose: true,
-            // daysOfWeekDisabled: [0, 6],
-            // beforeShowDay: function(date){
-            //     dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-            //     if(disableDates.indexOf(dmy) != -1){
-            //         return false;
-            //     }
-            //     else{
-            //         return true;
-            //     }
-            // }
         })
     })
 </script>
+
 </html>
