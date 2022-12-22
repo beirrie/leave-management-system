@@ -50,9 +50,9 @@ public class CaLeaveSystemTeam7Application {
 			LeaveScheme ls1 = LeaveSchemeRepo.saveAndFlush(new LeaveScheme("Professional", 18, 60));
 			LeaveScheme ls2 = LeaveSchemeRepo.saveAndFlush(new LeaveScheme("Administrative", 14, 60));
 
-			LeaveType annual = leaveTypeRepo.saveAndFlush(new LeaveType("annual"));
-			LeaveType medical = leaveTypeRepo.saveAndFlush(new LeaveType("medical"));
-			LeaveType compensation = leaveTypeRepo.saveAndFlush(new LeaveType("compensation"));
+			LeaveType annual = leaveTypeRepo.saveAndFlush(new LeaveType("Annual"));
+			LeaveType medical = leaveTypeRepo.saveAndFlush(new LeaveType("Medical"));
+			LeaveType compensation = leaveTypeRepo.saveAndFlush(new LeaveType("Compensation"));
 
 			Role admin = roleRepo.saveAndFlush(new Role("admin", "insert description of admin"));
 			Role employee = roleRepo.saveAndFlush(new Role("employee", "insert description of employee"));
@@ -100,8 +100,8 @@ public class CaLeaveSystemTeam7Application {
 			leaveAppl.setEndAM_or_PM("PM");
 			leaveAppl.setAdditionalComments("additional comments");
 			leaveAppl.setApplicationDate(LocalDateTime.of(2022, 12, 12, 0, 0));
-			leaveAppl.setApplicationStatus("approved");
-			leaveAppl.setEmployeeManager(staff1);
+			leaveAppl.setApplicationStatus("Approved");
+			leaveAppl.setEmployeeManager(staff3);
 			leaveAppl.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
 			leaveAppl.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(leaveAppl);
@@ -160,7 +160,6 @@ public class CaLeaveSystemTeam7Application {
 			appliedAnnualLeave1.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
 			appliedAnnualLeave1.setApplicationStatus("Applied");
 			appliedAnnualLeave1.setEmployeeManager(staff3);
-			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave1);
 
@@ -178,7 +177,6 @@ public class CaLeaveSystemTeam7Application {
 			appliedAnnualLeave2.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
 			appliedAnnualLeave2.setApplicationStatus("Applied");
 			appliedAnnualLeave2.setEmployeeManager(staff3);
-			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave2.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave2);
 
@@ -196,7 +194,6 @@ public class CaLeaveSystemTeam7Application {
 			appliedAnnualLeave3.setApplicationDate(LocalDateTime.of(2022, 12, 16, 0, 0));
 			appliedAnnualLeave3.setApplicationStatus("Applied");
 			appliedAnnualLeave3.setEmployeeManager(staff3);
-			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
 			appliedAnnualLeave3.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(appliedAnnualLeave3);
 
@@ -214,8 +211,6 @@ public class CaLeaveSystemTeam7Application {
 			appliedMedicalApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 10, 0, 0));
 			appliedMedicalApplication1.setApplicationStatus("Applied");
 			appliedMedicalApplication1.setEmployeeManager(staff3);
-			// appliedAnnualLeave1.setDateReviewed(LocalDateTime.of(2022,12,16,0,0));
-			// appliedMedicalApplication.setMgrRemarks("okay");
 			leaveApplicationRepo.saveAndFlush(appliedMedicalApplication1);
 
 			LeaveApplication updatedMedleaveApplication1 = new LeaveApplication();
@@ -229,10 +224,9 @@ public class CaLeaveSystemTeam7Application {
 			updatedMedleaveApplication1.setEndDate(LocalDateTime.of(2023, 1, 25, 0, 0));
 			updatedMedleaveApplication1.setEndAM_or_PM("PM");
 			updatedMedleaveApplication1.setAdditionalComments("Doctor appointment rescheduled");
+			updatedMedleaveApplication1.setEmployeeManager(staff3);
 			updatedMedleaveApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 8, 0, 0));
 			updatedMedleaveApplication1.setApplicationStatus("Updated");
-			updatedMedleaveApplication1.setEmployeeManager(staff3);
-			// updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022,12,13,0,0));
 			updatedMedleaveApplication1.setMgrRemarks("");
 			leaveApplicationRepo.saveAndFlush(updatedMedleaveApplication1);
 
@@ -250,7 +244,7 @@ public class CaLeaveSystemTeam7Application {
 			rejectedLeaveApplication1.setApplicationDate(LocalDateTime.of(2022, 12, 5, 0, 0));
 			rejectedLeaveApplication1.setApplicationStatus("Rejected");
 			rejectedLeaveApplication1.setEmployeeManager(staff3);
-			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
+			rejectedLeaveApplication1.setDateReviewed(LocalDateTime.of(2022, 12, 13, 0, 0));
 			rejectedLeaveApplication1.setMgrRemarks("Sorry, urgent project deadline to meet");
 			leaveApplicationRepo.saveAndFlush(rejectedLeaveApplication1);
 
@@ -267,7 +261,7 @@ public class CaLeaveSystemTeam7Application {
 			rejectedLeaveApplication2.setAdditionalComments("Personal matters");
 			rejectedLeaveApplication2.setApplicationDate(LocalDateTime.of(2022, 11, 10, 0, 0));
 			rejectedLeaveApplication2.setApplicationStatus("Rejected");
-			rejectedLeaveApplication2.setEmployeeManager(staff1);
+			rejectedLeaveApplication2.setEmployeeManager(staff3);
 			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022, 11, 15, 0, 0));
 			rejectedLeaveApplication2.setMgrRemarks("Sorry, urgent project deadline to meet");
 			leaveApplicationRepo.saveAndFlush(rejectedLeaveApplication2);
@@ -286,7 +280,7 @@ public class CaLeaveSystemTeam7Application {
 			cancelledLeaveApplication1.setApplicationDate(LocalDateTime.of(2022, 11, 3, 0, 0));
 			cancelledLeaveApplication1.setApplicationStatus("Cancelled");
 			cancelledLeaveApplication1.setEmployeeManager(staff3);
-			updatedMedleaveApplication1.setDateReviewed(LocalDateTime.of(2022, 11, 3, 0, 0));
+			cancelledLeaveApplication1.setDateReviewed(LocalDateTime.of(2022, 11, 3, 0, 0));
 			cancelledLeaveApplication1.setMgrRemarks("ok");
 			leaveApplicationRepo.saveAndFlush(cancelledLeaveApplication1);
 

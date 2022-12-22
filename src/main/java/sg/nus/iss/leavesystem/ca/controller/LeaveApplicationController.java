@@ -82,8 +82,6 @@ public class LeaveApplicationController {
         UserSession userSession = (UserSession) session.getAttribute("user");
         List<String> roles = userSession.getUserRoles();
         model.addAttribute("roles", roles);
-        // if (userSession == null)
-        // return "redirect:/login";
         List<LeaveApplication> leaveApplications = this.leaveApplicationService.GetByStaffId(userSession.getStaffId());
         model.addAttribute("leaveList", leaveApplications);
         return "LeaveHistory";

@@ -33,7 +33,7 @@
 								<th>LeaveID</th>
 								<th>StaffName</th>
 								<th>Leave Type</th>
-								<th>Manager</th>
+								<th>Covering Staff</th>
 								<th>Start Date</th>
 								<th>End Date</th>
 								<th>Applied Date</th>
@@ -49,7 +49,7 @@
 								</td>
 								<td th:text="${leave.typeOfLeave.leaveTypeName }">Leave Type</td>
 								<td th:text="${leave.coveringStaff.firstName + ' ' + leave.coveringStaff.lastName}">
-									Manager
+									Covering Staff
 								</td>
 								<td th:text="${#temporals.format(leave.startDate,'dd-MM-yyyy')}">startDate</td>
 								<td th:text="${#temporals.format(leave.endDate,'dd-MM-yyyy')}">endDate</td>
