@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	</div>
+	<div class="container my-2 center">
+		<h1>Leave History</h1>
+		<hr>
+					<h2 style="padding:20px;"> Your Existing OT Claim Applications</h2>
+					<table class="table" th:if="${not #lists.isEmpty(staffOTApplications)}"
+						style="border: 1px solid black;">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Overtime Date</th>
+								<th scope="col">Number of Hours</th>
+								<th scope="col">Additional Remarks</th>
+								<th scope="col">Applied Date </th>
+								<th scope="col">Approval Status </th>
+							</tr>
+						</thead>
+						<tr th:each="OT, iterStat:${staffOTApplications}">
+							<th scope="row" th:text="${iterStat.index}+1"></th>
+							<td th:text="${#temporals.format(OT.date_OT, 'dd-MM-yyyy')}"> Overtime Date </td>
+							<td th:text=${OT.hours_OT}> Number of Hours </td>
+							<td th:text=${OT.employeeComment}> Additional Remarks </td>
+							<td th:text="${#temporals.format(OT.appliedDateTime, 'dd-MM-yyyy')}"> Date Applied </td>
+							<td th:text=${OT.applicationStatus}> Application Status </td>
+						</tr>
+					</table>
+		<hr>
+
+		<a href="/LeaveApplication"> Back to Home Page</a>
+	</div>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"
+			crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function () {
+			$('#table_id').DataTable();
+		});
+
+	</script>
+</body>
+
+</html>
