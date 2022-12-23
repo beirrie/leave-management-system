@@ -16,11 +16,12 @@
 							<input type="hidden" name="staffID" th:value="${staffID}"></input>
 							<p>
 								<label for="ot_date">OT Date: </label><br>
-								<input type=date id="ot_date" name="dateOfOT" placeholder="dd-mm-yyyy"></input>
+								<input type=date id="ot_date" name="dateOfOT" placeholder="dd-mm-yyyy" required></input>
 							</p>
 							<p>
 								<label for="ot_hours">Number of Hours</label><br>
-								<input type="number" id="ot_hours" name="numberOTHours" step=0.5 min=0.5></input>
+								<input type="number" id="ot_hours" name="numberOTHours" step=0.5 min=0.5
+									   required></input>
 							</p>
 
 							<p>
