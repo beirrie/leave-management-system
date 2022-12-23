@@ -44,6 +44,24 @@ public class OTClaimController {
 		return "applyOT";
 	}
 	
+	@GetMapping("/OTApplicationsHistory")
+	public String ListOTApplications(Model model, HttpSession session) {
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        List<String> roles = userSession.getUserRoles();
+        model.addAttribute("roles", roles);        
+        Long staffID = userSession.getStaffId();
+        Staff _targetStaff = _StaffService.FindByUserId(staffID);
+        String managerName = _targetStaff.getManager().getName();
+        Long managerID = _targetStaff.getManager().getId();
+		model.addAttribute("staffID", staffID);
+		model.addAttribute("managerID", managerID);
+		model.addAttribute("managerName", managerName);
+		
+		List<OvertimeApplication> staffOTs= _OTApplicationService.getAllByStaff(_targetStaff);
+		model.addAttribute("staffOTApplications", staffOTs);
+		return "OTClaimHistory";
+	}
+	
 	@GetMapping("/SubmitOTApplication")
 	public String submitOT(@RequestParam String staffID, @RequestParam String dateOfOT,
 			@RequestParam String numberOTHours, @RequestParam String AdditionalRemarks,

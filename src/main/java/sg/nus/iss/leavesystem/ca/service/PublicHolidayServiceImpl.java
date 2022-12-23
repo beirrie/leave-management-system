@@ -45,7 +45,7 @@ public class PublicHolidayServiceImpl implements PublicHolidayService {
 		String publicHolidays = restTemplate.getForObject(url, String.class);
 		JsonNode jsonNode = new ObjectMapper().readTree(publicHolidays); 
 		JsonNode newJsonNode = jsonNode.get("response").get("holidays");
-		List<PublicHoliday> sgPublicHolidays = new ArrayList<>();
+//		List<PublicHoliday> sgPublicHolidays = new ArrayList<>();
 		for (JsonNode individualHoliday: newJsonNode) {
 			if(individualHoliday.get("type").toString().equals("[\"National holiday\"]")) {	
 				String holidayName = individualHoliday.get("name").toString();
