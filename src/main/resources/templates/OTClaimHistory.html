@@ -9,29 +9,29 @@
 	<div th:replace="fragments/layout.html :: menu" />
 	</div>
 	<div class="container my-2 center">
-		<h1>Leave History</h1>
+		<h1>Overtime Claims History</h1>
 		<hr>
-					<h2 style="padding:20px;"> Your Existing OT Claim Applications</h2>
-					<table class="table" th:if="${not #lists.isEmpty(staffOTApplications)}"
-						style="border: 1px solid black;">
-						<thead class="thead-dark">
+					<table id="table_id" class="display" th:if="${not #lists.isEmpty(staffOTApplications)}">
+						<thead>
 							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Overtime Date</th>
-								<th scope="col">Number of Hours</th>
-								<th scope="col">Additional Remarks</th>
-								<th scope="col">Applied Date </th>
-								<th scope="col">Approval Status </th>
+								<th>#</th>
+								<th>Overtime Date</th>
+								<th>Number of Hours</th>
+								<th>Additional Remarks</th>
+								<th>Applied Date </th>
+								<th>Approval Status </th>
 							</tr>
 						</thead>
+						<tbody>
 						<tr th:each="OT, iterStat:${staffOTApplications}">
-							<th scope="row" th:text="${iterStat.index}+1"></th>
+							<td th:text="${iterStat.index}+1">number</td>
 							<td th:text="${#temporals.format(OT.date_OT, 'dd-MM-yyyy')}"> Overtime Date </td>
 							<td th:text=${OT.hours_OT}> Number of Hours </td>
 							<td th:text=${OT.employeeComment}> Additional Remarks </td>
 							<td th:text="${#temporals.format(OT.appliedDateTime, 'dd-MM-yyyy')}"> Date Applied </td>
 							<td th:text=${OT.applicationStatus}> Application Status </td>
 						</tr>
+						</tbody>
 					</table>
 		<hr>
 
