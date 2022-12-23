@@ -63,7 +63,7 @@ public class UserController {
         model.addAttribute("roles", allroles);
 		model.addAttribute("userForm", new UserStaffForm());
 		List<Role> roles = roleService.findAllRoles();
-		model.addAttribute("roles", roles);
+		model.addAttribute("allroles", roles);
 		model.addAttribute("staffList", staffService.findAllStaff());
 		return "user-new";
 	}
