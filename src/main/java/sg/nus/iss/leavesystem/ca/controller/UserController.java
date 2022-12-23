@@ -48,9 +48,9 @@ public class UserController {
 
 	@GetMapping("/list")
 	public String userListPage(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> roles = userSession.getUserRoles();
-        model.addAttribute("roles", roles); 
+		UserSession userSession = (UserSession) session.getAttribute("user");
+		List<String> roles = userSession.getUserRoles();
+		model.addAttribute("roles", roles);
 		List<User> userList = userService.findAllUsers();
 		model.addAttribute("userList", userList);
 		return "user-list";
@@ -58,23 +58,26 @@ public class UserController {
 
 	@GetMapping("/create")
 	public String newStaffPage(Model model, HttpSession session) {
-        UserSession userSession = (UserSession) session.getAttribute("user");
-        List<String> allroles = userSession.getUserRoles();
-        model.addAttribute("roles", allroles);
+		UserSession userSession = (UserSession) session.getAttribute("user");
+		List<String> roles = userSession.getUserRoles();
+		model.addAttribute("roles", roles);
 		model.addAttribute("userForm", new UserStaffForm());
-		List<Role> roles = roleService.findAllRoles();
-		model.addAttribute("allroles", roles);
+		List<Role> allroles = roleService.findAllRoles();
+		model.addAttribute("allroles", allroles);
 		model.addAttribute("staffList", staffService.findAllStaff());
 		return "user-new";
 	}
 
 	@PostMapping("/create")
 	public String createNewUser(@Valid @ModelAttribute("userForm") UserStaffForm userForm, BindingResult result,
-			RedirectAttributes redirectAttrs, Model model) {
+			RedirectAttributes redirectAttrs, Model model, HttpSession session) {
 		if (result.hasErrors()) {
-			model.addAttribute("userForm", userForm);
-			List<Role> roles = roleService.findAllRoles();
+			UserSession userSession = (UserSession) session.getAttribute("user");
+			List<String> roles = userSession.getUserRoles();
 			model.addAttribute("roles", roles);
+			model.addAttribute("userForm", userForm);
+			List<Role> allroles = roleService.findAllRoles();
+			model.addAttribute("allroles", allroles);
 			model.addAttribute("staffList", staffService.findAllStaff());
 			return "user-new";
 		}

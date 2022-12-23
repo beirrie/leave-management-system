@@ -21,7 +21,7 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label required" for="roles">User roles (multiple select):</label>
-				<p class="small text-danger" th:if="${#fields.hasErrors('roles')}" th:errors="*{allroles}"></p>
+				<p class="small text-danger" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></p>
 				<select multiple="multiple" name="roles" id="roles" required class="form-control mb-5 col-5">
 					<option th:each="role : ${allroles}" th:value="${role.id}" th:text="${role.roleName}">
 						Roles
