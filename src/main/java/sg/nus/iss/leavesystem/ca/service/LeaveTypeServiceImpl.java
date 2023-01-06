@@ -17,7 +17,7 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
 
     @Override
     public List<LeaveType> GetAllWithoutCompensation() {
-        return leaveTypeRepository.findAll().stream().filter(x->x.getLeaveTypeName() != "compensation")
+        return leaveTypeRepository.findAll().stream().filter(x->!x.getLeaveTypeName().equalsIgnoreCase("compensation"))
         .collect(Collectors.toList());
     }
 

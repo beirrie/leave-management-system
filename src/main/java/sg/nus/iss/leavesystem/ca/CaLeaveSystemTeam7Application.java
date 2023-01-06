@@ -77,14 +77,15 @@ public class CaLeaveSystemTeam7Application {
 			userRepo.saveAndFlush(user4);
 			
 			Staff staff1 = staffRepo.saveAndFlush(new Staff("Robert", "Lin", "robert@email.com", ls1, user1));
-			Staff staff2 = new Staff("Albert", "Tan", "albert@email.com", ls2, user2);
-			Staff staff3 = new Staff("Sarah", "Wong", "sarah@email.com", ls2, user3);
-			staffRepo.saveAndFlush(staff3);
+			Staff staff2 = staffRepo.saveAndFlush(new Staff("Albert", "Tan", "albert@email.com", ls2, user2));
+			Staff staff3 = staffRepo.saveAndFlush(new Staff("Sarah", "Wong", "sarah@email.com", ls2, user3));
 			staff1.setManager(staff3);
 			staff2.setManager(staff3);
-			staffRepo.saveAndFlush(staff2);
-
+			staff3.setManager(staff3);
 			staffRepo.saveAndFlush(staff1);
+			staffRepo.saveAndFlush(staff2);
+			staffRepo.saveAndFlush(staff3);
+
 			Staff staff4 = new Staff("Shaun", "Lin", "shaun@gmail.com", ls2, user4);
 			staff4.setManager(staff1);
 			staffRepo.saveAndFlush(staff4);

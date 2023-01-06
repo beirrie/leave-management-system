@@ -151,8 +151,10 @@ public class StaffController {
 
 	@PostMapping("/edit/{id}")
 	public String editStaff(@Valid @ModelAttribute UserStaffForm userStaffForm, BindingResult result,
-			@PathVariable String id, Model model) {
-
+			@PathVariable String id, Model model, HttpSession session) {
+		UserSession userSession = (UserSession) session.getAttribute("user");
+		List<String> roles = userSession.getUserRoles();
+		model.addAttribute("roles", roles);
 		if (result.hasErrors()) {
 			Staff staff = staffService.findStaffByID(id);
 
